@@ -1,0 +1,51 @@
+html
+	head
+		title #{title}
+		link[href="/assets/styles.css"][rel="stylesheet"][type="text/css"]
+		link[href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap"][rel="stylesheet"]
+		script[src="https://kit.fontawesome.com/b2f8df400c.js"][crossorigin="anonymous"]
+		script[src="/assets/devjokes.js"]
+	body
+		a[name="top"]
+		header.flexrow
+			div.bird.tooltip[onmouseover="updateJoke();"]
+				🦉
+				span#bubble.tooltiptext
+			div.flexpad-header
+			div.header-right
+				div.title fps.vogel
+				ul.flexrow
+					li
+						a[href="/index.html"]
+							div.nav-icon
+								i.fas.fa-stream
+							div.nav-text Posts
+					li
+						a[href="/about.html"]
+							div.nav-icon
+								i.fas.fa-address-card
+							div.nav-text About
+					li
+						a[href="https://twitter.com/fpsvogel"]
+							i.fab.fa-twitter
+					li
+						a[href="https://github.com/fps-vogel"]
+							i.fab.fa-github
+		article
+			h1 #{title}
+			div.posttop-date
+				#{date}
+			#{unescaped(content)}
+		footer
+			ul.flexrow.center
+				li.back-to-top
+					a[href="#top"]
+						<i class="fas fa-chevron-up"></i>
+				li.tweet
+					{{ tweetbutton.bat }}
+				li.flexpad-footer
+				li.copyright
+					&copy; 2020
+					a[href="/about.html"] Felipe Vogel
+					| except for the jokes. They're from
+					a[href="/http://www.devtopics.com/best-programming-jokes/"] here.

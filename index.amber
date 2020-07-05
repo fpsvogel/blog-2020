@@ -1,0 +1,43 @@
+html
+	head
+		title Felipe's blog
+		link[href="/assets/styles.css"][rel="stylesheet"][type="text/css"]
+		link[href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap"][rel="stylesheet"]
+		script[src="https://kit.fontawesome.com/b2f8df400c.js"][crossorigin="anonymous"]
+		script[src="/assets/devjokes.js"]
+	body
+		a[name="top"]
+		header.flexrow
+			div.bird.tooltip[onmouseover="updateJoke();"]
+				🦉
+				span#bubble.tooltiptext
+			div.flexpad-header
+			div.header-right
+				div.title fps.vogel
+				ul.flexrow
+					li
+						a[href="/index.html"]
+							div.nav-icon
+								i.fas.fa-stream
+							div.nav-text Posts
+					li
+						a[href="/about.html"]
+							div.nav-icon
+								i.fas.fa-address-card
+							div.nav-text About
+					li
+						a[href="https://twitter.com/fpsvogel"]
+							i.fab.fa-twitter
+					li
+						a[href="https://github.com/fps-vogel"]
+							i.fab.fa-github
+		h1 Posts:
+		ul.postlist
+			a[href="/posts/2020-07-04-zs.html"]
+				li How I made this blog
+					div.postlist-date | 2020-07-04
+					div.postlist-subtitle : an exploration of minimalism and programming jokes
+			a[href="/posts/2020-06-13-todotxt.html"]
+				li Make a custom Todo.txt in VS Code
+					div.postlist-date | 2020-06-13
+					div.postlist-subtitle : and become a productivity beast
