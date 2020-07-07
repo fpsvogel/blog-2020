@@ -177,48 +177,6 @@ footer .flexrow {
 .copyright {
   font-size: 0.9rem; }
 
-@media (max-width: 470px) {
-  .tooltip .tooltiptext {
-    top: 0;
-    width: 10.8rem;
-    height: 6.75rem;
-    font-size: 0.75rem;
-    padding: 5px 10px 5px 15px; } }
-
-@media (min-width: 769px) {
-  body {
-    width: 80%;
-    margin: 0 auto; }
-  .title, .bird {
-    font-size: 6rem; }
-  .tooltip .tooltiptext {
-    top: 1.5rem;
-    width: 22.8rem;
-    height: 6.75rem;
-    font-size: 1rem;
-    padding: 5px 20px 5px 25px; }
-  .flexpad-header {
-    flex-basis: 1rem; }
-  .nav-text {
-    display: block; }
-  .nav-icon {
-    display: none; } }
-
-@media (min-width: 1150px) {
-  body {
-    width: 60%;
-    max-width: 1000px; }
-  .title, .bird {
-    font-size: 7rem; }
-  .tooltip .tooltiptext {
-    top: 1.75rem;
-    width: 26.6rem;
-    height: 7.64286rem;
-    font-size: 1.16667rem;
-    padding: 5px 20px 5px 25px; }
-  .flexpad-header {
-    flex-basis: 2rem; } }
-
 .tooltip {
   position: relative;
   display: inline-block; }
@@ -255,3 +213,45 @@ footer .flexrow {
   border-width: 15px;
   border-style: solid;
   border-color: transparent #fbfbfb transparent transparent; }
+
+@media only screen and (max-device-width: 470px) {
+  .tooltip .tooltiptext {
+    top: 0;
+    width: 10.8rem;
+    height: 6.75rem;
+    font-size: 0.75rem;
+    padding: 5px 10px 5px 15px; } }
+
+@media only screen and (min-device-width: 769px) {
+  body {
+    width: 80%;
+    margin: 0 auto; }
+  .title, .bird {
+    font-size: 6rem; }
+  .tooltip .tooltiptext {
+    top: 1.5rem;
+    width: 22.8rem;
+    height: 6.75rem;
+    font-size: 1rem;
+    padding: 5px 20px 5px 25px; }
+  .flexpad-header {
+    flex-basis: 1rem; }
+  .nav-text {
+    display: block; }
+  .nav-icon {
+    display: none; } }
+
+@media only screen and (min-device-width: 1150px) {
+  body {
+    width: 60%;
+    max-width: 1000px; }
+  .title, .bird {
+    font-size: 7rem; }
+  .tooltip .tooltiptext {
+    top: 1.75rem;
+    width: 26.6rem;
+    height: 7.64286rem;
+    font-size: 1.16667rem;
+    padding: 5px 20px 5px 25px; }
+  .flexpad-header {
+    flex-basis: 2rem; } }

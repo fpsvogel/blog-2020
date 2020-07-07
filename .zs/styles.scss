@@ -221,35 +221,6 @@ footer .flexrow {
 
 
 
-@media (max-width: 470px) {
-  .tooltip .tooltiptext {
-    top: 0;
-    width: $titleheight-sma * 2.4;
-    height: $titleheight-sma * 1.5;
-    font-size: $titleheight-sma / 6;
-    padding: 5px 10px 5px 15px;
-  }
-}
-@media (min-width: 769px) {
-	body {
-		width: 80%;
-		margin: 0 auto;
-  }
-  @include titlesize($titleheight-med);
-  .nav-text {display: block;}
-  .nav-icon {display: none;}
-}
-@media (min-width: 1150px) {
-	body {
-		width: 60%;
-		max-width: 1000px;
-  }
-  @include titlesize($titleheight-big);
-}
-
-
-
-
 .tooltip {
   position: relative;
   display: inline-block;
@@ -289,4 +260,34 @@ footer .flexrow {
   border-width: 15px;
   border-style: solid;
   border-color: transparent $color-textbright transparent transparent;
+}
+
+
+
+
+@media only screen and (max-device-width: 470px) {
+  .tooltip .tooltiptext {
+    top: 0;
+    width: $titleheight-sma * 2.4;
+    height: $titleheight-sma * 1.5;
+    font-size: $titleheight-sma / 6;
+    padding: 5px 10px 5px 15px;
+  }
+}
+
+@media only screen and (min-device-width: 769px) {
+	body {
+		width: 80%;
+		margin: 0 auto;
+  }
+  @include titlesize($titleheight-med);
+  .nav-text {display: block;}
+  .nav-icon {display: none;}
+}
+@media only screen and (min-device-width: 1150px) {
+	body {
+		width: 60%;
+		max-width: 1000px;
+  }
+  @include titlesize($titleheight-big);
 }
