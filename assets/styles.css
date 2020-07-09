@@ -30,8 +30,9 @@ html {
   flex-direction: row;
   justify-content: flex-start;
   text-align: center;
-  align-items: flex-start;
-  flex-wrap: wrap; }
+  align-items: flex-start; }
+  .flexrow.wrap {
+    flex-wrap: wrap; }
   .flexrow.center {
     align-items: center; }
 
@@ -46,25 +47,40 @@ ul.flexrow {
     transform: scale(1.1); }
 
 .title, .bird {
-  font-size: 4.5rem; }
+  font-size: 3.5rem; }
 
 .tooltip .tooltiptext {
-  top: 1.125rem;
-  width: 17.1rem;
-  height: 5.5rem;
-  font-size: 0.75rem;
-  font-size: 0.81818rem;
+  top: 0.875rem;
+  width: 13.3rem;
+  height: 4.5rem;
+  font-size: 0.58333rem;
   padding: 5px 20px 5px 25px; }
 
-.flexpad-header {
-  flex-basis: -0.5rem; }
+.tooltip .tooltiptext::after {
+  top: 50%; }
+
+.flexpad-header-top {
+  flex-basis: -1.5rem; }
+
+.flexpad-header-bottom {
+  flex-basis: 0.5rem; }
+
+.tooltip .tooltiptext {
+  font-size: 0.875rem;
+  padding: 5px 10px 5px 15px;
+  height: 7rem; }
+
+.tooltip .tooltiptext::after {
+  top: 35%; }
+
+.flexpad-header-top {
+  flex-basis: 0.5rem; }
 
 .title {
   font-family: 'Yeseva One', cursive;
   color: #fbfbfb; }
 
-.flexpad-header {
-  flex-basis: 2rem;
+.flexpad-header-top .flexpad-header-bottom {
   flex-shrink: 2; }
 
 header li {
@@ -206,7 +222,6 @@ footer .flexrow {
 .tooltip .tooltiptext::after {
   content: " ";
   position: absolute;
-  top: 50%;
   right: 99.8%;
   /* To the left of the tooltip */
   margin-top: -15px;
@@ -214,15 +229,7 @@ footer .flexrow {
   border-style: solid;
   border-color: transparent #fbfbfb transparent transparent; }
 
-@media only screen and (max-device-width: 470px) {
-  .tooltip .tooltiptext {
-    top: 0;
-    width: 10.8rem;
-    height: 6.75rem;
-    font-size: 0.75rem;
-    padding: 5px 10px 5px 15px; } }
-
-@media only screen and (min-device-width: 769px) {
+@media only screen and (min-width: 769px) {
   body {
     width: 80%;
     margin: 0 auto; }
@@ -231,17 +238,21 @@ footer .flexrow {
   .tooltip .tooltiptext {
     top: 1.5rem;
     width: 22.8rem;
-    height: 6.75rem;
+    height: 6.58333rem;
     font-size: 1rem;
     padding: 5px 20px 5px 25px; }
-  .flexpad-header {
+  .tooltip .tooltiptext::after {
+    top: 50%; }
+  .flexpad-header-top {
     flex-basis: 1rem; }
+  .flexpad-header-bottom {
+    flex-basis: 8rem; }
   .nav-text {
     display: block; }
   .nav-icon {
     display: none; } }
 
-@media only screen and (min-device-width: 1150px) {
+@media only screen and (min-width: 1150px) {
   body {
     width: 60%;
     max-width: 1000px; }
@@ -250,8 +261,12 @@ footer .flexrow {
   .tooltip .tooltiptext {
     top: 1.75rem;
     width: 26.6rem;
-    height: 7.64286rem;
+    height: 7.5rem;
     font-size: 1.16667rem;
     padding: 5px 20px 5px 25px; }
-  .flexpad-header {
-    flex-basis: 2rem; } }
+  .tooltip .tooltiptext::after {
+    top: 50%; }
+  .flexpad-header-top {
+    flex-basis: 2rem; }
+  .flexpad-header-bottom {
+    flex-basis: 11rem; } }

@@ -10,7 +10,7 @@ $color-greyed: #a6a6a6;
 
 $titleheight-big: 7rem;
 $titleheight-med: 6rem;
-$titleheight-sma: 4.5rem;
+$titleheight-sma: 3.5rem;
 
 @mixin titlesize($height) {
   .title, .bird {font-size: $height;}
@@ -19,12 +19,18 @@ $titleheight-sma: 4.5rem;
     width: $height * 3.8;
     height: $height + ($titleheight-sma / $height);
     font-size: $height / 6;
-    @if $height == $titleheight-sma {
-      font-size: $height / 5.5;
-    }
     padding: 5px 20px 5px 25px;
   }
-  .flexpad-header {flex-basis: $height - 5rem;}
+  .tooltip .tooltiptext::after {top: 50%;}
+  .flexpad-header-top {flex-basis: $height - 5rem;}
+  .flexpad-header-bottom {flex-basis: ($height - 3rem) * 2 + $height - 4rem;}
+  @if $height == $titleheight-sma {
+    .tooltip .tooltiptext {
+      font-size: $height / 4;
+      padding: 5px 10px 5px 15px;
+      height: 7rem;}
+    .tooltip .tooltiptext::after {top: 35%;}
+    .flexpad-header-top {flex-basis: 0.5rem;}}
 }
 
 html {
@@ -67,7 +73,7 @@ html {
   justify-content: flex-start;
   text-align: center;
   align-items: flex-start;
-  flex-wrap: wrap;
+  &.wrap {flex-wrap: wrap;}
   &.center {align-items: center;}
 }
 
@@ -89,8 +95,7 @@ ul.flexrow {
   color: $color-textbright;
 }
 
-.flexpad-header {
-  flex-basis: 2rem;
+.flexpad-header-top .flexpad-header-bottom {
   flex-shrink: 2;
 }
 
@@ -254,7 +259,6 @@ footer .flexrow {
 .tooltip .tooltiptext::after {
   content: " ";
   position: absolute;
-  top: 50%;
   right: 99.8%; /* To the left of the tooltip */
   margin-top: -15px;
   border-width: 15px;
@@ -265,17 +269,9 @@ footer .flexrow {
 
 
 
-@media only screen and (max-device-width: 470px) {
-  .tooltip .tooltiptext {
-    top: 0;
-    width: $titleheight-sma * 2.4;
-    height: $titleheight-sma * 1.5;
-    font-size: $titleheight-sma / 6;
-    padding: 5px 10px 5px 15px;
-  }
-}
 
-@media only screen and (min-device-width: 769px) {
+
+@media only screen and (min-width: 769px) {
 	body {
 		width: 80%;
 		margin: 0 auto;
@@ -284,7 +280,7 @@ footer .flexrow {
   .nav-text {display: block;}
   .nav-icon {display: none;}
 }
-@media only screen and (min-device-width: 1150px) {
+@media only screen and (min-width: 1150px) {
 	body {
 		width: 60%;
 		max-width: 1000px;

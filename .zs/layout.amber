@@ -1,19 +1,26 @@
 html
 	head
 		title #{title}
+		meta[name="author"][content="Felipe Vogel"]
+		meta[name="description"][content="Felipe Vogel's blog about learning programming and web development. Also computer jokes."]
+		meta[name="keywords"][content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder"]
+		meta[name="viewport"][content="width=device-width, initial-scale=1.0"]
+		link[rel="shortcut icon"][href="/assets/favicon/favicon.ico"][type="image/vnd.microsoft.icon"]
 		link[href="/assets/styles.css"][rel="stylesheet"][type="text/css"]
 		link[href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap"][rel="stylesheet"]
 		script[src="https://kit.fontawesome.com/b2f8df400c.js"][crossorigin="anonymous"]
 		script[src="/assets/devjokes.js"]
 	body
 		a[name="top"]
-		header.flexrow
-			div.bird.tooltip[onmouseover="updateJoke();"]
-				🦉
-				span#bubble.tooltiptext
-			div.flexpad-header
-			div.header-right
+		header
+			div.flexrow
+				div.bird.tooltip[onmouseover="updateJoke();"]
+					🦉
+					span#bubble.tooltiptext
+				div.flexpad-header-top
 				div.title fps.vogel
+			div.flexrow
+				div.flexpad-header-bottom
 				ul.flexrow
 					li
 						a[href="/index.html"]
@@ -37,7 +44,7 @@ html
 				#{date}
 			#{unescaped(content)}
 		footer
-			ul.flexrow.center
+			ul.flexrow.center.wrap
 				li.back-to-top
 					a[href="#top"]
 						<i class="fas fa-chevron-up"></i>
