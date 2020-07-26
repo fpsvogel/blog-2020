@@ -5,25 +5,9 @@ html {
   line-height: 1.5; }
 
 .postlist {
-  line-height: 1.8;
-  list-style-position: inside;
-  list-style-type: circle; }
-  .postlist .postlist-date {
-    display: inline-block;
-    color: #a6a6a6; }
-  .postlist .postlist-subtitle {
+  line-height: 1.8; }
+  .postlist .postlist-date, .postlist .postlist-subtitle {
     display: none; }
-  .postlist li {
-    transition: all 0.1s ease-in-out; }
-    .postlist li:hover {
-      list-style-type: disc;
-      padding: 0 .5rem; }
-      .postlist li:hover .postlist-date {
-        display: none; }
-      .postlist li:hover .postlist-subtitle {
-        display: inline-block;
-        color: #a6a6a6;
-        font-size: 1.1rem; }
 
 .flexrow {
   display: flex;
@@ -41,17 +25,12 @@ ul.flexrow {
   padding: 0;
   list-style: none; }
 
-.bird {
-  transition: all .1s ease-in-out; }
-  .bird:hover {
-    transform: scale(1.1); }
-
 .title, .bird {
   font-size: 3.5rem; }
 
 .tooltip .tooltiptext {
   top: 0.875rem;
-  width: 13.3rem;
+  width: 12.35rem;
   height: 4.5rem;
   font-size: 0.58333rem;
   padding: 5px 20px 5px 25px; }
@@ -83,16 +62,12 @@ ul.flexrow {
 .flexpad-header-top .flexpad-header-bottom {
   flex-shrink: 2; }
 
-header li {
-  transition: all .1s ease-in-out; }
-  header li a {
-    display: inline-block;
-    padding: 20px;
-    font-size: 2.5rem;
-    font-weight: 800;
-    line-height: 1; }
-  header li:hover {
-    transform: scale(1.2); }
+header li a {
+  display: inline-block;
+  padding: 20px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1; }
 
 .nav-text {
   display: none; }
@@ -121,13 +96,20 @@ body {
 h1, h2 {
   font-size: 2rem;
   font-family: 'Rokkitt', serif;
-  color: #fbfbfb; }
+  color: #fbfbfb;
+  line-height: 1; }
 
 h1 {
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  padding-top: 0.3rem; }
 
 .posttop-date {
   color: #3ccf50;
+  font-weight: 700;
+  padding-top: 0.3rem; }
+
+.posttop-subtitle {
+  color: #a6a6a6;
   font-weight: 700; }
 
 a {
@@ -139,7 +121,8 @@ a {
 code, pre {
   font-family: 'Inconsolata', monospace;
   background-color: #1e1e1e;
-  color: #dbdbdb; }
+  color: #dbdbdb;
+  word-break: break-all; }
 
 :not(pre) > code {
   padding: 5px; }
@@ -175,12 +158,10 @@ footer .flexrow {
 
 .tweet a {
   padding: .4rem .8rem;
-  border-radius: .3rem;
   font-size: 1.2rem;
+  border-radius: .3rem;
   color: #fbfbfb;
   background: #007cc7; }
-  .tweet a:hover {
-    background: #0b69a3; }
 
 .tweet div {
   font-size: 1rem;
@@ -229,6 +210,26 @@ footer .flexrow {
   border-style: solid;
   border-color: transparent #fbfbfb transparent transparent; }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1); }
+  70% {
+    transform: scale(1); }
+  100% {
+    transform: scale(0.95); } }
+
+.bird, .hover-images {
+  animation-duration: 2s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-direction: alternate; }
+  .bird:hover, .hover-images:hover {
+    animation-iteration-count: 0; }
+
+@media only screen and (max-width: 768px) {
+  .bird, .hover-images {
+    animation-duration: 1s; } }
+
 @media only screen and (min-width: 769px) {
   body {
     width: 80%;
@@ -237,7 +238,7 @@ footer .flexrow {
     font-size: 6rem; }
   .tooltip .tooltiptext {
     top: 1.5rem;
-    width: 22.8rem;
+    width: 25.1rem;
     height: 6.58333rem;
     font-size: 1rem;
     padding: 5px 20px 5px 25px; }
@@ -247,10 +248,37 @@ footer .flexrow {
     flex-basis: 1rem; }
   .flexpad-header-bottom {
     flex-basis: 8rem; }
+  header li {
+    transition: all .1s ease-in-out; }
+    header li:hover {
+      transform: scale(1.2); }
   .nav-text {
     display: block; }
   .nav-icon {
-    display: none; } }
+    display: none; }
+  .postlist {
+    list-style-position: inside;
+    list-style-type: circle; }
+    .postlist .postlist-date {
+      display: inline-block;
+      color: #a6a6a6; }
+    .postlist .postlist-subtitle {
+      display: none;
+      color: #a6a6a6;
+      font-size: 1.1rem; }
+    .postlist li {
+      transition: all 0.1s ease-in-out; }
+      .postlist li:hover {
+        list-style-type: disc;
+        padding: 0 .5rem; }
+        .postlist li:hover .postlist-date {
+          display: none; }
+        .postlist li:hover .postlist-subtitle {
+          display: inline-block; }
+  .tweet:hover {
+    border-radius: .3rem; }
+    .tweet:hover a {
+      background: #0b69a3; } }
 
 @media only screen and (min-width: 1150px) {
   body {
@@ -260,7 +288,7 @@ footer .flexrow {
     font-size: 7rem; }
   .tooltip .tooltiptext {
     top: 1.75rem;
-    width: 26.6rem;
+    width: 30.2rem;
     height: 7.5rem;
     font-size: 1.16667rem;
     padding: 5px 20px 5px 25px; }

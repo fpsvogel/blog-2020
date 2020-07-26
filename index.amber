@@ -14,7 +14,7 @@ html
 		a[name="top"]
 		header
 			div.flexrow
-				div.bird.tooltip[onmouseover="updateJoke();"]
+				div.bird.tooltip[onmouseover="updateJoke();"][onclick="updateJoke();"]
 					🦉
 					span#bubble.tooltiptext
 				div.flexpad-header-top
@@ -38,13 +38,7 @@ html
 					li
 						a[href="https://github.com/fps-vogel"]
 							i.fab.fa-github
+
 		h1 Posts:
 		ul.postlist
-			a[href="/posts/2020-07-04-zs.html"]
-				li How I made this blog
-					div.postlist-date | 2020-07-04
-					div.postlist-subtitle : an exploration of minimalism and programming jokes
-			a[href="/posts/2020-06-13-todotxt.html"]
-				li Make a custom Todo.txt in VS Code
-					div.postlist-date | 2020-06-13
-					div.postlist-subtitle : and become a productivity beast
+			{{ lua .zs\postlist.lua }}

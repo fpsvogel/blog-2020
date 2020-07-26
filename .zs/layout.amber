@@ -14,7 +14,7 @@ html
 		a[name="top"]
 		header
 			div.flexrow
-				div.bird.tooltip[onmouseover="updateJoke();"]
+				div.bird.tooltip[onmouseover="updateJoke();"][onclick="updateJoke();"]
 					🦉
 					span#bubble.tooltiptext
 				div.flexpad-header-top
@@ -38,18 +38,21 @@ html
 					li
 						a[href="https://github.com/fps-vogel"]
 							i.fab.fa-github
+
 		article
 			h1 #{title}
+			div.posttop-subtitle
+				[ #{subtitle} ]
 			div.posttop-date
-				#{date}
+				{{ lua .zs\postdate.lua }}
 			#{unescaped(content)}
 		footer
 			ul.flexrow.center.wrap
 				li.back-to-top
 					a[href="#top"]
-						<i class="fas fa-chevron-up"></i>
+						i.fas.fa-chevron-up
 				li.tweet
-					{{ tweetbutton.bat }}
+					{{ lua .zs\tweetbutton.lua }}
 				li.flexpad-footer
 				li.copyright
 					&copy; 2020

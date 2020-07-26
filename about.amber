@@ -14,7 +14,7 @@ html
 		a[name="top"]
 		header
 			div.flexrow
-				div.bird.tooltip[onmouseover="updateJoke();"]
+				div.bird.tooltip[onmouseover="updateJoke();"][onclick="updateJoke();"]
 					🦉
 					span#bubble.tooltiptext
 				div.flexpad-header-top
@@ -38,6 +38,7 @@ html
 					li
 						a[href="https://github.com/fps-vogel"]
 							i.fab.fa-github
+
 		h1 About me:
 		p
 			| Hey there. I'm just a guy learning how to program. The owl's jokes

@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Make a custom todo.txt in VS Code</title>
+		<title>Make a custom todo.txt for VS Code</title>
 		<meta content="Felipe Vogel" name="author" />
 		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
 		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
@@ -15,7 +15,7 @@
 		<a name="top"></a>
 		<header>
 			<div class="flexrow">
-				<div class="bird tooltip" onmouseover="updateJoke();">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
 					🦉
 					<span class="tooltiptext" id="bubble"></span>
 				</div>
@@ -55,7 +55,8 @@
 			</div>
 		</header>
 		<article>
-			<h1>Make a custom todo.txt in VS Code</h1>
+			<h1>Make a custom todo.txt for VS Code</h1>
+			<div class="posttop-subtitle">[ and become a productivity beast ]</div>
 			<div class="posttop-date">2020-06-13</div>
 			<p>So I wake up one day, and sitting right in front of me is an existential crisis. A big, hairy, gnarly one. It says to me, &ldquo;Hey man, you gotta get your act together. You have five (or six? seven?) to-do lists, constantly out of date and misplaced!? That&rsquo;s not gonna cut it anymore.&rdquo;</p>
 
@@ -65,7 +66,7 @@
 
 <p>So then I discovered the venerable <a href="http://todotxt.org/"><code>todo.txt</code></a> tradition, imbued with that unmistakable musky aroma of Unix geekdom. I loved the idea, but then I found <a href="https://jeffhuang.com/productivity_text_file/">an even more flexible approach</a> that incorporates appointments <em>and</em> a log/journal of notes and completed tasks, so that you don&rsquo;t have to juggle a calendar throughout the day or constantly lose scattered ideas and findings: it&rsquo;s all in your to-do/appointment/journal&hellip; thingy.</p>
 
-<p>So in the end, after several other existential crises showing up and accusing me of actually being unproductive in quest of perfect productivity, here&rsquo;s what my <code>todo.txt</code> looks like:</p>
+<p>So in the end, after several other existential crises showing up and accusing me of actually being unproductive in my quest for perfect productivity, here&rsquo;s what my <code>todo.txt</code> looks like:</p>
 
 <div class="hover-images">
     <img src="/assets/todo-example.png" alt="todo.txt vs code language syntax">
@@ -84,9 +85,9 @@
 <li><span style="color: #A3A352">quotes or other long text (<code>{&hellip;}</code>)</span></li>
 </ul>
 
-<p>And since it&rsquo;s all just plain text, it&rsquo;s very portable and mobile-friendly: I just keep <code>todo.txt</code> synced to cloud storage, and I can edit on the go with a cloud-syncing text editor on my phone.</p>
+<p>And since it&rsquo;s all just plain text, it&rsquo;s very portable and mobile-friendly: I just keep <code>todo.txt</code> synced to cloud storage, and I can edit on the go with a cloud-syncing text editor on my phone. (Currently SimpleTxtEditor on Android.)</p>
 
-<p>There were two tricky bits in setting this up: (1) the syntax highlighting, and (2) the script to add recurring tasks. Here are my solutions for both of those.</p>
+<p>There were two tricky bits in setting this up: (1) the syntax highlighting, and (2) the script to add recurring tasks. Here are my solutions for each.</p>
 
 <h2>todo.txt syntax highlighting in VS Code</h2>
 
@@ -94,12 +95,12 @@
 
 <ol>
 <li>Figure out a regular expression for each of the items listed above.</li>
-<li>Package them in a TextMate grammar (<code>.tmLanguage</code>) file.</li>
+<li>Package the regular expressions in a TextMate grammar (<code>.tmLanguage</code>) file.</li>
 <li>Create the VS Code extension using the grammar.</li>
 <li>Set colors for syntax highlighting in VS Code&rsquo;s <code>settings.json</code>.</li>
 </ol>
 
-<p>And here are my results for #2 and #4. First the TextMate grammar:</p>
+<p>And here details on how I did #2 and #4. First the TextMate grammar, which includes two extra bits of markup: <code>»</code> for retrospective comments in green, and <code>†</code> for urgent (red) notes at the end of a line. (Choose other characters or strings if you&rsquo;d like; I can easily type these and other weird ones with <a href="https://medium.com/@tbeers/the-alt-latin-keyboard-layout-windows-version-701c64f8bfd8">my keyboard layout</a>.)</p>
 
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
@@ -123,7 +124,7 @@
     &lt;/dict&gt;
     &lt;dict&gt;
         &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;https?:\/\/.*?( |$)&lt;/string&gt;
+        &lt;string&gt;https?:\/\/.*?(?= |\)|$)&lt;/string&gt;
         &lt;key&gt;name&lt;/key&gt;
         &lt;string&gt;constant.language.url.todotxt&lt;/string&gt;
     &lt;/dict&gt;
@@ -141,15 +142,21 @@
     &lt;/dict&gt;
     &lt;dict&gt;
         &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;^`.*?(?= @| https?:\/\/| {|$)&lt;/string&gt;
+        &lt;string&gt;^\s*`.*?(?= @| »| https?:\/\/| {|$)&lt;/string&gt;
         &lt;key&gt;name&lt;/key&gt;
         &lt;string&gt;constant.language.waiting.todotxt&lt;/string&gt;
     &lt;/dict&gt;
     &lt;dict&gt;
         &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;(^\*.*?|^\d[\d: ]{0,5}[ap]m.*?|†.*?)(?= @| https?:\/\/| {|$)&lt;/string&gt;
+        &lt;string&gt;(^\s*(\*.*?|\d[\d: ]{0,5}[ap]m.*?)|†.*?)(?= @| »| https?:\/\/| {|$)&lt;/string&gt;
         &lt;key&gt;name&lt;/key&gt;
         &lt;string&gt;constant.language.urgent.todotxt&lt;/string&gt;
+    &lt;/dict&gt;
+    &lt;dict&gt;
+        &lt;key&gt;match&lt;/key&gt;
+        &lt;string&gt;».*?(?= @| https?:\/\/| {|$)&lt;/string&gt;
+        &lt;key&gt;name&lt;/key&gt;
+        &lt;string&gt;constant.language.annotation.todotxt&lt;/string&gt;
     &lt;/dict&gt;
     &lt;dict&gt;
         &lt;key&gt;begin&lt;/key&gt;
@@ -182,6 +189,12 @@
             }
         },
         {
+            &quot;scope&quot;: &quot;constant.language.annotation.todotxt&quot;,
+            &quot;settings&quot;: {
+                &quot;foreground&quot;: &quot;#4aff40&quot;
+            }
+        },
+        {
             &quot;scope&quot;: &quot;constant.language.urgent.todotxt&quot;,
             &quot;settings&quot;: {
                 &quot;foreground&quot;: &quot;#F38D8D&quot;
@@ -203,13 +216,13 @@
         {
             &quot;scope&quot;: &quot;constant.language.subentry.todotxt&quot;,
             &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#9e9e9e&quot;,
+                &quot;foreground&quot;: &quot;#9E9E9E&quot;
             }
         },
         {
             &quot;scope&quot;: &quot;constant.language.url.todotxt&quot;,
             &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#C583FA&quot;,
+                &quot;foreground&quot;: &quot;#C583FA&quot;
             }
         },
         {
@@ -221,7 +234,7 @@
         {
             &quot;scope&quot;: &quot;text.todotxt&quot;,
             &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#dbdbdb&quot;
+                &quot;foreground&quot;: &quot;#DBDBDB&quot;
             }
         }
     ]
@@ -230,80 +243,59 @@
 
 <h2>Recurring tasks via a script</h2>
 
-<p>Here&rsquo;s my <code>recur.bat</code> script on Windows. I trust that Linux users need no help writing a shell script, and MacOS users… just ask a Linux friend.</p>
+<p>Here&rsquo;s my <code>recur.lua</code> script, which I&rsquo;ve set up in my task scheduler to run at the beginning of every day.</p>
 
-<p>Whenever I need to add or change a recurring task, I simply open up the script and add or change an <code>echo</code> line.</p>
+<p>Whenever I need to add or change a recurring task, I simply open up the script and add a line.</p>
 
-<pre><code>@echo off
+<pre><code>-- script to add daily or weekly recurring tasks to the top of todo.txt
+-- also automatically adds a header for today's date above yesterday
 
-REM script to add daily or weekly recurring tasks to the top of todo.txt
+newTasks = &quot;&quot;
 
-SET dir=%userprofile%\Dropbox\Apps\SimpleTxtEditor
+function add (line)
+    newTasks = newTasks..line..&quot;\n&quot;
+end
 
-REM ******* DAILY RECURRING TASKS *******
-(echo * feed the cat) &gt; %dir%\temp.txt
+-- DAILY RECURRING TASKS
+add(&quot;* frontend course @devstudy&quot;)
 
-REM ******* MONTHLY RECURRING TASKS *******
-SET day=%date:~7,2%
+-- WEEKLY RECURRING TASKS
+weekday = os.date(&quot;%A&quot;)
+if weekday == &quot;Monday&quot; then
+    add(&quot;1pm meeting @work&quot;)
+elseif weekday == &quot;Saturday&quot; then
+    add(&quot;* call parents @family&quot;)
+    add(&quot;8pm dnd w/ the Brocks&quot;)
+end
 
-IF %day%==25 (
-(echo - end of month finances) &gt;&gt; %dir%\temp.txt
-)
+-- MONTHLY RECURRING TASKS
+day = os.date(&quot;%d&quot;)
+if day == &quot;25&quot; then
+    add(&quot;- monthly budget&quot;)
+end
 
-REM ******* WEEKLY RECURRING TASKS *******
-REM set dayofweek to 0-6 (Sunday, Monday, etc.)
-for /f %%a in ('wmic path win32_localtime get dayofweek /format:list ^| findstr &quot;=&quot;') do (set %%a)
-
-REM switch case for days of week
-2&gt;NUL CALL :CASE_%dayofweek%
-
-REM Sunday
-:CASE_0
-    GOTO OUTPUT
-
-REM Monday
-:CASE_1
-    (echo 1pm weekly meeting @work) &gt;&gt; %dir%\temp.txt
-    GOTO OUTPUT
-
-REM Tuesday
-:CASE_2
-    GOTO OUTPUT
-
-REM Wednesday
-:CASE_3
-    (echo 7pm dnd) &gt;&gt; %dir%\temp.txt
-    GOTO OUTPUT
-
-REM Thursday
-:CASE_4
-    GOTO OUTPUT
-
-REM Friday
-:CASE_5
-    (echo 5:30pm date night) &gt;&gt; %dir%\temp.txt
-    GOTO OUTPUT
-
-REM Saturday
-:CASE_6
-    GOTO OUTPUT
-
-:OUTPUT
-    type %dir%\todo.txt &gt;&gt; %dir%\temp.txt
-    move /y %dir%\temp.txt %dir%\todo.txt
-    EXIT
+-- ADD TODAY'S DATE HEADER AND NEW TASKS
+today = &quot;## &quot;..os.date(&quot;%Y-%m-%d&quot;)..&quot;\n\n&quot;
+todo = io.open(&quot;todo.txt&quot;, &quot;r&quot;)
+todoStr = todo:read(&quot;*all&quot;)
+yesterdayPos = todoStr:find(&quot;## &quot;)
+todoStr = newTasks..todoStr:sub(1,yesterdayPos-1)..today..todoStr:sub(yesterdayPos)
+todo = io.open(&quot;todo.txt&quot;, &quot;w+&quot;)
+todo:write(todoStr)
+todo:close()
 </code></pre>
 
-<p>So there you have it. If you ever find yourself face to face with a disorganization-induced existential crisis, now you can set up your own customized <code>todo.txt</code> and give your existential crisis (now overwhelmed by your organizing prowess) an existential crisis of its own. Take that, hairy monster!</p>
+<p>So there you have it. If you ever find yourself face to face with a monster crisis born of your disorganization, now you can set up your own customized <code>todo.txt</code> and give that monster (now overwhelmed by your organizing prowess) an existential crisis of its own. <em>Pow</em>, take that!</p>
 
 		</article>
 		<footer>
 			<ul class="flexrow center wrap">
 				<li class="back-to-top">
-					<a href="#top"><i class="fas fa-chevron-up"></i></a>
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
 				</li>
-				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Make a custom todo.txt in VS Code https://fpsvogel.netlify.app/posts/2020-06-13-todotxt.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a>
-</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Make a custom todo.txt for VS Code https://fpsvogel.netlify.app/posts/2020-06-13-todotxt.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
 				<li class="flexpad-footer"></li>
 				<li class="copyright">
 					&copy; 2020

@@ -16,7 +16,7 @@ $titleheight-sma: 3.5rem;
   .title, .bird {font-size: $height;}
   .tooltip .tooltiptext {
     top: $height / 4;
-    width: $height * 3.8;
+    width: $height * 4.1 + ($height - 5.5rem);
     height: $height + ($titleheight-sma / $height);
     font-size: $height / 6;
     padding: 5px 20px 5px 25px;
@@ -42,30 +42,10 @@ html {
 
 .postlist {
   line-height: 1.8;
-  list-style-position: inside;
-  list-style-type: circle;
-  .postlist-date {
-    display: inline-block;
-    color: $color-greyed;
-  }
-  .postlist-subtitle {display: none;}
-  li {
-    transition: all 0.1s ease-in-out;
-    &:hover {
-      list-style-type: disc;
-      padding: 0 .5rem;
-      .postlist-date {display: none;}
-      .postlist-subtitle {
-        display: inline-block;
-        color: $color-greyed;
-        font-size: 1.1rem;
-      }
-    }
+  .postlist-date, .postlist-subtitle {
+    display: none;
   }
 }
-
-
-
 
 .flexrow {
   display: flex;
@@ -83,11 +63,6 @@ ul.flexrow {
   list-style: none;
 }
 
-.bird {
-  transition: all .1s ease-in-out;
-  &:hover {transform: scale(1.1);}
-}
-
 @include titlesize($titleheight-sma);
 
 .title {
@@ -100,16 +75,12 @@ ul.flexrow {
 }
 
 header li {
-  transition: all .1s ease-in-out;
   a {
     display: inline-block;
     padding: 20px;
     font-size: 2.5rem;
     font-weight: 800;
     line-height: 1;
-  }
-  &:hover {
-    transform: scale(1.2);
   }
 }
 
@@ -139,14 +110,22 @@ h1, h2 {
   font-size: 2rem;
   font-family: 'Rokkitt', serif;
   color: $color-textbright;
+  line-height: 1;
 }
 
 h1 {
   margin-bottom: 0;
+  padding-top: 0.3rem;
 }
 
 .posttop-date {
   color: $color-util;
+  font-weight: 700;
+  padding-top: 0.3rem;
+}
+
+.posttop-subtitle {
+  color: $color-greyed;
   font-weight: 700;
 }
 
@@ -160,6 +139,7 @@ code, pre {
   font-family: 'Inconsolata', monospace;
   background-color: $color-code;
   color: $color-text;
+  word-break: break-all;
 }
 
 :not(pre) > code {
@@ -206,11 +186,10 @@ footer .flexrow {
 .tweet {
   a {
     padding: .4rem .8rem;
-    border-radius: .3rem;
     font-size: 1.2rem;
+    border-radius: .3rem;
     color: $color-textbright;
     background: $color-tweet;
-    &:hover {background: $color-tweethover}
   }
   div {
     font-size: 1rem;
@@ -266,10 +245,36 @@ footer .flexrow {
   border-color: transparent $color-textbright transparent transparent;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.95);
+  }
+}
+
+.bird, .hover-images {
+  animation-duration: 2s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  &:hover {
+    animation-iteration-count: 0;
+  }
+}
 
 
 
 
+@media only screen and (max-width: 768px) {
+  .bird, .hover-images {
+    animation-duration: 1s;
+  }
+}
 
 @media only screen and (min-width: 769px) {
 	body {
@@ -277,8 +282,42 @@ footer .flexrow {
 		margin: 0 auto;
   }
   @include titlesize($titleheight-med);
+  header li {
+    transition: all .1s ease-in-out;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
   .nav-text {display: block;}
   .nav-icon {display: none;}
+  .postlist {
+    list-style-position: inside;
+    list-style-type: circle;
+    .postlist-date {
+      display: inline-block;
+      color: $color-greyed;
+    }
+    .postlist-subtitle {
+      display: none;
+      color: $color-greyed;
+      font-size: 1.1rem;
+    }
+    li {
+      transition: all 0.1s ease-in-out;
+      &:hover {
+        list-style-type: disc;
+        padding: 0 .5rem;
+        .postlist-date {display: none;}
+        .postlist-subtitle {display: inline-block;}
+      }
+    }
+  }
+  .tweet {
+    &:hover {
+      border-radius: .3rem;
+      a {background: $color-tweethover;}
+    }
+  }
 }
 @media only screen and (min-width: 1150px) {
 	body {

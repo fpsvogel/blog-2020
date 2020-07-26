@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<title>How I built this blog</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li>
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-stream"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li>
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="https://github.com/fps-vogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>How I built this blog</h1>
+			<div class="posttop-subtitle">[ an exploration of minimalism and programming jokes ]</div>
+			<div class="posttop-date">2020-07-23</div>
+			<p>Of all the grand plans that a fledgeling developer inevitably dreams up and expands to impossible proportions, the most urgent is (thankfully) the least impossible: to make a blog. The humble blog is the doorway into dreams, the launchpad into the infinity of all the earth-shaking projects soon to be realized. (That&rsquo;s how it goes in my imagination, at least.)</p>
+
+<p>So I made this blog, and here&rsquo;s what I learned.</p>
+
+<h2>A minimalist static site generator</h2>
+
+<p>When it comes to static site generators, <a href="https://www.11ty.dev/">Eleventy</a> seems to be the coolest kid on the block these days. But instead I went with <a href="https://github.com/zserge/zs">zs</a>, which is even more elegantly minimalist. Also it&rsquo;s more obscure and therefore much more hip.</p>
+
+<p>Here&rsquo;s what I love about zs:</p>
+
+<ul>
+<li>It&rsquo;s tiny but very extensible through shell scripts.</li>
+<li>Its <a href="https://github.com/eknkc/amber/">Amber</a> templating is simple and clean.</li>
+</ul>
+
+<p>Here&rsquo;s a snippet from <code>layout.amber</code> (actually it&rsquo;s nearly the whole thing):</p>
+
+<pre><code>import siteheader
+article
+    h1 #{title}
+    div.posttop-subtitle
+        #{subtitle}
+    div.posttop-date
+        2020-07-23
+    #{unescaped(content)}
+footer
+    ul.flexrow.center.wrap
+        li.back-to-top
+            a[href=&quot;#top&quot;]
+                i.fas.fa-chevron-up
+        li.tweet
+            &lt;a href=&quot;https://twitter.com/intent/tweet?text=How I built this blog https://fpsvogel.netlify.app/posts/2020-07-23-zs.html&quot; class=&quot;flexrow center&quot;&gt;&lt;i class=&quot;fab fa-twitter&quot;&gt;&lt;/i&gt;&lt;div&gt;Tweet&lt;/div&gt;&lt;/a&gt;
+</code></pre>
+
+<p>So much zen. <code>title</code> and <code>subtitle</code> come from each post&rsquo;s YAML headers. The Lua scripts are plugins that I wrote: <code>postdate.lua</code> looks at the post&rsquo;s filename to extract the date, and <code>tweetbutton.lua</code> creates a tweet link with the current page&rsquo;s title and URL.</p>
+
+<p>I wrote another Lua plugin to populate the index page with a list of posts, based on the files in the &ldquo;posts&rdquo; folder. (In case you haven&rsquo;t noticed, I love Lua for scripting. Not only is it simple and quick to write, but it has a blazing fast startup time, beaten by only <a href="https://github.com/chocolateboy/startup-time">a handful</a> of <a href="https://github.com/bdrung/startup-time">other languages</a>. Incidentally, the creator of zs also made the <a href="https://zserge.com/posts/luash/">luash</a> library for more conveniently using Lua in place of shell scripts. Nice!)</p>
+
+<p>Instead of zs&rsquo;s default GCSS, I went with Sass and learned some of its neat shortcuts: nesting, mixins, and doing math on variables.</p>
+
+<h2>The upshot</h2>
+
+<p>Most of all, I learned that creating something simple from scratch can be more joyful than creating something more complex in a system that you don&rsquo;t understand.</p>
+
+<p>And now writing a new post is a breeze:</p>
+
+<ul>
+<li>Create a Markdown file with the date in the filename (such as &ldquo;2020-07-23-zs.md&rdquo;).</li>
+<li>Set the title and subtitle in the YAML header.</li>
+<li>Write the content.</li>
+<li>Rebuild the site with zs (also run compile my Sass; I do both at once with a batch script).</li>
+<li>Push to Github, and my site on Netlify automatically updates.</li>
+</ul>
+
+<p>Oh, and I had fun finding programming jokes for my mascot owl up above.</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=How I built this blog https://fpsvogel.netlify.app/posts/2020-07-23-zs.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
