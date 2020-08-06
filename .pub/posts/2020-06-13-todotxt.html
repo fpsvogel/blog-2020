@@ -100,77 +100,83 @@
 <li>Set colors for syntax highlighting in VS Code&rsquo;s <code>settings.json</code>.</li>
 </ol>
 
-<p>And here details on how I did #2 and #4. First the TextMate grammar, which includes two extra bits of markup: <code>»</code> for retrospective comments in green, and <code>†</code> for urgent (red) notes at the end of a line. (Choose other characters or strings if you&rsquo;d like; I can easily type these and other weird ones with <a href="https://medium.com/@tbeers/the-alt-latin-keyboard-layout-windows-version-701c64f8bfd8">my keyboard layout</a>.)</p>
+<p>And here details on how I did #2 and #4. First the TextMate grammar, which includes a few changes and extras (see the update below).</p>
 
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
 &lt;plist version=&quot;1.0&quot;&gt;
 &lt;dict&gt;
-    &lt;key&gt;fileTypes&lt;/key&gt;
-    &lt;array&gt;
-    &lt;string&gt;txt&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;keyEquivalent&lt;/key&gt;
-    &lt;string&gt;^~T&lt;/string&gt;
+  &lt;key&gt;fileTypes&lt;/key&gt;
+  &lt;array&gt;
+  &lt;string&gt;txt&lt;/string&gt;
+  &lt;/array&gt;
+  &lt;key&gt;keyEquivalent&lt;/key&gt;
+  &lt;string&gt;^~T&lt;/string&gt;
+  &lt;key&gt;name&lt;/key&gt;
+  &lt;string&gt;todo.txt&lt;/string&gt;
+  &lt;key&gt;patterns&lt;/key&gt;
+  &lt;array&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;\B\@\w+&lt;/string&gt;
     &lt;key&gt;name&lt;/key&gt;
-    &lt;string&gt;todo.txt&lt;/string&gt;
-    &lt;key&gt;patterns&lt;/key&gt;
-    &lt;array&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;\B\@\w+&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.tag.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;https?:\/\/.*?(?= |\)|$)&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.url.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;^##.*$&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.date.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;^\s*&gt;.*$&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.subentry.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;^\s*`.*?(?= @| »| https?:\/\/| {|$)&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.waiting.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;(^\s*(\*.*?|\d[\d: ]{0,5}[ap]m.*?)|†.*?)(?= @| »| https?:\/\/| {|$)&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.urgent.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;match&lt;/key&gt;
-        &lt;string&gt;».*?(?= @| https?:\/\/| {|$)&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.annotation.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;dict&gt;
-        &lt;key&gt;begin&lt;/key&gt;
-        &lt;string&gt;{&lt;/string&gt;
-        &lt;key&gt;end&lt;/key&gt;
-        &lt;string&gt;}&lt;/string&gt;
-        &lt;key&gt;name&lt;/key&gt;
-        &lt;string&gt;constant.language.quote.todotxt&lt;/string&gt;
-    &lt;/dict&gt;
-    &lt;/array&gt;
-    &lt;key&gt;scopeName&lt;/key&gt;
-    &lt;string&gt;text.todotxt&lt;/string&gt;
-    &lt;key&gt;uuid&lt;/key&gt;
-    &lt;string&gt;B68B5C70-7D5A-11E0-A411-0800200C9A66&lt;/string&gt;
+    &lt;string&gt;constant.language.tag.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt; #20\d\d-\d\d-\d\d&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.date.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;https?:\/\/.*?(?= |\)|$)&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.url.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;^##.*$&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.datehead.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;^\s*&gt;.*$&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.subentry.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;^\s*`.*?(?= @| #20| §| https?:\/\/| «|$)&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.waiting.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;(^\s*(\^.*?|\d[\d: ]{0,5}[ap]m.*?)|†.*?)(?= @| #20| »| https?:\/\/| «|$)&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.urgent.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;match&lt;/key&gt;
+    &lt;string&gt;§.*?(?= @| #20| https?:\/\/| «|$)&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.annotation.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;dict&gt;
+    &lt;key&gt;begin&lt;/key&gt;
+    &lt;string&gt;«&lt;/string&gt;
+    &lt;key&gt;end&lt;/key&gt;
+    &lt;string&gt;»&lt;/string&gt;
+    &lt;key&gt;name&lt;/key&gt;
+    &lt;string&gt;constant.language.quote.todotxt&lt;/string&gt;
+  &lt;/dict&gt;
+  &lt;/array&gt;
+  &lt;key&gt;scopeName&lt;/key&gt;
+  &lt;string&gt;text.todotxt&lt;/string&gt;
+  &lt;key&gt;uuid&lt;/key&gt;
+  &lt;string&gt;B68B5C70-7D5A-11E0-A411-0800200C9A66&lt;/string&gt;
 &lt;/dict&gt;
 &lt;/plist&gt;
 </code></pre>
@@ -178,66 +184,72 @@
 <p>And then the colors in <code>settings.json</code>:</p>
 
 <pre><code>&quot;[todotxt]&quot;: {
-    &quot;editor.quickSuggestions&quot;: false
+  &quot;editor.quickSuggestions&quot;: false
 },
 &quot;editor.tokenColorCustomizations&quot;: {
-    &quot;textMateRules&quot;: [
-        {
-            &quot;scope&quot;: &quot;constant.language.quote.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#A3A352&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.annotation.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#4aff40&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.urgent.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#F38D8D&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.waiting.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#F3ED72&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.date.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#00FFFF&quot;,
-                &quot;fontStyle&quot;: &quot;bold underline&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.subentry.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#9E9E9E&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.url.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#C583FA&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;constant.language.tag.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#6CB6FF&quot;
-            }
-        },
-        {
-            &quot;scope&quot;: &quot;text.todotxt&quot;,
-            &quot;settings&quot;: {
-                &quot;foreground&quot;: &quot;#DBDBDB&quot;
-            }
-        }
-    ]
+  &quot;textMateRules&quot;: [
+    {
+      &quot;scope&quot;: &quot;constant.language.quote.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#A3A352&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.annotation.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#4aff40&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.urgent.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#F38D8D&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.waiting.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#F3ED72&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.datehead.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#00FFFF&quot;,
+        &quot;fontStyle&quot;: &quot;bold underline&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.subentry.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#9E9E9E&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.url.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#C583FA&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.date.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#9E9E9E&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;constant.language.tag.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#6CB6FF&quot;
+      }
+    },
+    {
+      &quot;scope&quot;: &quot;text.todotxt&quot;,
+      &quot;settings&quot;: {
+        &quot;foreground&quot;: &quot;#DBDBDB&quot;
+      }
+    }
+  ]
 }
 </code></pre>
 
@@ -257,15 +269,15 @@ function add (line)
 end
 
 -- DAILY RECURRING TASKS
-add(&quot;* frontend course @devstudy&quot;)
+add(&quot;^ frontend course @devstudy&quot;)
 
 -- WEEKLY RECURRING TASKS
 weekday = os.date(&quot;%A&quot;)
 if weekday == &quot;Monday&quot; then
     add(&quot;1pm meeting @work&quot;)
-elseif weekday == &quot;Saturday&quot; then
+elseif weekday == &quot;Sunday&quot; then
     add(&quot;* call parents @family&quot;)
-    add(&quot;8pm dnd w/ the Brocks&quot;)
+    add(&quot;7pm dnd w/ the Brocks&quot;)
 end
 
 -- MONTHLY RECURRING TASKS
@@ -278,7 +290,7 @@ end
 today = &quot;## &quot;..os.date(&quot;%Y-%m-%d&quot;)..&quot;\n\n&quot;
 todo = io.open(&quot;todo.txt&quot;, &quot;r&quot;)
 todoStr = todo:read(&quot;*all&quot;)
-yesterdayPos = todoStr:find(&quot;## &quot;)
+yesterdayPos = todoStr:find(&quot;##20&quot;)
 todoStr = newTasks..todoStr:sub(1,yesterdayPos-1)..today..todoStr:sub(yesterdayPos)
 todo = io.open(&quot;todo.txt&quot;, &quot;w+&quot;)
 todo:write(todoStr)
@@ -286,6 +298,18 @@ todo:close()
 </code></pre>
 
 <p>So there you have it. If you ever find yourself face to face with a monster crisis born of your disorganization, now you can set up your own customized <code>todo.txt</code> and give that monster (now overwhelmed by your organizing prowess) an existential crisis of its own. <em>Pow</em>, take that!</p>
+
+<h2>UPDATE: August 6, two months in</h2>
+
+<p>By now I&rsquo;ve tweaked my todo.txt markup characters, reflected in the XML and JSON above: <code>^</code> (not <code>*</code>) for an urgent task, <code>†</code> for an urgent note at the end of a line, <code>«</code> and <code>»</code> (not <code>{</code> and <code>}</code>) for quotes, <code>§</code> for retrospective comments in green, and <code>#</code> for a date stamp at the end of a line. (Choose other characters or strings if you&rsquo;d like; I can type those weird ones with <a href="https://medium.com/@tbeers/the-alt-latin-keyboard-layout-windows-version-701c64f8bfd8">my keyboard layout</a>.)</p>
+
+<p>Why a date stamp at the end of a line, you ask? Well, there&rsquo;s been a fascinating shift in how I use my todo.txt: I still use it as a to-do list just as much as I did in the beginning, but at the same time its function <em>as a journal</em> has grown tremendously. By now I&rsquo;m not popping done tasks down below, as if the previous days are a &ldquo;done&rdquo; list; no, I&rsquo;ve realized that that I don&rsquo;t care what errands I ran or who I wrote back to on such-and-such day. So, very few of my to-do tasks make it down to the record of previous days. Instead, I use the previous days as a journal, writing down memorable things that happen each day.</p>
+
+<p>That may sound trivial, but think about it: more than just organizing tasks, I am now organizing and bringing order to my experiences more broadly. <em>Tagging</em> is what makes all the difference: rather than becoming an impenetrable mass of random jottings (like other journals I&rsquo;ve kept in the past), this journal is carefully tagged so that each entry is part of an ongoing thread: <code>@reading</code>, <code>@devstudy</code>, <code>@hardday</code>, <code>@dnd</code>, and others. For each entry that I tag, I stamp today&rsquo;s date at the end of it (simply Ctrl+Alt+D, thanks to an AutoHotkey script), and then later I can use &ldquo;Filter Line&rdquo; or any other grep-like extension for VS Code to show only lines with a particular tag, each one with a date attached.</p>
+
+<p>So now it&rsquo;s easy to see all my reading notes together, or to look back at all my hard days and feel relieved that most of them are insignificant in hindsight. My wife and I are now going through a tough time where we&rsquo;ve just lost a baby due to miscarriage. Years from now I can pull up all the <code>@baby</code> lines and read that story again, along with (hopefully!) its happier sequel in which we really do have a baby.</p>
+
+<p>More than just a task manager, I feel like my todo.txt has given me a superpower for living a more self-examined life as I more purposefully weave the threads that add richness and meaning to my life.</p>
 
 		</article>
 		<footer>
