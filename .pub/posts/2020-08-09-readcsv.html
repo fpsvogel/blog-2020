@@ -1,0 +1,183 @@
+<html>
+	<head>
+		<title>Track your reading with read.csv</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li>
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-stream"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li>
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="https://github.com/fps-vogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>Track your reading with read.csv</h1>
+			<div class="posttop-subtitle">[ and become a deeper reader ]</div>
+			<div class="posttop-date">2020-08-09</div>
+			<p>Ever since I started organizing my tasks and journaling with <a href="/posts/2020-06-13-todotxt.html">a custom todo.txt</a>, I&rsquo;ve been looking for other cluttered parts of my life that I could simplify. My reading is one of those. I love reading, but I&rsquo;ve always had trouble keeping track of my reading. In particular a single to-read list and a single place for reading notes are, I think, essential for deep and reflective reading. But I&rsquo;ve always failed at these. Every few years I got fed up with my uselessly scattered hodgepodge of reading lists, and so I went through them all and made a sleek new list… only to see it degenerate into the same old chaos within a few months. I often took notes on what I read, somewhere, but… dagnabbit, where did I put those notes? I always lost them, or stopped taking notes because they were somewhere that I never otherwise looked.</p>
+
+<p>Even the basic task of keeping track of what I read hasn&rsquo;t been straightforward. For a few years I&rsquo;ve been using Goodreads, but it has a few problems. It&rsquo;s hard to track your reading of rare or old books with Goodreads, because you probably have to add them to the catalog yourself. Its main draw is that it&rsquo;s also a social network, but I can only remember <em>one time</em> that I ever interacted with a friend on there. With every passing year it looks more and more like a graveyard, and <a href="https://onezero.medium.com/almost-everything-about-goodreads-is-broken-662e424244d5">complaints</a> by its <a href="https://theliteraryphoenix.com/2020/02/11/goodreads-frustations/">users</a> have been <a href="https://bookriot.com/future-of-goodreads/">getting louder</a>. The most useful part of the site is the book reviews, but you don&rsquo;t need a Goodreads account for that. As for the other social book sites, they&rsquo;re not any better than Goodreads.</p>
+
+<p>So I&rsquo;ve finally abandoned Goodreads, and now (as we speak!) I am basking in the glory of a unified approach to keeping track of my reading, my to-read list, <em>and</em> my reading notes. One list, hundreds of lines, zero headache. Here we go.</p>
+
+<h2>The end result</h2>
+
+<p>We&rsquo;ll get into how to set it up, but here is a bit of my read.csv, where each column is distinguished by a color:</p>
+
+<p><img src="/assets/readcsv-comments.png" alt="read.csv plain text reading list" /></p>
+
+<p>So now I can pull up my list quicker than going into an app, <em>and</em> I can write notes that won&rsquo;t get lost, <em>and</em> I can easily organize my to-read lists as well: the &ldquo;currently reading&rdquo; section above is followed by some short high-priority &ldquo;will read&rdquo; lists, followed by a long &ldquo;done reading&rdquo; list, followed by a bunch of low-priority &ldquo;maybe will read&rdquo; lists.</p>
+
+<p><em>Wow, that format looks cumbersome,</em> you might be saying with snicker. <em>Writing out nine columns every time you want to jot down an interesting title??</em> No, because I can jot them down as a comment (starting with <code>\</code> or any other character of your choosing), and then use an AutoHotkey shortcut (Ctrl+Shift+R) to convert the current line to an entry, leaving only the Bookshelf to fill in manually:</p>
+
+<p><img src="/assets/readcsv-add.gif" alt="read.csv plain text reading list shortcut" /></p>
+
+<p>If it&rsquo;s an audiobook, I also add an audio symbol with a few keystrokes, with the help of a <a href="https://beeftext.org/">text expander</a>.</p>
+
+<p>That last line, like many of my to-reads, is already CSV-formatted because it was exported from my Goodreads &ldquo;Want to Read&rdquo; shelf. (In their case, Date Started is the Date Added from Goodreads.)</p>
+
+<p>But the best thing about my read.csv is not just that it&rsquo;s quick or pleasant to use. It&rsquo;s actually changing the way I read for the better: having my notes always in view motivates me to take notes on what I&rsquo;m reading. And not just reading. I&rsquo;ve begun to track courses, podcasts, and documentaries in there too—any educational or reflective media consumption that&rsquo;s worth writing down.</p>
+
+<p>If you want to try it yourself, here&rsquo;s how.</p>
+
+<h2>1. Download your Goodreads data</h2>
+
+<p>If you&rsquo;re on Goodreads, the first thing you need to do is <a href="https://help.goodreads.com/s/article/How-do-I-import-or-export-my-books-1553870934590">export your library</a>. This will give you a CSV file. Open it up and delete all the columns you don&rsquo;t need.</p>
+
+<p>If you&rsquo;re not on Goodreads, simply create a blank CSV file. Onward!</p>
+
+<h2>2. Get the Rainbow CSV extension for VS Code</h2>
+
+<p>You <em>could</em> manage your reading list in Excel or another spreadsheet app, but then you lose the advantages of working in plain text with a good text editor. For me that&rsquo;s VS Code, so I poked around and found the <a href="https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv">Rainbow CSV extension</a>, which provides three key functions for our list:</p>
+
+<ul>
+<li>Highlights each column in a different color</li>
+<li>Multi-cursor selection and editing of columns</li>
+<li>Filter and sort data with SQL-like queries</li>
+</ul>
+
+<p>For more quickly sorting by a particular column (with a hotkey instead of a query), I&rsquo;m using the <a href="https://marketplace.visualstudio.com/items?itemName=sgryjp.vscode-stable-sort">Stable Sort extension</a>.</p>
+
+<p>I also added the following lines to VS Code&rsquo;s <code>settings.json</code>. (Adjust the font size according to your screen, if you wish.)</p>
+
+<pre><code>&quot;[csv (semicolon)]&quot;: {
+    &quot;editor.quickSuggestions&quot;: false,
+    &quot;editor.wrappingIndent&quot;: &quot;deepIndent&quot;,
+    &quot;editor.fontSize&quot;: 16
+},
+</code></pre>
+
+<h2>3. Make a hotkey to create new entries</h2>
+
+<p>Typing out nine columns for every entry is a pain, so instead I made an <a href="https://www.autohotkey.com/">AutoHotkey</a> script that takes the current line and turns it into an entry, with today&rsquo;s date as Date Started. If the line has a comment character at the beginning, it automatically disappears. If I already added the ISBN after the title (after a semicolon), then it fills the ISBN column in the new entry. Here&rsquo;s the script, assigned to the hotkey Ctrl+Shift+R:</p>
+
+<pre><code>^+r::
+    oCB := ClipboardAll
+    Clipboard := &quot;&quot;
+    Send ^x
+    Sleep,50
+    beforeText = curr`; `;
+    afterText = `; `;`#%A_YYYY%-%A_MM%-%A_DD%`;`;1
+    Clipboard := beforeText . Trim(Clipboard, &quot;`r`n\&quot;) . (InStr(Clipboard, &quot;`;&quot;) ? &quot;&quot; : &quot;`; &quot;) . afterText . &quot;`r`n&quot;
+    Send ^v
+    Sleep,50
+    Clipboard := oCB
+    Send {Left 3}
+    Sleep,50
+    Send {Ctrl Up}{Shift Up}
+Return
+</code></pre>
+
+<p>For adding the Date Finished, I have another hotkey, Ctrl+Shift+D:</p>
+
+<pre><code>^+d::
+    SendInput {#}%A_YYYY%-%A_MM%-%A_DD%
+return
+</code></pre>
+
+<h2>Caveats and limitations</h2>
+
+<p>Some things to watch out for:</p>
+
+<ol>
+<li>Every column in every row has to have a value, even if it&rsquo;s just a space, otherwise Rainbow CSV throws a fit when selecting that entire column.</li>
+<li>Quote marks surrounding a column are also a no-go. That&rsquo;s why I&rsquo;m using semicolons as separators instead of commas, so that I don&rsquo;t have to quote every column containing a comma. That means that I can&rsquo;t use semicolons in my notes, but… eh, who needs &lsquo;em anyway.</li>
+<li>Entries can&rsquo;t span multiple lines, and that means I have to write out my notes on a single line. But for me that&rsquo;s an acceptable tradeoff for being able to keep my notes always in view.</li>
+<li>Multi-column editing is simplest on columns with a consistent format (in terms of number of words), so I&rsquo;m using only single words in the Bookshelves column: <code>rubyrails</code>, <code>dramapoetry</code>, and <code>econpolitics</code>, for example.</li>
+</ol>
+
+<h2>Other possibilities</h2>
+
+<p>I don&rsquo;t do these things with my read.csv, but you might want to:</p>
+
+<ul>
+<li>If you want to include your Kindle notes and highlights in your read.csv, you can <a href="https://medium.com/@michelle_z./how-to-export-kindle-highlights-notes-for-free-63181bca6df8">export them as plain text</a>, replace line breaks with some other separator (see caveat #3 above), and then paste them into your notes column in read.csv. But if you have a lot of notes and highlights, prepare for a lot of clutter.</li>
+<li>If you want to bring in an element of social sharing, you can store your read.csv on Dropbox and <a href="https://www.google.com/search?q=dropbox+javascript+api+read+text+file">use the Dropbox JavaScript API</a> to display all or some lines from the file in a webpage. I store mine in Dropbox, but mainly so that I can edit it on the go with the <a href="https://play.google.com/store/apps/details?id=simple.text.dropbox">Simple Text</a> app.</li>
+</ul>
+
+<p>I&rsquo;m sure you could add on to this list. With plain text, the possibilities are endless.</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Track your reading with read.csv https://fpsvogel.netlify.app/posts/2020-08-09-readcsv.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>

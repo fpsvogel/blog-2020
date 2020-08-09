@@ -3,7 +3,7 @@ $color-textbright: #fbfbfb;
 $color-text: #dbdbdb;
 $color-a: #ffaf00;
 $color-code: #1e1e1e;
-$color-util: #3ccf50;
+$color-util: #4de061;
 $color-tweet: #007cc7;
 $color-tweethover: #0b69a3;
 $color-greyed: #a6a6a6;
@@ -139,7 +139,7 @@ code, pre {
   font-family: 'Inconsolata', monospace;
   background-color: $color-code;
   color: $color-text;
-  word-break: break-all;
+  white-space: pre-wrap;
 }
 
 :not(pre) > code {
@@ -148,14 +148,12 @@ code, pre {
 
 pre {
   padding: 10px;
-  white-space: pre-wrap;
   line-height: 1.2;
   font-size: 1.05rem;
 }
 
 article img {
   width: 100%;
-  max-width: 40rem;
 }
 
 .hover-images {

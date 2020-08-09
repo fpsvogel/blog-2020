@@ -104,7 +104,7 @@ h1 {
   padding-top: 0.3rem; }
 
 .posttop-date {
-  color: #3ccf50;
+  color: #4de061;
   font-weight: 700;
   padding-top: 0.3rem; }
 
@@ -122,20 +122,18 @@ code, pre {
   font-family: 'Inconsolata', monospace;
   background-color: #1e1e1e;
   color: #dbdbdb;
-  word-break: break-all; }
+  white-space: pre-wrap; }
 
 :not(pre) > code {
   padding: 5px; }
 
 pre {
   padding: 10px;
-  white-space: pre-wrap;
   line-height: 1.2;
   font-size: 1.05rem; }
 
 article img {
-  width: 100%;
-  max-width: 40rem; }
+  width: 100%; }
 
 .hover-images {
   position: relative;
