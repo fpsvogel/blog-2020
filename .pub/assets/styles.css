@@ -47,7 +47,8 @@ ul.flexrow {
 .tooltip .tooltiptext {
   font-size: 0.875rem;
   padding: 5px 10px 5px 15px;
-  height: 7rem; }
+  height: 7rem;
+  width: 14.35rem; }
 
 .tooltip .tooltiptext::after {
   top: 35%; }

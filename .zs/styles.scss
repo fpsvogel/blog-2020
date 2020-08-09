@@ -28,7 +28,8 @@ $titleheight-sma: 3.5rem;
     .tooltip .tooltiptext {
       font-size: $height / 4;
       padding: 5px 10px 5px 15px;
-      height: 7rem;}
+      height: 7rem;
+      width: $height * 4.1 + ($height - 3.5rem);}
     .tooltip .tooltiptext::after {top: 35%;}
     .flexpad-header-top {flex-basis: 0.5rem;}}
 }
