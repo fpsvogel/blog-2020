@@ -22,20 +22,19 @@ html
 			div.flexrow
 				div.flexpad-header-bottom
 				ul.flexrow
-					li
-						a[href="/index.html"]
+					li.nav-button
 							div.nav-icon
-								i.fas.fa-stream
+								i.fas.fa-home
 							div.nav-text Posts
-					li
+					li.nav-button.active
 						a[href="/about.html"]
 							div.nav-icon
 								i.fas.fa-address-card
 							div.nav-text About
-					li
+					li.nav-button.active
 						a[href="https://twitter.com/fpsvogel"]
 							i.fab.fa-twitter
-					li
+					li.nav-button.active
 						a[href="https://github.com/fps-vogel"]
 							i.fab.fa-github
 

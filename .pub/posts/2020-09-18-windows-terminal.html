@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<title>Set up Windows Terminal shortcuts</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li class="nav-button active">
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-home"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://github.com/fps-vogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>Set up Windows Terminal shortcuts</h1>
+			<div class="posttop-subtitle">[ and make Windows a bit more usable ]</div>
+			<div class="posttop-date">2020-09-18</div>
+			<p>Today&rsquo;s productivity how-to: set up context menu shortcuts and a global hotkey for the new Windows Terminal.</p>
+
+<p>But first, the obvious confession: I use Windows. I don&rsquo;t love Windows; it&rsquo;s just that the effort of switching has never seemed justified, when I&rsquo;d only be trading my Windows annoyances for a new set of problems that inevitably comes with any OS.</p>
+
+<p>So I&rsquo;ve stuck with Windows—despite the mockery of Apple devotees, despite the scornful grimaces of Linux hackers. Despite the occasional pain of setting up development tools, when the installation instructions consist of a single sentence on how to install the latest version in Linux or MacOS, followed by that familiar line: &ldquo;Windows users, <strong>click here</strong> for a Windows build that some bozo put together for your crappy OS. Oh, and it&rsquo;s from five years ago.&rdquo;</p>
+
+<p>There are some hopeful signs, though. Windows is finally getting <a href="https://devblogs.microsoft.com/commandline/windows-package-manager-preview/">a native package manager</a>, and the <a href="https://docs.microsoft.com/en-us/windows/wsl/about">Windows Subsystem for Linux</a> has been out for a while now.</p>
+
+<p>Another welcome relief is <a href="https://devblogs.microsoft.com/commandline/windows-terminal-1-0/">Windows Terminal</a>. No more juggling five windows of three different consoles: Windows Terminal has tabs and panes. It&rsquo;s faster than the third-party terminals I&rsquo;ve tried. It&rsquo;s also quick to open, with context menu shortcuts and a global hotkey to open up a terminal in the current directory.</p>
+
+<p>… Wait, say again? Windows Terminal <em>doesn&rsquo;t</em> have context menu shortcuts? No hotkey, either? Sigh… Here&rsquo;s how you can supply those missing pieces.</p>
+
+<h2>Add a Windows Terminal submenu to the Explorer context menu</h2>
+
+<p>Fortunately, some kind souls have done most of the work already with <a href="https://github.com/lextm/windowsterminal-shell">a PowerShell script to install context menu items for Windows Terminal</a>. However, it didn&rsquo;t quite work for me, so here&rsquo;s what I changed.</p>
+
+<p><strong>Tweak the registry location.</strong> If you follow the instructions with no results, try this: in &ldquo;install.ps1&rdquo; replace <code>HKEY_CURRENT_USER\SOFTWARE\Classes\Directory</code> with <code>HKEY_CLASSES_ROOT\Directory</code>.</p>
+
+<p><strong>Replace admin mode commands.</strong> If the &ldquo;as administrator&rdquo; menu items don&rsquo;t work, try this: in the registry editor, go to &ldquo;HKEY_CLASSES_ROOT\Directory\ContextMenus\MenuTerminalAdmin\shell&rdquo; and replace the value in each &ldquo;command&rdquo; key with these:</p>
+
+<ul>
+<li>for cmd: <code>PowerShell -windowstyle hidden -Command &quot;Start-Process cmd -ArgumentList '/s,/k,pushd,%V' -Verb RunAs&quot;</code></li>
+<li>for PowerShell 7: <code>C:\Program Files\PowerShell\7\pwsh.exe -NoExit -RemoveWorkingDirectoryTrailingCharacter -WorkingDirectory &quot;%V!&quot; -Command &quot;$host.UI.RawUI.WindowTitle = 'PowerShell 7 (x64)'&quot;</code></li>
+</ul>
+
+<p>Unfortunately, these commands open Command Prompt and Powershell rather than Windows Terminal… but for me it doesn&rsquo;t matter because I typically use <code>gsudo</code> in a regular Windows Terminal anyway (more on that below).</p>
+
+<p><strong>Add profiles for other command lines that you use.</strong> For example, <a href="https://stackoverflow.com/questions/56765067/how-do-i-get-windows-10-terminal-to-launch-wsl">add a WSL profile</a>.</p>
+
+<h2>Create a global hotkey for Windows Terminal</h2>
+
+<p>If you&rsquo;re a keyboard junkie, surely you don&rsquo;t want to muck around with a context *submenu*—how plebeian! So here&rsquo;s an <a href="https://www.autohotkey.com">AutoHotkey</a> script that opens the terminal with a default starting directory, or with the current directory if an Explorer window is in focus.</p>
+
+<pre><code>#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+profile = Felipe  ; replace with your user profile name
+
+F13 &amp; r::  ; i.e. #r (LWin+R) thanks to SharpKeys
+If !(WinActive(&quot;ahk_class CabinetWClass&quot;))  ; if an Explorer window is not active
+  Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d C:\  ; or write in your own default directory after -d
+Else {  ; open to the current directory in Explorer
+  WinGetTitle, Title, A
+  if (Title = &quot;Downloads&quot;) {
+    Title = C:\Users\%profile%\Downloads
+  }
+  Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d &quot;%Title%&quot;
+}
+Return
+</code></pre>
+
+<p>(You may be raising an eyebrow at my odd hotkey F13 + R. Actually it&rsquo;s the Windows key + R, after remapping the Windows key to F13 with <a href="https://github.com/randyrants/sharpkeys">SharpKeys</a>. If you&rsquo;ve ever wondered how to get rid of those pesky Windows shortcuts and turn the Windows key into an extra modifier key, there you have it. For more on that, see my next post on AutoHotkey.)</p>
+
+<p>For executing commands with elevated privileges, I like using <a href="https://github.com/gerardog/gsudo">gsudo</a> from within a regular (non-admin) terminal. If you really want a separate hotkey to open the terminal as administrator, you&rsquo;ll need to <a href="https://stackoverflow.com/a/62542633/4158773">choose from a few workarounds</a>.</p>
+
+<p>And with that, my friends, you have a respectable terminal even in Windows. Coming up next: supercharge your keyboard (and your mouse!) with AutoHotkey.</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Set up Windows Terminal shortcuts https://fpsvogel.netlify.app/posts/2020-09-18-windows-terminal.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
