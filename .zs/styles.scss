@@ -139,17 +139,26 @@ code, pre {
   font-family: 'Inconsolata', monospace;
   background-color: $color-code;
   color: $color-text;
-  white-space: pre-wrap;
 }
 
 :not(pre) > code {
   padding: 5px;
 }
 
-pre {
+pre code {
   padding: 10px;
   line-height: 1.2;
   font-size: 1.05rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: block;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  &::-webkit-scrollbar {  /* Chrome/Safari/Webkit */
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
 }
 
 article img {

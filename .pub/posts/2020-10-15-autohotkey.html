@@ -1,0 +1,398 @@
+<html>
+	<head>
+		<title>AutoHotkey—Windows key, homerow arrow keys, mouse shortcuts</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+		<script src="/assets/hover-horizontal-scroll.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li class="nav-button active">
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-home"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://github.com/fps-vogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>AutoHotkey—Windows key, homerow arrow keys, mouse shortcuts</h1>
+			<div class="posttop-subtitle">[ and other hacks for Windows productivity ]</div>
+			<div class="posttop-date">2020-10-15</div>
+			<p>Constantly switching between your keyboard and mouse can be frustrating, especially once you start paying attention to just how much you do it every day. (And now that I&rsquo;ve made you start thinking about it, you won&rsquo;t be able to stop. It&rsquo;s the <a href="https://en.wikipedia.org/wiki/Ironic_process_theory">pink elephant game</a> all over again. You&rsquo;re welcome.)</p>
+
+<p>So I&rsquo;ve been on a quest to use my keyboard and mouse more efficiently, and here&rsquo;s what I have so far. Before we get to AutoHotkey, the big enchilada of productivity boosters, let&rsquo;s start with a few other apps full of handy shortcuts. Most of these are for Windows, but all of them have counterparts in MacOS and Linux, so at least the concepts still apply.</p>
+
+<h2>Small time-saving apps</h2>
+
+<p><strong>Clipboard manager: <a href="https://ditto-cp.sourceforge.io/">Ditto</a>.</strong> I can&rsquo;t tell you how great it is to have an infinite clipboard.</p>
+
+<p><strong>Text expander: <a href="https://beeftext.org/">Beeftext</a>.</strong> Great for code snippets, often-used phrases for emails, and emojis. 👍</p>
+
+<p><strong>Keyboard web navigation: <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb">Vimium</a> for Chrome, <a href="https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/">VimiumFF</a> for Firefox</strong> turns the Web into a keyboard-navigable land of magic. See the <a href="https://github.com/philc/vimium/blob/master/README.md">readme</a> to get started. You&rsquo;ll want to customize the key mappings, unless you&rsquo;re familiar with Vim.</p>
+
+<p><strong><a href="https://blog.hubspot.com/sales/gmail-keyboard-shortcuts">Gmail shortcuts</a>.</strong> Like trading your puny dagger for a flaming sword to vanquish the dark forces of email.</p>
+
+<h2>SharpKeys for key remapping</h2>
+
+<p>In Windows, <a href="https://www.autohotkey.com/">AutoHotkey</a> is the Swiss Army knife of productivity. But I use <strong><a href="https://github.com/randyrants/sharpkeys">SharpKeys</a></strong> for lower-level key remapping, and my AutoHotkey scripts only make sense in the context of those remappings, so let&rsquo;s start there.</p>
+
+<p>In SharpKeys I&rsquo;ve remapped the following keys:</p>
+
+<ul>
+<li>Caps Lock to Backspace</li>
+<li>Right Shift to Delete</li>
+<li>Backspace to Calculator</li>
+<li>Left Windows to F13</li>
+</ul>
+
+<p>The first two are to bring Backspace and Delete closer to the home row. (I hardly ever used Caps Lock and Right Shift anyway.) The third is just to make use of the now-replaced Backspace key. Or you could remap it to F14 and make a script for F14 in AutoHotkey (see below).</p>
+
+<p>The last remapping in the list disables Windows shortcuts, which are more annoying than useful, and in the process you gain a whole new modifier key. We&rsquo;ll now use this wiped-clean Windows key to set up app hotkeys on the left side of the keyboard, and home row arrow keys on the right side.</p>
+
+<h2>AutoHotkey: opening apps with the Windows key</h2>
+
+<p>Previously I&rsquo;ve shared <a href="/posts/2020-09-15-windows-terminal.html">how to set up a Windows Terminal hotkey</a> using this same technique of remapping the Windows key. Here are some other essential hotkeys for our wiped-clean Windows key. You can also add hotkeys for favorite apps: for example, for work apps I have several &ldquo;Run&rdquo; lines under <code>F13 &amp; w::</code> (i.e. Win+W).</p>
+
+<pre><code>#NoEnv
+SendMode Input
+blockContextMenu := false  ; so that right-click menu is not shown after using right button as modifier (see mouse shortcuts below)
+
+; = = = = = = = PROGRAMS = = = = = = =
+
+; LWin is remapped to F13 in SharpKeys, to avoid Windows shortcuts
+F13 &amp; q::Send ^{Esc}  ; start menu
+F13 &amp; e::Run explore C:\Users\User1\Downloads  ; open Explorer
+F13 &amp; t::Run &quot;C:\Program Files\Microsoft VS Code\Code.exe&quot; C:\Users\User1\Dropbox\.archive\.bin\Felipe-hotkeys.ahk
+F13 &amp; s::Reload  ; make AutoHotkey reload this script (do it right after saving the file)
+return
+
+; = = = = = = = USABILITY = = = = = = =
+
+; context menu
+RWin::Send {AppsKey}
+return
+
+; Esc closer to home row (and closes frequently-used apps)
+; CapsLock is remapped to Backspace in Sharpkeys
+F13 &amp; Backspace::
+  WinGet, active_proc, ProcessName, A
+  if (active_proc = &quot;explorer.exe&quot; || active_proc = &quot;cloudapp.exe&quot; || active_proc = &quot;jpegview64.exe&quot;)
+    Send !{F4}
+  else if !CloseBeeftext()
+    Send {Esc}
+return
+</code></pre>
+
+<p>More keyboard shortcuts shortly, but first let&rsquo;s switch over to the mouse.</p>
+
+<h2>AutoHotkey: mouse shortcuts</h2>
+
+<p>A lot of power users scorn the mouse. Yes, it is far from ideal for many tasks. If I&rsquo;m typing an email and I want to check on something in another tab, it&rsquo;s quicker to hop over with keyboard shortcuts—Vimium makes it even easier. But I&rsquo;m going to side with the masses and say that the mouse was a wonderful invention. It&rsquo;s indispensable for browsing the web, photo editing, and many other tasks.</p>
+
+<p>Maybe the reason I love my mouse is that it&rsquo;s so much more convenient now that I&rsquo;ve given it some AutoHotkey love. The key is to cram useful navigation functions into the mouse buttons. I use <a href="https://www.amazon.com/Logitech-Wireless-Computer-Mouse-Side/dp/B003NR57BY">a very basic mouse</a>, but now its 7 buttons can do wonders. In particular, I <em>constantly</em> use the side buttons (<code>XButton1</code> and <code>XButton2</code> below) to switch windows and close tabs.</p>
+
+<p>There&rsquo;s a lot going on in the snippet below, so here&rsquo;s a visual summary of my mouse shortcuts:</p>
+
+<p><img src="/assets/mouse.png" alt="mouse shortcuts made with AutoHotkey" /></p>
+
+<pre><code>; = = = = = = = MOUSE SHORTCUTS = = = = = = =
+
+; mouse buttons to switch windows and tabs
+XButton1::  ; back button
+  if (GetKeyState(&quot;LButton&quot;, &quot;P&quot;)) {  ; left or right button modifier: browser back
+    Send !{Left}
+  } else if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+    blockContextMenu := true
+    Send !{Left}
+  } else {  ; no mouse modifier: switch window
+    Send {LAlt Down}{Tab}
+  }
+return
+XButton1 Up::  ; allows back button to be pressed for Alt+Tab window menu to stay up
+  if !(GetKeyState(&quot;LButton&quot;, &quot;P&quot;) || GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+    Send {LAlt Up}
+  }
+return
+XButton2::  ; forward button
+  if (GetKeyState(&quot;LButton&quot;, &quot;P&quot;)) {  ; left or right button modifier: refresh
+    Send {F5}
+  } else if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+    blockContextMenu := true
+    Send {F5}
+  } else {  ; no mouse modifier: close tab or window
+    WinGet, active_proc, ProcessName, A
+    if (active_proc = &quot;chrome.exe&quot; || active_proc = &quot;firefox.exe&quot; || active_proc = &quot;Code.exe&quot;)
+      Send ^{F4}
+    else if !CloseBeeftext()
+      Send !{F4}
+  }
+return
+
+MButton::
+  if !(WinActive(&quot;ahk_class CabinetWClass&quot;))
+  {
+    if (GetKeyState(&quot;LButton&quot;, &quot;P&quot;)) {  ; left or right button modifier: browser forward
+      Send !{Right}
+    } else if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+      blockContextMenu := true
+      Send !{Right}
+    } else  ; no mouse modifier
+      Send {MButton}
+  } else {  ; delete in Explorer (best combined with Explorer's single-click mode)
+    Send {MButton}
+    Sleep 50
+    Send {Delete}
+    Sleep 50
+    Send {Space}
+  }
+return
+
+WheelLeft::
+  if !(WinActive(&quot;ahk_class CabinetWClass&quot;))
+    Send ^+{Tab}  ; switch tabs left
+  else
+    Send !{Up}  ; up one level in Explorer
+return
+WheelRight::
+  if !(WinActive(&quot;ahk_class CabinetWClass&quot;))
+    Send ^{Tab}  ; switch tabs right
+  else
+    Send !{Left}  ; back in Explorer (i.e. down one level if went up one level)
+return
+
+; right click as wheel modifier: mega scroll
+; the simpler method RButton &amp; WheelUp causes problems with click state
+WheelUp::
+  if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+    blockContextMenu := true
+    Send {WheelUp 15}
+  } else
+    Send {WheelUp}
+return
+WheelDown::
+  if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+    blockContextMenu := true
+    Send {WheelDown 15}
+  } else
+    Send {WheelDown}
+return
+
+; do not show context menu if mega scrolled
+RButton Up::
+  if (blockContextMenu)
+    blockContextMenu := false
+  else
+    Send {RButton}
+return
+</code></pre>
+
+<h2>AutoHotkey: home row arrow keys</h2>
+
+<p>The more you use the keyboard instead of the mouse, the more you&rsquo;ll be annoyed with another common switch: from the home row down to the arrow keys. There is <a href="https://vi.stackexchange.com/a/9315">the traditional way</a> of doing this with <code>hjkl</code>, but I&rsquo;ve opted for my own setup: <code>ijkl</code> for arrow keys, plus <code>h</code> and <code>;</code> for Home and End, plus <code>u</code> and <code>o</code> for Page Up and Page Down. All of these are activated with our faux Windows key pressed down. See the next section for an explanation of the modifier functions <code>Shift()</code>, <code>Alt()</code>, etc.</p>
+
+<p>Here&rsquo;s a summary of all my keyboard shortcuts and remappings, with a friendly wizard denoting our transformed Windows key. The icons on letter keys are for when Windows key is pressed.</p>
+
+<p><img src="/assets/keyboard.png" alt="keyboard shortcuts made with AutoHotkey" /></p>
+
+<pre><code>; = = = = = = = HOME ROW ARROW KEYS + home/end, page up/down = = = = = = =
+
+F13 &amp; j::
+  if Shift()
+    Send +{Left}
+  else if Alt()
+    Send !{Left}
+  else if Ctrl()
+    Send ^{Left}
+  else if CtrlShift()
+    Send ^+{Left}
+  else if AltShift()
+    Send !+{Left}
+  else if CtrlAlt()
+    Send ^!{Left}
+  else if CtrlAltShift()
+    Send ^!+{Left}
+  else Send {Left}
+return
+F13 &amp; l::
+  if Shift()
+    Send +{Right}
+  else if Alt()
+    Send !{Right}
+  else if Ctrl()
+    Send ^{Right}
+  else if CtrlShift()
+    Send ^+{Right}
+  else if AltShift()
+    Send !+{Right}
+  else if CtrlAlt()
+    Send ^!{Right}
+  else if CtrlAltShift()
+    Send ^!+{Right}
+  else Send {Right}
+return
+F13 &amp; i::
+  if Shift()
+    Send +{Up}
+  else if Alt()
+    Send !{Up}
+  else if Ctrl()
+    Send ^{Up}
+  else if CtrlShift()
+    Send ^+{Up}
+  else if AltShift()
+    Send !+{Up}
+  else if CtrlAlt()
+    Send ^!{Up}
+  else if CtrlAltShift()
+    Send ^!+{Up}
+  else Send {Up}
+return
+F13 &amp; k::
+  if Shift()
+    Send +{Down}
+  else if Alt()
+    Send !{Down}
+  else if Ctrl()
+    Send ^{Down}
+  else if CtrlShift()
+    Send ^+{Down}
+  else if AltShift()
+    Send !+{Down}
+  else if CtrlAlt()
+    Send ^!{Down}
+  else if CtrlAltShift()
+    Send ^!+{Down}
+  else Send {Down}
+return
+F13 &amp; h::
+  if Shift()
+    Send +{Home}
+  else Send {Home}
+return
+F13 &amp; `;::
+  if Shift()
+    Send +{End}
+  else Send {End}
+return
+F13 &amp; u::
+  if Shift()
+    Send +{PgUp}
+  else Send {PgUp}
+return
+F13 &amp; o::
+  if Shift()
+    Send +{PgDn}
+  else Send {PgDn}
+return
+</code></pre>
+
+<h2>AutoHotkey: modifier functions</h2>
+
+<p>We&rsquo;ve been using AutoHotkey&rsquo;s custom combinations feature to make our remapped Windows key act like a modifier, so that <code>F13 &amp; j</code> is analogous to <code>#j</code> (where <code>#</code> is the regular Windows key). The limitation of this feature is that it doesn&rsquo;t accept any additional modifiers: <code>F13 &amp; ^j</code> doesn&rsquo;t work, nor does <code>F13 &amp; Ctrl &amp; j</code>. So I&rsquo;ve made functions that check for each modifier.</p>
+
+<pre><code>; = = = = = MODIFIERS FOR F13 (LWIN REMAPPED) = = = = =
+
+Ctrl() {
+  if (GetKeyState(&quot;LAlt&quot;) || GetKeyState(&quot;LShift&quot;))
+    return 0
+  else return GetKeyState(&quot;LCtrl&quot;)
+}
+Alt() {
+  if (GetKeyState(&quot;LCtrl&quot;) || GetKeyState(&quot;LShift&quot;))
+    return 0
+  else return GetKeyState(&quot;LAlt&quot;)
+}
+Shift() {
+  if (GetKeyState(&quot;LCtrl&quot;) || GetKeyState(&quot;LAlt&quot;))
+    return 0
+  else return GetKeyState(&quot;LShift&quot;)
+}
+CtrlAlt() {
+  if (GetKeyState(&quot;LShift&quot;))
+    return 0
+  else return (GetKeyState(&quot;LCtrl&quot;) &amp;&amp; GetKeyState(&quot;LAlt&quot;))
+}
+CtrlShift() {
+  if (GetKeyState(&quot;LAlt&quot;))
+    return 0
+  else return (GetKeyState(&quot;LCtrl&quot;) &amp;&amp; GetKeyState(&quot;LShift&quot;))
+}
+AltShift() {
+  if (GetKeyState(&quot;LCtrl&quot;))
+    return 0
+  else return (GetKeyState(&quot;LAlt&quot;) &amp;&amp; GetKeyState(&quot;LShift&quot;))
+}
+CtrlAltShift() {
+  return (GetKeyState(&quot;LCtrl&quot;) &amp;&amp; GetKeyState(&quot;LAlt&quot;) &amp;&amp; GetKeyState(&quot;LShift&quot;))
+}
+</code></pre>
+
+<h2>The upshot</h2>
+
+<p>Is this yet another case of <a href="https://xkcd.com/1205/">spending more time than I save</a>? Or <a href="https://xkcd.com/1319/">getting sidetracked by automation</a>? I don&rsquo;t think so. Actually the time spent writing these scripts is trivial compared to how long it takes to train myself to <em>use</em> the dang shortcuts. But once you do, navigating windows, tabs, text, and the web is entirely different. Your fingers are like lightning—nay, &ldquo;tempestuous as the sea, and stronger than the foundations of the earth!&ldquo;—to borrow the words of a similarly empowered person.</p>
+
+<p><img src="/assets/galadriel.gif" alt="Galadriel saying &ldquo;All shall love me!&rdquo;" /></p>
+
+<p>Well… just don&rsquo;t let it get to your head, that&rsquo;s all.</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=AutoHotkey�Windows key, homerow arrow keys, mouse shortcuts https://fpsvogel.netlify.app/posts/2020-10-15-autohotkey.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
