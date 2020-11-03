@@ -10,7 +10,6 @@ html
 		link[href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap"][rel="stylesheet"]
 		script[src="https://kit.fontawesome.com/b2f8df400c.js"][crossorigin="anonymous"]
 		script[src="/assets/devjokes.js"]
-		script[src="/assets/hover-horizontal-scroll.js"]
 	body
 		a[name="top"]
 		header

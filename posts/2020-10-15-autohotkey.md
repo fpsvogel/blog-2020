@@ -1,4 +1,4 @@
-title: AutoHotkey—Windows key, homerow arrow keys, mouse shortcuts
+title: AutoHotkey - Windows key, home row arrow keys, mouse shortcuts
 subtitle: and other hacks for Windows productivity
 ---
 

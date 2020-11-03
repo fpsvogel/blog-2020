@@ -1,0 +1,186 @@
+<html>
+	<head>
+		<title>Ruby practice with Exercism</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li class="nav-button active">
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-home"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://github.com/fps-vogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>Ruby practice with Exercism</h1>
+			<div class="posttop-subtitle">[ What I learned ]</div>
+			<div class="posttop-date">2020-11-03</div>
+			<p>I&rsquo;ve just reached the end of 36 days of Ruby coding exercises with <a href="https://exercism.io/tracks/ruby">Exercism</a>. Here&rsquo;s some of what I learned.</p>
+
+<h2>1. Learn from others&rsquo; work, then refactor</h2>
+
+<p>The great thing about Exercism is that once you&rsquo;ve solved an exercise, you can see other people&rsquo;s solutions (ranked by popularity), then rework and resubmit your own.</p>
+
+<p>For example, an exercise I solved in 26 lines of code was solved by someone else in just 9 lines, thanks to their powerful and elegant use of regular expressions. (I&rsquo;m not a fan compressing a whole program into a monstrous freaky regex, but this isn&rsquo;t like that.)</p>
+
+<pre><code>module RunLengthEncoding
+  def self.encode(str)
+    str.gsub(/(.)\1+/) { |s| &quot;#{s.length}#{s[0]}&quot; }
+  end
+
+  def self.decode(str)
+    str.gsub(/\d+./) { |s| s[-1] * s.to_i }
+  end
+end
+</code></pre>
+
+<p>Whenever I found a better solution than my own, I copied it and resubmitted it as my new solution, for easier future reference. This was the outcome more often than not, casting away my little creation into the cold and dark as soon as I discovered a less blemished specimen to take its place.</p>
+
+<p>However, I console myself by noting a small victory for my original solutions. I kept a list of exercises where someone else&rsquo;s solution was not just better but <em>considerably</em> better than mine, and I kept another list of exercises where my solution was (in my opinion) considerably better than anyone else&rsquo;s. This &ldquo;mine&rsquo;s better&rdquo; list has 15 exercises, versus 14 in the other list.</p>
+
+<p><img src="/assets/success.jpg" alt="success kid meme" /></p>
+
+<h2>2. Think before you code</h2>
+
+<p>So it was great fun to see other people&rsquo;s solutions and compare them to mine, with feelings ranging from &ldquo;mind blown&rdquo; to facepalming at an easy approach that I&rsquo;d overlooked. Over time it dawned on me that with more careful thought, I could prevent the latter.</p>
+
+<p>Case in point: for generating Pascal&rsquo;s triangle, I painstakingly built an intricate tree-like recursive triangle data structure in 84 lines, only to realize (too late) that it could be done in 8 lines with simple line-by-line iteration. 🤦‍♂️ Lesson: don&rsquo;t bury yourself in a complex solution until you&rsquo;ve spent some time thinking and exploring other possibilities.</p>
+
+<h2>3. More concise isn&rsquo;t always better</h2>
+
+<p>The cleverest and shortest Exercism solutions are generally the most popular, but I found that they are not always the best. Here is one of those top-ranked solutions:</p>
+
+<pre><code>module Grep
+  def self.grep(pattern, flags, files)
+    [].tap do |results|
+      files.each do |file|
+        File.read(file).lines.each_with_index do |line, index|
+          matcher = Regexp.new(
+            flags.include?(&quot;-x&quot;) ? &quot;^#{pattern}$&quot; : pattern,
+            (Regexp::IGNORECASE if flags.include?(&quot;-i&quot;)))
+          next unless line.match?(matcher) ^ flags.include?(&quot;-v&quot;)
+          break results &lt;&lt; file if flags.include?(&quot;-l&quot;)
+          results &lt;&lt; [
+            (&quot;#{file}:&quot; unless files.one?),
+            (&quot;#{index.succ}:&quot; if flags.include?(&quot;-n&quot;)),
+            line.rstrip].join
+        end
+      end
+    end.join(&quot;\n&quot;)
+  end
+end
+</code></pre>
+
+<p>The module and method name give a general idea of what it&rsquo;s for, but to know anything beyond that requires wading into a quagmire of code. This solution is three times shorter than the runners-up; it is undoubtedly concise. But it is not elegant, nor is it maintanable or extensible. <a href="https://exercism.io/tracks/ruby/exercises/grep/solutions/9a28202cc3414e1faa8a36a6b2f1028e">Here</a> is the solution that I picked as the best.</p>
+
+<h2>4. More optimized isn&rsquo;t always better</h2>
+
+<p>The same holds true for optimized code. Below is another top-ranked solution. It calculates coin change, finding the fewest coins that total a given amount of money (<code>target</code>), using a given list of coin values (<code>coins</code>). (The runner-up solutions are not so concise, but this time they&rsquo;re equally difficult to understand since their algorithms are only more sprawling.)</p>
+
+<pre><code>def self.generate(coins, target)
+  best = Array.new(target + 1)
+  best[0] = []
+
+  # Doing larger coins first results in fewer array writes,
+  # compared to doing smaller coins first.
+  # Both ways give the same answer, though.
+  coins.sort.reverse.each { |coin|
+    (coin..target).each { |subtarget|
+      next unless (best_without = best[subtarget - coin])
+      # Lol &amp;.&lt;=
+      # But it's necessary to avoid constructing [coin] + best_without when unnecessary.
+      next if best[subtarget]&amp;.size &amp;.&lt;= best_without.size + 1
+      best[subtarget] = [coin] + best_without
+    }
+  }
+
+  best[target]&amp;.sort or raise ImpossibleCombinationError.new(target)
+end
+</code></pre>
+
+<p>Even with the comments, that&rsquo;s not easy to follow. We can take a simpler approach using Ruby&rsquo;s built-in array operations. Here&rsquo;s my solution:</p>
+
+<pre><code>def self.generate(coins, target)
+  largest_to_smallest = coins.reverse
+  (1..Float::INFINITY).each do |count|
+    raise ImpossibleCombinationError if count &gt; target / coins.min
+    largest_to_smallest.repeated_combination(count) do |combo|
+      return combo.sort if combo.sum == target
+    end
+  end
+end
+</code></pre>
+
+<p>My algorithm is not quite as efficient, but there is no perceptible speed difference with the necessarily small input. (There will never be more than a few possible coin values, and the target amount will never be many times more than the largest coin.) So in this case, simplicity wins over efficiency.</p>
+
+<h2>5. Ruby&rsquo;s collections and blocks!!</h2>
+
+<p>The last snippet above is also a good example of the elegant solutions that arise out of Ruby&rsquo;s rich collections library and its powerful block-based iterators. Before this month of hands-on practice, I didn&rsquo;t understand what was so special about Ruby, and I was frankly annoyed at how Ruby provides so many different ways of doing the same thing. But now, after being impressed over and over by super-elegant Ruby code, I&rsquo;ve fallen in love. ❤️</p>
+
+<h2>Even more is coming in Exercism v3</h2>
+
+<p>Definitely give Exercism a try if you&rsquo;re learning Ruby or <a href="https://exercism.io/my/tracks">any of these 51 other languages</a>. And stay tuned, because the good folks who run Exercism are hard at work on <a href="https://www.youtube.com/watch?v=XiV_vYn1Ea8">a new version</a> that will have even more material and a better mentoring system. (That&rsquo;s another amazing thing about Exercism that I haven&rsquo;t mentioned: you can get personalized feedback from mentors, for free! Faith in humanity, restored.)</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Ruby practice with Exercism https://fpsvogel.netlify.app/posts/2020-11-03-exercism-ruby.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
