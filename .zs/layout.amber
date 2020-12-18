@@ -57,5 +57,5 @@ html
 				li.copyright
 					&copy; 2020
 					a[href="/about.html"] Felipe Vogel
-					| except for the jokes. They're from
+					| except for the owl's jokes. They're from
 					a[href="/http://www.devtopics.com/best-programming-jokes/"] here.

@@ -4,7 +4,7 @@ subtitle: What I learned
 
 I've just reached the end of 36 days of Ruby coding exercises with [Exercism](https://exercism.io/tracks/ruby). Here's some of what I learned.
 
-## 1. Learn from others' work, then refactor
+## 1. Learn from the work of others, then refactor
 
 The great thing about Exercism is that once you've solved an exercise, you can see other people's solutions (ranked by popularity), then rework and resubmit your own.
 

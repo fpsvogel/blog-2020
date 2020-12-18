@@ -42,6 +42,3 @@ html
 		p
 			| Hey there. I'm just a guy learning how to program. In another life I was a teacher and
 			a[href="https://fps-vogel.github.io/lectiohumana/"] Latinist.
-		p
-			| The owl's jokes
-			a[href="http://www.devtopics.com/best-programming-jokes/"] aren't mine.
