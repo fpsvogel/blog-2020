@@ -85,7 +85,7 @@ In any case, the important point is to *think in terms of a pipeline* to see whe
 
 ## 2. … through functions
 
-These pipelines are based on functions, which in Ruby means *callable objects*. Here are some examples, starting with the first function above.
+These pipelines are based on functions, which in Ruby means *callable objects*. Here are some examples, the first of which uses a pipeline of its own.
 
 In `load_library.rb`:
 
@@ -103,15 +103,45 @@ In `load_library.rb`:
       end
 
       class ReadSections
-        ...  #call and helper methods
+        def call(path)
+          # ...
+        end
       end
 
       class ReadLines
-        ...  #call and helper methods
+        def call(sections)
+          # ...
+        end
+      end
+    end
+
+In `item.rb`:
+
+    module ReadStat
+      class Item
+        def self.call(parsed_lines, &err_block)
+          # create an array of Items from parsed_lines
+        end
+
+        # ...
+      end
+    end
+
+In `library.rb`:
+
+    module ReadStat
+      class Library
+        def initialize(items)
+          @items = items
+        end
+
+        # ...
       end
     end
 
 Again, a pipeline helps to break down a task into simpler parts: "To load the library, take a given file path, then read its major sections (e.g. *currently reading*, *done reading*, and *want to read*), then parse each section's lines into item data, use that data to make a bunch of Item objects, then throw those into a new Library object. Pass along the error handling process to Item creation (since some missing Item fields should only generate warnings and not fatal errors)."
+
+**NOTE:** The way I've redefined the `>>` operator, there is a chain of precedence for what the operator does to the object after it: `FunctClass.call` or (if that's not defined) `FunctClass.new.call` or (if that's not defined) `FunctClass.new` or (if it's not a class) `funct_obj.call`, in each case passing in the previous item(s) in the pipe.
 
 ## 3. Avoid state mutation
 

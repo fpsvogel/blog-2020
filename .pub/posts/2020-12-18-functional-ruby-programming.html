@@ -148,7 +148,7 @@ end
 
 <h2>2. … through functions</h2>
 
-<p>These pipelines are based on functions, which in Ruby means <em>callable objects</em>. Here are some examples, starting with the first function above.</p>
+<p>These pipelines are based on functions, which in Ruby means <em>callable objects</em>. Here are some examples, the first of which uses a pipeline of its own.</p>
 
 <p>In <code>load_library.rb</code>:</p>
 
@@ -166,16 +166,48 @@ end
   end
 
   class ReadSections
-    ...  #call and helper methods
+    def call(path)
+      # ...
+    end
   end
 
   class ReadLines
-    ...  #call and helper methods
+    def call(sections)
+      # ...
+    end
+  end
+end
+</code></pre>
+
+<p>In <code>item.rb</code>:</p>
+
+<pre><code>module ReadStat
+  class Item
+    def self.call(parsed_lines, &amp;err_block)
+      # create an array of Items from parsed_lines
+    end
+
+    # ...
+  end
+end
+</code></pre>
+
+<p>In <code>library.rb</code>:</p>
+
+<pre><code>module ReadStat
+  class Library
+    def initialize(items)
+      @items = items
+    end
+
+    # ...
   end
 end
 </code></pre>
 
 <p>Again, a pipeline helps to break down a task into simpler parts: &ldquo;To load the library, take a given file path, then read its major sections (e.g. <em>currently reading</em>, <em>done reading</em>, and <em>want to read</em>), then parse each section&rsquo;s lines into item data, use that data to make a bunch of Item objects, then throw those into a new Library object. Pass along the error handling process to Item creation (since some missing Item fields should only generate warnings and not fatal errors).&rdquo;</p>
+
+<p><strong>NOTE:</strong> The way I&rsquo;ve redefined the <code>&gt;&gt;</code> operator, there is a chain of precedence for what the operator does to the object after it: <code>FunctClass.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new</code> or (if it&rsquo;s not a class) <code>funct_obj.call</code>, in each case passing in the previous item(s) in the pipe.</p>
 
 <h2>3. Avoid state mutation</h2>
 
