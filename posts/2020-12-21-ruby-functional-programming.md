@@ -16,7 +16,7 @@ Here's what I learned:
 
 So what are these techniques? Here are three that are already improving my code.
 
-**DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). I'm already using several dry-rb gems, helped along by [Piotr Solnica's dry-rb tutorials](https://www.youtube.com/playlist?list=PLqvlCCuOUZMQAuM6KJk_sWQnZXG00Su1_). However, I'm not using the entire dry-rb approach because (1) I don't know if it's worthwhile in a small project like mine, and (2) I don't have good grasp of it all. In their docs they recommend that if it's confusing, then go learn Haskell and it will make sense. So I will do that, but until then here are some more accessible concepts from functional programming.
+**DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). I'm already using a few dry-rb gems, helped along by [Piotr Solnica's dry-rb tutorials](https://www.youtube.com/playlist?list=PLqvlCCuOUZMQAuM6KJk_sWQnZXG00Su1_), but I'm saving most of it for later, when I've gained more experience and/or learned Haskell in order to become Enlightened.
 
 **ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either [via DM](https://www.reddit.com/message/compose/?to=fps-vogel) or by [raising an issue](https://github.com/fps-vogel/pipeful/issues).
 
