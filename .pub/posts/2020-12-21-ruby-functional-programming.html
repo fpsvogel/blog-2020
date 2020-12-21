@@ -57,7 +57,7 @@
 		<article>
 			<h1>Beginning functional programming in Ruby</h1>
 			<div class="posttop-subtitle">Pipelines, callable objects, and other tools for cleaner code</div>
-			<div class="posttop-date">2020-12-18</div>
+			<div class="posttop-date">2020-12-21</div>
 			<p>Until recently, I had a vague notion of functional programming as Ph.D.-level math embodied in code that is only useful for theoretical problems. On a clear day, I could almost catch a glimpse of it way up in the clouds, surrounded by a halo of theorems, undisturbed by the nitty-gritty, impure real world below. Then I watched these talks:</p>
 
 <ul>
@@ -76,27 +76,27 @@
 
 <p>So what are these techniques? Here are three that are already improving my code.</p>
 
-<p><strong>DISCLAIMER:</strong> These efforts of mine are <em>functional lite</em> or <em>baby functional</em>. For a more comprehensive approach, see <a href="https://dry-rb.org/">dry-rb</a>. The reason I&rsquo;m doing my own thing for now is that I don&rsquo;t understand all the functional paraphernalia, and I&rsquo;m guessing I have yet to experience the problems that make them useful. In the dry-rb docs I found a good piece of advice: if it&rsquo;s confusing, learn a functional language such as Haskell and then come back and it will make sense. So I&rsquo;ll do that sometime, but here is the low-hanging functional fruit that I&rsquo;m already picking.</p>
+<p><strong>DISCLAIMER:</strong> These efforts of mine are <em>functional lite</em> or <em>baby functional</em>. For a more comprehensive approach, see <a href="https://dry-rb.org/">dry-rb</a>. I&rsquo;m already using several dry-rb gems, helped along by <a href="https://www.youtube.com/playlist?list=PLqvlCCuOUZMQAuM6KJk_sWQnZXG00Su1_">Piotr Solnica&rsquo;s dry-rb tutorials</a>. However, I&rsquo;m not using the entire dry-rb approach because (1) I don&rsquo;t know if it&rsquo;s worthwhile in a small project like mine, and (2) I don&rsquo;t have good grasp of it all. In their docs they recommend that if it&rsquo;s confusing, then go learn Haskell and it will make sense. So I will do that, but until then here are some more accessible concepts from functional programming.</p>
 
-<p><strong>ANOTHER DISCLAIMER:</strong> I&rsquo;m new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right alongside you. In the meantime, <a href="https://www.reddit.com/message/compose/?to=fps-vogel">please let me know</a> of anything that can be improved.</p>
+<p><strong>ANOTHER DISCLAIMER:</strong> I&rsquo;m new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either <a href="https://www.reddit.com/message/compose/?to=fps-vogel">via DM</a> or by <a href="https://github.com/fps-vogel/pipeful/issues">raising an issue</a>.</p>
 
 <h2>1. Pipe data …</h2>
 
-<p>Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, <code>piper.rb</code> redefines the <code>&gt;&gt;</code> operator (and the forward proc composition operator is changed from <code>&gt;&gt;</code> to <code>+</code>, and Integer right shift from <code>&gt;&gt;</code> to <code>#rshift</code>). The fact that it&rsquo;s so easy to do this is one of the many reasons I love Ruby. ❤️</p>
+<p>Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I&rsquo;ve created <a href="https://github.com/fps-vogel/pipeful">the Pipeful gem</a> which redefines the <code>&gt;&gt;</code> operator and equips Array with a unary <code>+</code> operator to convert it to pipe arguments. The fact that it&rsquo;s so easy to do this is one of the many reasons I love Ruby. ❤️</p>
 
-<pre><code>require_relative &quot;piper&quot;
+<pre><code>require &quot;pipeful&quot;
 require_relative &quot;errors&quot;
-# ... requires for the function classes LoadLibrary, etc.
+# ... requires for the function classes below: LoadLibrary, etc.
 
 module ReadStat
-  extend Piper
+  extend Pipeful
 
   @err_block = -&gt;(err) { err.show }
 
   'C:\read_test.csv' &gt;&gt;
     LoadLibrary(&amp;@err_block) &gt;&gt;
-    EachInput do |lib, input|
-      +[lib, input] &gt;&gt;
+    EachInput do |input, lib|
+      +[input, lib] &gt;&gt;
         Command &gt;&gt;
         ShowOutput
     rescue InputError =&gt; e; @err_block.call(e)
@@ -105,13 +105,9 @@ rescue AppError =&gt; e; @err_block.call(e)
 end
 </code></pre>
 
-<p>In other words, &ldquo;Take this file path, load the library from there, then for each user input, take the input and library and run a command based on them, then output the results. Handle errors by showing them to the user. After input errors, keep asking for input. After bigger app errors, end execution. Errors during library loading will be handled there.&rdquo;</p>
+<p>In other words, &ldquo;Take this file path, load the library from there, then for each user input, take the input and library and run a command based on them, then output the results. Handle errors by showing them to the user. After input errors, keep asking for input. After more serious app errors, end execution. Errors during library loading will be handled there.&rdquo;</p>
 
-<p><strong>NOTE:</strong> The <code>+</code> operator before an array converts it to piped arguments. The syntax where a block appears after the function class name is achieved through <code>method_missing</code>.</p>
-
-<p><strong>DIGRESSION ABOUT EXCEPTIONS:</strong> Yes, I know exceptions are poor functional form. <em>Functional lite</em>, remember? For my purposes, it seems sufficient to use a combination of exceptions and <code>nil</code> representing failure. (The safe navigation operator <code>a&amp;.b</code> and <a href="https://apidock.com/rails/Object/presence"><code>Object#presence</code></a> make it a lot easier to work with <code>nil</code>.) So right now the added complexity of <a href="https://dry-rb.org/gems/dry-monads/1.3/">monads</a> or the <a href="https://avdi.codes/null-objects-and-falsiness/">null object pattern</a> doesn&rsquo;t seem justified. But again, maybe I just need to go learn Haskell and then I&rsquo;ll understand.</p>
-
-<p>Anyway, this is the vanilla-Ruby equivalent of my monkey-patched code above. First, with regular, non-pipeline calls (and here I use the <code>.()</code> shortcut for <code>.call()</code>):</p>
+<p>This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls (and here I use the <code>.()</code> shortcut for <code>.call()</code>):</p>
 
 <pre><code>module ReadStat
   @err_block = -&gt;(err) { err.show }
@@ -142,7 +138,7 @@ rescue AppError =&gt; e; @err_block.(e)
 end
 </code></pre>
 
-<p>This <em>does</em> follow the same flow as my monkey-patched pipeline. But it&rsquo;s kind of a mess.</p>
+<p>This <em>does</em> follow the same flow as my monkey-patched pipeline. But it looks like a mess, and that is why I made the Pipeful gem.</p>
 
 <p>In any case, the important point is to <em>think in terms of a pipeline</em> to see where it could simplify your design.</p>
 
@@ -154,7 +150,7 @@ end
 
 <pre><code>module ReadStat
   class LoadLibrary
-    include Piper
+    include Pipeful
 
     def call(path, &amp;err_block)
       path &gt;&gt;
@@ -183,11 +179,13 @@ end
 
 <pre><code>module ReadStat
   class Item
+    # ...
+
     def self.call(parsed_lines, &amp;err_block)
       # create an array of Items from parsed_lines
     end
 
-    # ...
+    # initialize and other methods ...
   end
 end
 </code></pre>
@@ -196,6 +194,8 @@ end
 
 <pre><code>module ReadStat
   class Library
+    # ...
+
     def initialize(items)
       @items = items
     end
@@ -207,13 +207,13 @@ end
 
 <p>Again, a pipeline helps to break down a task into simpler parts: &ldquo;To load the library, take a given file path, then read its major sections (e.g. <em>currently reading</em>, <em>done reading</em>, and <em>want to read</em>), then parse each section&rsquo;s lines into item data, use that data to make a bunch of Item objects, then throw those into a new Library object. Pass along the error handling process to Item creation (since some missing Item fields should only generate warnings and not fatal errors).&rdquo;</p>
 
-<p><strong>NOTE:</strong> The way I&rsquo;ve redefined the <code>&gt;&gt;</code> operator, there is a chain of precedence for what the operator does to the object after it: <code>FunctClass.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new</code> or (if it&rsquo;s not a class) <code>funct_obj.call</code>, in each case passing in the previous item(s) in the pipe.</p>
+<p><strong>NOTE:</strong> The way I&rsquo;ve redefined the <code>&gt;&gt;</code> operator, there is a chain of precedence for what the operator does with the object after it: <code>FunctClass.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new</code>, in each case passing in the data from the pipe as arguments.</p>
 
 <h2>3. Avoid state mutation</h2>
 
 <p>The talks linked earlier do a good job of explaining why an object&rsquo;s state should be immutable wherever possible: if an object&rsquo;s state can be changed, then you can never be sure that its state is what you think it is. And thus bugs are born.</p>
 
-<p>Whenever an object <em>does</em> need to be modified, you can often get around it by following Solnica&rsquo;s advice in the first video above: instead of changing the object&rsquo;s state, add a <code>with</code> method which returns a new object with the desired state.</p>
+<p>Whenever an object <em>does</em> need to be modified, you can often get around it by following Piotr Solnica&rsquo;s advice in the first video above: instead of changing the object&rsquo;s state, add a <code>with</code> method which returns a new object with the desired state.</p>
 
 <p>Here&rsquo;s an example. For certain reading statistics, it is necessary to split an Item into smaller one-month parts: for example, calculating the average amount read per day in a given month. If an Item spans multiple months, only the part within the desired month(s) will be counted.</p>
 
@@ -352,7 +352,7 @@ end
 						<i class="fas fa-chevron-up"></i>
 					</a>
 				</li>
-				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Beginning functional programming in Ruby https://fpsvogel.netlify.app/posts/2020-12-18-functional-ruby-programming.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Beginning functional programming in Ruby https://fpsvogel.netlify.app/posts/2020-12-21-ruby-functional-programming.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
 				<li class="flexpad-footer"></li>
 				<li class="copyright">
 					&copy; 2020

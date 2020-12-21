@@ -16,27 +16,27 @@ Here's what I learned:
 
 So what are these techniques? Here are three that are already improving my code.
 
-**DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). The reason I'm doing my own thing for now is that I don't understand all the functional paraphernalia, and I'm guessing I have yet to experience the problems that make them useful. In the dry-rb docs I found a good piece of advice: if it's confusing, learn a functional language such as Haskell and then come back and it will make sense. So I'll do that sometime, but here is the low-hanging functional fruit that I'm already picking.
+**DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). I'm already using several dry-rb gems, helped along by [Piotr Solnica's dry-rb tutorials](https://www.youtube.com/playlist?list=PLqvlCCuOUZMQAuM6KJk_sWQnZXG00Su1_). However, I'm not using the entire dry-rb approach because (1) I don't know if it's worthwhile in a small project like mine, and (2) I don't have good grasp of it all. In their docs they recommend that if it's confusing, then go learn Haskell and it will make sense. So I will do that, but until then here are some more accessible concepts from functional programming.
 
-**ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right alongside you. In the meantime, [please let me know](https://www.reddit.com/message/compose/?to=fps-vogel) of anything that can be improved.
+**ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either [via DM](https://www.reddit.com/message/compose/?to=fps-vogel) or by [raising an issue](https://github.com/fps-vogel/pipeful/issues).
 
 ## 1. Pipe data …
 
-Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, `piper.rb` redefines the `>>` operator (and the forward proc composition operator is changed from `>>` to `+`, and Integer right shift from `>>` to `#rshift`). The fact that it's so easy to do this is one of the many reasons I love Ruby. ❤️
+Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I've created [the Pipeful gem](https://github.com/fps-vogel/pipeful) which redefines the `>>` operator and equips Array with a unary `+` operator to convert it to pipe arguments. The fact that it's so easy to do this is one of the many reasons I love Ruby. ❤️
 
-    require_relative "piper"
+    require "pipeful"
     require_relative "errors"
-    # ... requires for the function classes LoadLibrary, etc.
+    # ... requires for the function classes below: LoadLibrary, etc.
 
     module ReadStat
-      extend Piper
+      extend Pipeful
 
       @err_block = ->(err) { err.show }
 
       'C:\read_test.csv' >>
         LoadLibrary(&@err_block) >>
-        EachInput do |lib, input|
-          +[lib, input] >>
+        EachInput do |input, lib|
+          +[input, lib] >>
             Command >>
             ShowOutput
         rescue InputError => e; @err_block.call(e)
@@ -44,13 +44,9 @@ Thinking in terms of a data pipeline can be immensely clarifying. Here is the ou
     rescue AppError => e; @err_block.call(e)
     end
 
-In other words, "Take this file path, load the library from there, then for each user input, take the input and library and run a command based on them, then output the results. Handle errors by showing them to the user. After input errors, keep asking for input. After bigger app errors, end execution. Errors during library loading will be handled there."
+In other words, "Take this file path, load the library from there, then for each user input, take the input and library and run a command based on them, then output the results. Handle errors by showing them to the user. After input errors, keep asking for input. After more serious app errors, end execution. Errors during library loading will be handled there."
 
-**NOTE:** The `+` operator before an array converts it to piped arguments. The syntax where a block appears after the function class name is achieved through `method_missing`.
-
-**DIGRESSION ABOUT EXCEPTIONS:** Yes, I know exceptions are poor functional form. *Functional lite*, remember? For my purposes, it seems sufficient to use a combination of exceptions and `nil` representing failure. (The safe navigation operator `a&.b` and [`Object#presence`](https://apidock.com/rails/Object/presence) make it a lot easier to work with `nil`.) So right now the added complexity of [monads](https://dry-rb.org/gems/dry-monads/1.3/) or the [null object pattern](https://avdi.codes/null-objects-and-falsiness/) doesn't seem justified. But again, maybe I just need to go learn Haskell and then I'll understand.
-
-Anyway, this is the vanilla-Ruby equivalent of my monkey-patched code above. First, with regular, non-pipeline calls (and here I use the `.()` shortcut for `.call()`):
+This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls (and here I use the `.()` shortcut for `.call()`):
 
     module ReadStat
       @err_block = ->(err) { err.show }
@@ -79,7 +75,7 @@ That's a bit confusing, with parts that seem backward. We can properly order the
     rescue AppError => e; @err_block.(e)
     end
 
-This *does* follow the same flow as my monkey-patched pipeline. But it's kind of a mess.
+This *does* follow the same flow as my monkey-patched pipeline. But it looks like a mess, and that is why I made the Pipeful gem.
 
 In any case, the important point is to *think in terms of a pipeline* to see where it could simplify your design.
 
@@ -91,7 +87,7 @@ In `load_library.rb`:
 
     module ReadStat
       class LoadLibrary
-        include Piper
+        include Pipeful
 
         def call(path, &err_block)
           path >>
@@ -119,11 +115,13 @@ In `item.rb`:
 
     module ReadStat
       class Item
+        # ...
+
         def self.call(parsed_lines, &err_block)
           # create an array of Items from parsed_lines
         end
 
-        # ...
+        # initialize and other methods ...
       end
     end
 
@@ -131,6 +129,8 @@ In `library.rb`:
 
     module ReadStat
       class Library
+        # ...
+
         def initialize(items)
           @items = items
         end
@@ -141,13 +141,13 @@ In `library.rb`:
 
 Again, a pipeline helps to break down a task into simpler parts: "To load the library, take a given file path, then read its major sections (e.g. *currently reading*, *done reading*, and *want to read*), then parse each section's lines into item data, use that data to make a bunch of Item objects, then throw those into a new Library object. Pass along the error handling process to Item creation (since some missing Item fields should only generate warnings and not fatal errors)."
 
-**NOTE:** The way I've redefined the `>>` operator, there is a chain of precedence for what the operator does to the object after it: `FunctClass.call` or (if that's not defined) `FunctClass.new.call` or (if that's not defined) `FunctClass.new` or (if it's not a class) `funct_obj.call`, in each case passing in the previous item(s) in the pipe.
+**NOTE:** The way I've redefined the `>>` operator, there is a chain of precedence for what the operator does with the object after it: `FunctClass.call` or (if that's not defined) `FunctClass.new.call` or (if that's not defined) `FunctClass.new`, in each case passing in the data from the pipe as arguments.
 
 ## 3. Avoid state mutation
 
 The talks linked earlier do a good job of explaining why an object's state should be immutable wherever possible: if an object's state can be changed, then you can never be sure that its state is what you think it is. And thus bugs are born.
 
-Whenever an object *does* need to be modified, you can often get around it by following Solnica's advice in the first video above: instead of changing the object's state, add a `with` method which returns a new object with the desired state.
+Whenever an object *does* need to be modified, you can often get around it by following Piotr Solnica's advice in the first video above: instead of changing the object's state, add a `with` method which returns a new object with the desired state.
 
 Here's an example. For certain reading statistics, it is necessary to split an Item into smaller one-month parts: for example, calculating the average amount read per day in a given month. If an Item spans multiple months, only the part within the desired month(s) will be counted.
 
