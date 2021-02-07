@@ -32,13 +32,13 @@ html
 								i.fas.fa-address-card
 							div.nav-text About
 					li.nav-button.active
-						a[href="https://twitter.com/fpsvogel"]
-							i.fab.fa-twitter
+            a[href="https://ruby.social/@fpsvogel"]
+							i.fab.fa-mastodon
 					li.nav-button.active
-						a[href="https://github.com/fps-vogel"]
+						a[href="https://github.com/vogel"]
 							i.fab.fa-github
 
 		h1 About me:
 		p
 			| Hey there. I'm just a guy learning how to program. In another life I was a teacher and
-			a[href="https://fps-vogel.github.io/lectiohumana/"] Latinist.
+			a[href="https://fpsvogel.github.io/lectiohumana/"] Latinist.

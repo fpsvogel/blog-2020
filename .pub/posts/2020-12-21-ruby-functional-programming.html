@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Beginning functional programming in Ruby</title>
+		<title>Functional programming techniques in Ruby</title>
 		<meta content="Felipe Vogel" name="author" />
 		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
 		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
@@ -55,7 +55,7 @@
 			</div>
 		</header>
 		<article>
-			<h1>Beginning functional programming in Ruby</h1>
+			<h1>Functional programming techniques in Ruby</h1>
 			<div class="posttop-subtitle">Pipelines, callable objects, and other tools for cleaner code</div>
 			<div class="posttop-date">2020-12-21</div>
 			<p>Until recently, I had a vague notion of functional programming as Ph.D.-level math embodied in code that is only useful for theoretical problems. On a clear day, I could almost catch a glimpse of it way up in the clouds, surrounded by a halo of theorems, undisturbed by the nitty-gritty, impure real world below. Then I watched these talks:</p>
@@ -76,7 +76,7 @@
 
 <p>So what are these techniques? Here are three that are already improving my code.</p>
 
-<p><strong>DISCLAIMER:</strong> These efforts of mine are <em>functional lite</em> or <em>baby functional</em>. For a more comprehensive approach, see <a href="https://dry-rb.org/">dry-rb</a>. I&rsquo;m already using a few dry-rb gems, helped along by <a href="https://www.youtube.com/playlist?list=PLqvlCCuOUZMQAuM6KJk_sWQnZXG00Su1_">Piotr Solnica&rsquo;s dry-rb tutorials</a>, but I&rsquo;m saving most of it for later, when I&rsquo;ve gained more experience and/or learned Haskell in order to become Enlightened.</p>
+<p><strong>DISCLAIMER:</strong> These efforts of mine are <em>functional lite</em> or <em>baby functional</em>. For a more comprehensive approach, see <a href="https://dry-rb.org/">dry-rb</a>. But be careful not to go overboard with functional programming in Ruby. In the words of Avdi Grimm, &ldquo;Functional programming ideas about preferring immutability and isolating interactions with the outside world can help us avoid the worst pitfalls of procedural and object-oriented coding. But trying to program in a <em>&lsquo;fully FP&rsquo;</em> style in Ruby can be like paddling a kayak with a canoe paddle. Upstream. […] Your best bet for effective development is to learn to &lsquo;code with the grain&rsquo; [of the language you&rsquo;re using]. And when you get right down to it, Ruby&rsquo;s grain is object-oriented.&rdquo; (<a href="https://github.com/yct21/observatory/issues/93#issuecomment-347175199">source</a>)</p>
 
 <p><strong>ANOTHER DISCLAIMER:</strong> I&rsquo;m new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either <a href="https://www.reddit.com/message/compose/?to=fps-vogel">via DM</a> or by <a href="https://github.com/fps-vogel/pipeful/issues">raising an issue</a>.</p>
 
@@ -222,7 +222,8 @@ end
 <pre><code>def split_months
   monthly_items = []
   monthly_items &lt;&lt; shift_month while multi_month?
-  monthly_items &lt;&lt; self           # SELF HAS BEEN MUTATED! 😱
+  # SELF HAS BEEN MUTATED! 😱
+  monthly_items &lt;&lt; self
 end
 
 # necessary for #dup to work properly
@@ -246,8 +247,10 @@ def shift_month
   separated.length = length *
     ((end_of_month - date_started).to_f + 1) /
     ((date_finished - date_started).to_f + 1)
-  self.length = length - separated.length       # SELF IS MUTATED! 😱
-  set_dates(end_of_month + 1, date_finished)    # SELF IS MUTATED! 😱
+  # SELF IS MUTATED! 😱
+  self.length = length - separated.length
+  # SELF IS MUTATED! 😱
+  set_dates(end_of_month + 1, date_finished)
   separated
 end
 </code></pre>
@@ -262,7 +265,8 @@ end
   monthly_items = []
   remainder = self
   while remainder.multi_month?
-    first_month, remainder = remainder.partition_at_first_month  # NO MUTATION 👍
+    # NO MUTATION 👍
+    first_month, remainder = remainder.partition_at_first_month
     monthly_items &lt;&lt; first_month
   end
   monthly_items &lt;&lt; remainder
@@ -282,9 +286,11 @@ def partition_at_first_month
   first_length = length *
                  ((end_of_month - date_started).to_f + 1) /
                  ((date_finished - date_started).to_f + 1)
-  first = with_dates(date_started, end_of_month)            # NON-MUTATING 👍
+  # NON-MUTATING 👍
+  first = with_dates(date_started, end_of_month)
           .with_length(first_length)
-  remainder = with_dates(end_of_month + 1, date_finished)   # NON-MUTATING 👍
+  # NON-MUTATING 👍
+  remainder = with_dates(end_of_month + 1, date_finished)
               .with_length(length - first.length)
   [first, remainder]
 end
@@ -344,6 +350,10 @@ end
 
 <p>If, like me, you&rsquo;d love to learn Haskell <em>someday</em>, I hope I&rsquo;ve given you some bits of functional programming that you can apply right away. I&rsquo;m pleased with how these few simple concepts have done so much to clarify my code and (possibly) to prevent bug-induced headaches. On top of that, these functional techniques are concise and lightweight, not creeping over all of my code but ready at hand when I need to simplify a process. Not a bad first step for Baby Functional.</p>
 
+<p>P.S. If you still doubt whether functional techniques can play nice with OOP, hear the words of Sandi Metz, one of OOP&rsquo;s greatest luminaries:</p>
+
+<p><em>&ldquo;I only have a small bit of experience with functional languages, so I don&rsquo;t get to have much of an opinion. I can say, however, that immutability and no side-effects are great ideas, and that I&rsquo;ve borrowed them for my OO. My initial goal for every new object I write is that it not change, and that it not have side effects. This obviously can&rsquo;t suit every object, but I&rsquo;ve been pleasantly surprised about how much can be done under these constraints, and how much the constraints simplify code.&rdquo;</em> (<a href="https://dev.to/sandimetz/im-sandi-metz-ask-me-anything-4ff9">source</a>)</p>
+
 		</article>
 		<footer>
 			<ul class="flexrow center wrap">
@@ -352,7 +362,7 @@ end
 						<i class="fas fa-chevron-up"></i>
 					</a>
 				</li>
-				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Beginning functional programming in Ruby https://fpsvogel.netlify.app/posts/2020-12-21-ruby-functional-programming.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Functional programming techniques in Ruby https://fpsvogel.netlify.app/posts/2020-12-21-ruby-functional-programming.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
 				<li class="flexpad-footer"></li>
 				<li class="copyright">
 					&copy; 2020

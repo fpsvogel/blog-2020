@@ -1,6 +1,8 @@
-title: Beginning functional programming in Ruby
+title: Functional programming techniques in Ruby
 subtitle: Pipelines, callable objects, and other tools for cleaner code
 ---
+
+**UPDATE:** I ended up not using this gem in my project, even though it was a byproduct of that project. In the end it seemed that the verbosity of plain Ruby was an acceptable price to pay for its complete clarity as to what methods are actually being called, which can be become unclear as a pipeline set up with this gem becomes more complex.
 
 Until recently, I had a vague notion of functional programming as Ph.D.-level math embodied in code that is only useful for theoretical problems. On a clear day, I could almost catch a glimpse of it way up in the clouds, surrounded by a halo of theorems, undisturbed by the nitty-gritty, impure real world below. Then I watched these talks:
 
@@ -16,13 +18,13 @@ Here's what I learned:
 
 So what are these techniques? Here are three that are already improving my code.
 
-**DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). I'm already using a few dry-rb gems, helped along by [Piotr Solnica's dry-rb tutorials](https://www.youtube.com/playlist?list=PLqvlCCuOUZMQAuM6KJk_sWQnZXG00Su1_), but I'm saving most of it for later, when I've gained more experience and/or learned Haskell in order to become Enlightened.
+**DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). But be careful not to go overboard with functional programming in Ruby. In the words of Avdi Grimm, "Functional programming ideas about preferring immutability and isolating interactions with the outside world can help us avoid the worst pitfalls of procedural and object-oriented coding. But trying to program in a *'fully FP'* style in Ruby can be like paddling a kayak with a canoe paddle. Upstream. […] Your best bet for effective development is to learn to 'code with the grain' [of the language you're using]. And when you get right down to it, Ruby's grain is object-oriented." ([source](https://github.com/yct21/observatory/issues/93#issuecomment-347175199))
 
-**ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either [via DM](https://www.reddit.com/message/compose/?to=fps-vogel) or by [raising an issue](https://github.com/fps-vogel/pipeful/issues).
+**ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either [via DM](https://www.reddit.com/message/compose/?to=vogel) or by [raising an issue](https://github.com/fpsvogel/pipeful/issues).
 
 ## 1. Pipe data …
 
-Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I've created [the Pipeful gem](https://github.com/fps-vogel/pipeful) which redefines the `>>` operator and equips Array with a unary `+` operator to convert it to pipe arguments. The fact that it's so easy to do this is one of the many reasons I love Ruby. ❤️
+Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I've created [the Pipeful gem](https://github.com/fpssvogel/pipeful) which redefines the `>>` operator and equips Array with a unary `+` operator to convert it to pipe arguments. The fact that it's so easy to do this is one of the many reasons I love Ruby. ❤️
 
     require "pipeful"
     require_relative "errors"
@@ -46,13 +48,13 @@ Thinking in terms of a data pipeline can be immensely clarifying. Here is the ou
 
 In other words, "Take this file path, load the library from there, then for each user input, take the input and library and run a command based on them, then output the results. Handle errors by showing them to the user. After input errors, keep asking for input. After more serious app errors, end execution. Errors during library loading will be handled there."
 
-This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls (and here I use the `.()` shortcut for `.call()`):
+This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls:
 
     module ReadStat
       @err_block = ->(err) { err.show }
 
-      EachInput.(LoadLibrary.('C:\read_test.csv', &@err_block)) do |input, lib|
-        ShowOutput.(Command.(input, lib))
+      EachInput.new.call(LoadLibrary.new('C:\read_test.csv').call(&@err_block)) do |input, lib|
+        ShowOutput.new.call(Command.new(input).call(lib))
         rescue InputError => e; @err_block.(e)
       end
     rescue AppError => e; @err_block.(e)
@@ -63,19 +65,18 @@ That's a bit confusing, with parts that seem backward. We can properly order the
     module ReadStat
       @err_block = ->(err) { err.show }
 
-      'C:\read_test.csv'
-        .then { |path| LoadLibrary.(path, &@err_block) }
+      LoadLibrary.new('C:\read_test.csv').call(&@err_block)
         .then do |lib|
-          EachInput.(lib) do |input, lib|
-            Command.(input, lib)
-              .then { |result| ShowOutput.(result) }
+          EachInput.new.call(lib) do |input, lib|
+            Command.new(input).call(lib)
+              .then { |result| ShowOutput.new.call(result) }
             rescue InputError => e; @err_block.(e)
           end
         end
     rescue AppError => e; @err_block.(e)
     end
 
-This *does* follow the same flow as my monkey-patched pipeline. But it looks like a mess, and that is why I made the Pipeful gem.
+This *does* follow the same flow as my monkey-patched pipeline. But it is quite verbose, and that is why I made the Pipeful gem.
 
 In any case, the important point is to *think in terms of a pipeline* to see where it could simplify your design.
 
@@ -145,6 +146,8 @@ Again, a pipeline helps to break down a task into simpler parts: "To load the li
 
 ## 3. Avoid state mutation
 
+**NOTE:** For fuller treatments of this principle, see [*Object Design Style Guide* Chapter 4](https://livebook.manning.com/book/object-design-style-guide/chapter-4) and [*Unit Testing Principles, Practices, and Patterns* Chapter 6](https://livebook.manning.com/book/unit-testing/chapter-6).
+
 The talks linked earlier do a good job of explaining why an object's state should be immutable wherever possible: if an object's state can be changed, then you can never be sure that its state is what you think it is. And thus bugs are born.
 
 Whenever an object *does* need to be modified, you can often get around it by following Piotr Solnica's advice in the first video above: instead of changing the object's state, add a `with` method which returns a new object with the desired state.
@@ -156,7 +159,8 @@ Here is a previous version, with state-mutating bits marked in comments. In the 
     def split_months
       monthly_items = []
       monthly_items << shift_month while multi_month?
-      monthly_items << self           # SELF HAS BEEN MUTATED! 😱
+      # SELF HAS BEEN MUTATED! 😱
+      monthly_items << self
     end
 
     # necessary for #dup to work properly
@@ -180,8 +184,10 @@ Here is a previous version, with state-mutating bits marked in comments. In the 
       separated.length = length *
         ((end_of_month - date_started).to_f + 1) /
         ((date_finished - date_started).to_f + 1)
-      self.length = length - separated.length       # SELF IS MUTATED! 😱
-      set_dates(end_of_month + 1, date_finished)    # SELF IS MUTATED! 😱
+      # SELF IS MUTATED! 😱
+      self.length = length - separated.length
+      # SELF IS MUTATED! 😱
+      set_dates(end_of_month + 1, date_finished)
       separated
     end
 
@@ -195,7 +201,8 @@ Here's how I've refactored the above to eliminate unexpected state mutation:
       monthly_items = []
       remainder = self
       while remainder.multi_month?
-        first_month, remainder = remainder.partition_at_first_month  # NO MUTATION 👍
+        # NO MUTATION 👍
+        first_month, remainder = remainder.partition_at_first_month
         monthly_items << first_month
       end
       monthly_items << remainder
@@ -215,9 +222,11 @@ Here's how I've refactored the above to eliminate unexpected state mutation:
       first_length = length *
                      ((end_of_month - date_started).to_f + 1) /
                      ((date_finished - date_started).to_f + 1)
-      first = with_dates(date_started, end_of_month)            # NON-MUTATING 👍
+      # NON-MUTATING 👍
+      first = with_dates(date_started, end_of_month)
               .with_length(first_length)
-      remainder = with_dates(end_of_month + 1, date_finished)   # NON-MUTATING 👍
+      # NON-MUTATING 👍
+      remainder = with_dates(end_of_month + 1, date_finished)
                   .with_length(length - first.length)
       [first, remainder]
     end
@@ -273,3 +282,7 @@ And here is how state is defined, extracted, and set (not including validations)
 ## Conclusion
 
 If, like me, you'd love to learn Haskell *someday*, I hope I've given you some bits of functional programming that you can apply right away. I'm pleased with how these few simple concepts have done so much to clarify my code and (possibly) to prevent bug-induced headaches. On top of that, these functional techniques are concise and lightweight, not creeping over all of my code but ready at hand when I need to simplify a process. Not a bad first step for Baby Functional.
+
+P.S. If you still doubt whether functional techniques can play nice with OOP, hear the words of Sandi Metz, one of OOP's greatest luminaries:
+
+*"I only have a small bit of experience with functional languages, so I don't get to have much of an opinion. I can say, however, that immutability and no side-effects are great ideas, and that I've borrowed them for my OO. My initial goal for every new object I write is that it not change, and that it not have side effects. This obviously can't suit every object, but I've been pleasantly surprised about how much can be done under these constraints, and how much the constraints simplify code."* ([source](https://dev.to/sandimetz/im-sandi-metz-ask-me-anything-4ff9))
