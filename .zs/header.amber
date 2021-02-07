@@ -33,7 +33,7 @@ html
 								i.fas.fa-address-card
 							div.nav-text About
 					li.nav-button.active
-            a[href="https://ruby.social/@fpsvogel"]
+						a[href="https://ruby.social/@fpsvogel"]
 							i.fab.fa-mastodon
 					li.nav-button.active
 						a[href="https://github.com/fpsvogel"]
