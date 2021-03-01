@@ -53,4 +53,4 @@ If you're a keyboard junkie, surely you don't want to muck around with a context
 
 For executing commands with elevated privileges, I like using [gsudo](https://github.com/gerardog/gsudo) from within a regular (non-admin) terminal. If you really want a separate hotkey to open the terminal as administrator, you'll need to [choose from a few workarounds](https://stackoverflow.com/a/62542633/4158773).
 
-And with that, my friends, you have a respectable terminal even in Windows. Coming up next: supercharge your keyboard (and your mouse!) with AutoHotkey.
+And with that, my friends, you have a respectable terminal even in Windows. Coming up next: [supercharge your keyboard (and your mouse!) with AutoHotkey](/posts/2020-10-15-autohotkey.html).
