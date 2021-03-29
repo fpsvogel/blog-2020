@@ -312,3 +312,5 @@ Is this yet another case of [spending more time than I save](https://xkcd.com/12
 ![Galadriel saying "All shall love me!"](/assets/galadriel.gif)
 
 Well… just don't let it get to your head, that's all.
+
+For more keyboard adventures, see my more recent post [Learning Colemak](/posts/2021-03-29-learn-colemak-keyboard.html).

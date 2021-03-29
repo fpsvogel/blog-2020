@@ -1,0 +1,118 @@
+<html>
+	<head>
+		<title>Learning Colemak</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li class="nav-button active">
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-home"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://ruby.social/@fpsvogel">
+							<i class="fab fa-mastodon"></i>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://github.com/fpsvogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>Learning Colemak</h1>
+			<div class="posttop-subtitle">Typing less painfully, Part 1</div>
+			<div class="posttop-date">2021-03-29</div>
+			<p>Recently I switched to the <a href="https://colemakmods.github.io/mod-dh/">Colemak-DH</a> keyboard layout. Here I will describe that adventure: why and how I did it, and how it has turned out.</p>
+
+<p>My reasons were twofold: (1) I want to avoid wrist injury, and (2) I have been increasingly annoyed at how much I twist and turn my hands with QWERTY. So I took the plunge.</p>
+
+<h2>1. Choosing an alternative layout</h2>
+
+<p>If you only know a little about keyboard layouts (like I did), you may have heard of the alternative layouts Colemak and Dvorak. You may have gotten the impression that Colemak is a QWERTY-like compromise for weenies who are too scared to commit the completely un-QWERTY-like (and therefore superior) Dvorak.</p>
+
+<p>But after some research, I saw that this is false. Colemak is better than Dvorak according to many measures. For example, notice how much more even Colemak looks in their key frequency heatmaps (<a href="https://www.keybr.com/layouts">source</a>):</p>
+
+<p><strong>Dvorak:</strong></p>
+
+<p><img src="/assets/layout-heatmap-dvorak.png" alt="key frequency heatmap for dvorak keyboard layout" /></p>
+
+<p><strong>Colemak:</strong></p>
+
+<p><img src="/assets/layout-heatmap-colemak.png" alt="key frequency heatmap for colemak keyboard layout" /></p>
+
+<p>(See <a href="https://colemakmods.github.io/mod-dh/compare.html">this examination of Colemak</a> for a comparison more sophisticated than &ldquo;Look how pretty the dots are!&rdquo;)</p>
+
+<p>There are lots of other alternatives besides these, but none is significantly better than Colemak, and Colemak has the huge advantage that the most common shortcuts are still on the left side of the keyboard, with some in the exact same place as in QWERTY.</p>
+
+<p>In the end I chose the variant <a href="https://colemakmods.github.io/mod-dh/">Colemak-DH</a> because it incorporates an improvement from the recent Workman layout, of moving high-frequency keys out of the finger-stretching center column.</p>
+
+<h2>2. Practice!</h2>
+
+<p>After installing Colemak-DH, it was time to learn it. My favorite learning tool was <a href="https://www.typingstudy.com/en-us_colemak-3/">typingstudy.com</a>. <a href="https://www.keybr.com/">keybr.com</a> (with all keys turned on) is great too, especially for keeping track of your progress over time.</p>
+
+<p>There&rsquo;s not much else to say about this part. The first week is absolutely miserable, especially if you are good at QWERTY touch typing. Say goodbye to productivity and get ready to suck for a while.</p>
+
+<p>After three weeks, I am up to 50 words per minute, and I expect to be back to my normal speed two months from now. More importantly, I am already feeling less strain on my wrists and less frustration from finger gyrations, as my hand is more often comfortably on the home row instead of splayed out like it&rsquo;s playing Twister on hot coals while dodging bullets.</p>
+
+<h2>Up next: a new keyboard and mouse</h2>
+
+<p>An improved keyboard layout is only half the story: in my next post, I will talk about my new ergonomic keyboard.</p>
+
+<p>If you are a Colemak pro, you may be wondering why I&rsquo;ve made no mention of <a href="https://github.com/DreymaR/BigBagKbdTrixPKL">EPKL</a> and its cornucopia of extra functions through <a href="https://forum.colemak.com/topic/2014-extend-extra-extreme/">extenders</a>—undoubtedly useful, but my new keyboard makes that largely unnecessary. All that in the next post.</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Learning Colemak https://fpsvogel.netlify.app/posts/2021-03-29-learn-colemak-keyboard.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the owl's jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>

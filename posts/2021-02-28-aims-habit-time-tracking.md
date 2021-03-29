@@ -47,7 +47,7 @@ A bit further down in the file (past a list of "todo" tasks) is where the real w
 
 Let's say this is a Friday evening when I found myself with a bit of extra time, so I pulled down my weekly Latin reading into today's checklist, and then went over my goal by half an hour—Seneca is that good. Earlier today I exercised and did my daily coding. Now all that's left is math and leisure reading (of which I've already done 15 minutes earlier today). I'm trying to kick the habit of popping my knuckles, but I caught myself doing that *twice* today, so I won't be able to check that off. I emphasize (and quantify) my failure with two sad emojis. This weekend I need to call my parents and finish this blog post, and then I can call it a week well spent.
 
-Editing my daily checklist is made convenient by VS Code's [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) extension. Headings are colored, unchecked boxes are highlighted, and there is a keyboard shortcut for toggling checkboxes. Here's what it looks like:
+Editing my daily checklist is made convenient by VS Code's [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) extension. Headings are colored, a new line in a checklist is filled in with an empty checkbox, and there is a keyboard shortcut for toggling checkboxes. Also, with the [Todo Tree](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) extension, unchecked boxes are highlighted. Here's what it looks like:
 
 ![aims.md todo list in vs code markdown](/assets/aims-vscode.png)
 
