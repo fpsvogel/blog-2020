@@ -151,6 +151,11 @@ article img {
 .hover-images {
   position: relative;
   display: inline-block; }
+  .hover-images .hover-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 12%; }
   .hover-images .img-hover {
     display: none;
     position: absolute;
@@ -229,16 +234,16 @@ footer .flexrow {
   100% {
     transform: scale(0.9); } }
 
-.bird, .hover-images {
+.bird {
   animation-duration: 2s;
   animation-name: pulse;
   animation-iteration-count: infinite;
   animation-direction: alternate; }
-  .bird:hover, .hover-images:hover {
+  .bird:hover {
     animation-iteration-count: 0; }
 
 @media only screen and (max-width: 768px) {
-  .bird, .hover-images {
+  .bird {
     animation-duration: 1s; } }
 
 @media only screen and (min-width: 769px) {
@@ -272,12 +277,15 @@ footer .flexrow {
     list-style-type: circle; }
     .postlist .postlist-date {
       display: inline-block;
+      padding-left: .5rem;
       color: #a6a6a6; }
     .postlist .postlist-subtitle {
       display: none;
+      padding-left: 1.6rem;
       color: #a6a6a6;
       font-size: 1.1rem; }
     .postlist li {
+      min-height: 4rem;
       transition: all 0.1s ease-in-out; }
       .postlist li:hover {
         list-style-type: disc;
@@ -309,3 +317,73 @@ footer .flexrow {
     flex-basis: 2rem; }
   .flexpad-header-bottom {
     flex-basis: 11rem; } }
+
+/*
+
+Pojoaque Style by Jason Tate
+http://web-cms-designs.com/ftopict-10-pojoaque-style-for-highlight-js-code-highlighter.html
+Based on Solarized Style from http://ethanschoonover.com/solarized
+
+*/
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #dccf8f;
+  background: url(./pojoaque.jpg) repeat scroll left top #181914; }
+
+.hljs-comment,
+.hljs-quote {
+  color: #586e75;
+  font-style: italic; }
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-addition {
+  color: #b64926; }
+
+.hljs-number,
+.hljs-string,
+.hljs-doctag,
+.hljs-regexp {
+  color: #468966; }
+
+.hljs-title,
+.hljs-section,
+.hljs-built_in,
+.hljs-name {
+  color: #ffb03b; }
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-class .hljs-title,
+.hljs-type,
+.hljs-tag {
+  color: #b58900; }
+
+.hljs-attribute {
+  color: #b89859; }
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-subst,
+.hljs-meta {
+  color: #cb4b16; }
+
+.hljs-deletion {
+  color: #dc322f; }
+
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #d3a60c; }
+
+.hljs-formula {
+  background: #073642; }
+
+.hljs-emphasis {
+  font-style: italic; }
+
+.hljs-strong {
+  font-weight: bold; }

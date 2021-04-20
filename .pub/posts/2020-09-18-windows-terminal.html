@@ -42,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-button active">
-						<a href="https://ruby.social/@fpsvogel">
-							<i class="fab fa-mastodon"></i>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<li class="nav-button active">
@@ -58,7 +58,9 @@
 			<h1>Set up Windows Terminal shortcuts</h1>
 			<div class="posttop-subtitle">and make Windows a bit more usable</div>
 			<div class="posttop-date">2020-09-18</div>
-			<p>Today&rsquo;s productivity how-to: set up context menu shortcuts and a global hotkey for the new Windows Terminal.</p>
+			<p>*<strong>UPDATE April 2021:</strong> Disregard my rueful comments below, because development on Windows is a breeze now that I&rsquo;ve started using WSL (Windows Subsystem for Linux). It&rsquo;s <a href="https://twitter.com/fpsvogel/status/1383017405551673349">so easy to set up</a> that I regret not doing so as soon as I learned about it last year. Windows builds are now a thing of the past for me. Hallelujah!*</p>
+
+<p>Today&rsquo;s productivity how-to: set up context menu shortcuts and a global hotkey for the new Windows Terminal.</p>
 
 <p>But first, the obvious confession: I use Windows. I don&rsquo;t love Windows; it&rsquo;s just that the effort of switching has never seemed justified, when I&rsquo;d only be trading my Windows annoyances for a new set of problems that inevitably comes with any OS.</p>
 
@@ -91,19 +93,20 @@
 
 <p>If you&rsquo;re a keyboard junkie, surely you don&rsquo;t want to muck around with a context *submenu*—how plebeian! So here&rsquo;s an <a href="https://www.autohotkey.com">AutoHotkey</a> script that opens the terminal with a default starting directory, or with the current directory if an Explorer window is in focus.</p>
 
-<pre><code>#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+<pre><code class="autohotkey">
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 profile = Felipe  ; replace with your user profile name
 
-F13 &amp; r::  ; i.e. #r (LWin+R) thanks to SharpKeys
-If !(WinActive(&quot;ahk_class CabinetWClass&quot;))  ; if an Explorer window is not active
+F13 & r::  ; i.e. #r (LWin+R) thanks to SharpKeys
+If !(WinActive("ahk_class CabinetWClass"))  ; if an Explorer window is not active
   Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d C:\  ; or write in your own default directory after -d
 Else {  ; open to the current directory in Explorer
   WinGetTitle, Title, A
-  if (Title = &quot;Downloads&quot;) {
+  if (Title = "Downloads") {
     Title = C:\Users\%profile%\Downloads
   }
-  Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d &quot;%Title%&quot;
+  Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d "%Title%"
 }
 Return
 </code></pre>
@@ -112,7 +115,7 @@ Return
 
 <p>For executing commands with elevated privileges, I like using <a href="https://github.com/gerardog/gsudo">gsudo</a> from within a regular (non-admin) terminal. If you really want a separate hotkey to open the terminal as administrator, you&rsquo;ll need to <a href="https://stackoverflow.com/a/62542633/4158773">choose from a few workarounds</a>.</p>
 
-<p>And with that, my friends, you have a respectable terminal even in Windows. Coming up next: <a href="/posts/2020-10-15-autohotkey.html">supercharge your keyboard (and your mouse!) with AutoHotkey</a>.</p>
+<p>And with that, you have a respectable terminal even in Windows. Coming up next: <a href="/posts/2020-10-15-autohotkey.html">supercharge your keyboard (and your mouse!) with AutoHotkey</a>.</p>
 
 		</article>
 		<footer>

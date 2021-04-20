@@ -10,15 +10,17 @@ The great thing about Exercism is that once you've solved an exercise, you can s
 
 For example, an exercise I solved in 26 lines of code was solved by someone else in just 9 lines, thanks to their powerful and elegant use of regular expressions. (I'm not a fan compressing a whole program into a monstrous freaky regex, but this isn't like that.)
 
-    module RunLengthEncoding
-      def self.encode(str)
-        str.gsub(/(.)\1+/) { |s| "#{s.length}#{s[0]}" }
-      end
+<pre><code class="ruby">
+module RunLengthEncoding
+  def self.encode(str)
+    str.gsub(/(.)\1+/) { |s| "#{s.length}#{s[0]}" }
+  end
 
-      def self.decode(str)
-        str.gsub(/\d+./) { |s| s[-1] * s.to_i }
-      end
-    end
+  def self.decode(str)
+    str.gsub(/\d+./) { |s| s[-1] * s.to_i }
+  end
+end
+</code></pre>
 
 Whenever I found a better solution than my own, I copied it and resubmitted it as my new solution, for easier future reference. This was the outcome more often than not, casting away my little creation into the cold and dark as soon as I discovered a less blemished specimen to take its place.
 
@@ -36,25 +38,27 @@ Case in point: for generating Pascal's triangle, I painstakingly built an intric
 
 The cleverest and shortest Exercism solutions are generally the most popular, but I found that they are not always the best. Here is one of those top-ranked solutions:
 
-    module Grep
-      def self.grep(pattern, flags, files)
-        [].tap do |results|
-          files.each do |file|
-            File.read(file).lines.each_with_index do |line, index|
-              matcher = Regexp.new(
-                flags.include?("-x") ? "^#{pattern}$" : pattern,
-                (Regexp::IGNORECASE if flags.include?("-i")))
-              next unless line.match?(matcher) ^ flags.include?("-v")
-              break results << file if flags.include?("-l")
-              results << [
-                ("#{file}:" unless files.one?),
-                ("#{index.succ}:" if flags.include?("-n")),
-                line.rstrip].join
-            end
-          end
-        end.join("\n")
+<pre><code class="ruby">
+module Grep
+  def self.grep(pattern, flags, files)
+    [].tap do |results|
+      files.each do |file|
+        File.read(file).lines.each_with_index do |line, index|
+          matcher = Regexp.new(
+            flags.include?("-x") ? "^#{pattern}$" : pattern,
+            (Regexp::IGNORECASE if flags.include?("-i")))
+          next unless line.match?(matcher) ^ flags.include?("-v")
+          break results << file if flags.include?("-l")
+          results << [
+            ("#{file}:" unless files.one?),
+            ("#{index.succ}:" if flags.include?("-n")),
+            line.rstrip].join
+        end
       end
-    end
+    end.join("\n")
+  end
+end
+</code></pre>
 
 The module and method name give a general idea of what it's for, but to know anything beyond that requires wading into a quagmire of code. This solution is three times shorter than the runners-up; it is undoubtedly concise. But it is not elegant, nor is it maintanable or extensible. [Here](https://exercism.io/tracks/ruby/exercises/grep/solutions/9a28202cc3414e1faa8a36a6b2f1028e) is the solution that I picked as the best.
 
@@ -62,37 +66,41 @@ The module and method name give a general idea of what it's for, but to know any
 
 The same holds true for optimized code. Below is another top-ranked solution. It calculates coin change, finding the fewest coins that total a given amount of money (`target`), using a given list of coin values (`coins`). (The runner-up solutions are not so concise, but this time they're equally difficult to understand since their algorithms are only more sprawling.)
 
-    def self.generate(coins, target)
-      best = Array.new(target + 1)
-      best[0] = []
+<pre><code class="ruby">
+def self.generate(coins, target)
+  best = Array.new(target + 1)
+  best[0] = []
 
-      # Doing larger coins first results in fewer array writes,
-      # compared to doing smaller coins first.
-      # Both ways give the same answer, though.
-      coins.sort.reverse.each { |coin|
-        (coin..target).each { |subtarget|
-          next unless (best_without = best[subtarget - coin])
-          # Lol &.<=
-          # But it's necessary to avoid constructing [coin] + best_without when unnecessary.
-          next if best[subtarget]&.size &.<= best_without.size + 1
-          best[subtarget] = [coin] + best_without
-        }
-      }
+  # Doing larger coins first results in fewer array writes,
+  # compared to doing smaller coins first.
+  # Both ways give the same answer, though.
+  coins.sort.reverse.each { |coin|
+    (coin..target).each { |subtarget|
+      next unless (best_without = best[subtarget - coin])
+      # Lol &.<=
+      # But it's necessary to avoid constructing [coin] + best_without when unnecessary.
+      next if best[subtarget]&.size &.<= best_without.size + 1
+      best[subtarget] = [coin] + best_without
+    }
+  }
 
-      best[target]&.sort or raise ImpossibleCombinationError.new(target)
-    end
+  best[target]&.sort or raise ImpossibleCombinationError.new(target)
+end
+</code></pre>
 
 Even with the comments, that's not easy to follow. We can take a simpler approach using Ruby's built-in array operations. Here's my solution:
 
-    def self.generate(coins, target)
-      largest_to_smallest = coins.reverse
-      (1..Float::INFINITY).each do |count|
-        raise ImpossibleCombinationError if count > target / coins.min
-        largest_to_smallest.repeated_combination(count) do |combo|
-          return combo.sort if combo.sum == target
-        end
-      end
+<pre><code class="ruby">
+def self.generate(coins, target)
+  largest_to_smallest = coins.reverse
+  (1..Float::INFINITY).each do |count|
+    raise ImpossibleCombinationError if count > target / coins.min
+    largest_to_smallest.repeated_combination(count) do |combo|
+      return combo.sort if combo.sum == target
     end
+  end
+end
+</code></pre>
 
 My algorithm is not quite as efficient, but there is no perceptible speed difference with the necessarily small input. (There will never be more than a few possible coin values, and the target amount will never be many times more than the largest coin.) So in this case, simplicity wins over efficiency.
 

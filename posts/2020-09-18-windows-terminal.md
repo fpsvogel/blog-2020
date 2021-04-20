@@ -2,6 +2,8 @@ title: Set up Windows Terminal shortcuts
 subtitle: and make Windows a bit more usable
 ---
 
+***UPDATE April 2021:** Disregard my rueful comments below, because development on Windows is a breeze now that I've started using WSL (Windows Subsystem for Linux). It's [so easy to set up](https://twitter.com/fpsvogel/status/1383017405551673349) that I regret not doing so as soon as I learned about it last year. Windows builds are now a thing of the past for me. Hallelujah!*
+
 Today's productivity how-to: set up context menu shortcuts and a global hotkey for the new Windows Terminal.
 
 But first, the obvious confession: I use Windows. I don't love Windows; it's just that the effort of switching has never seemed justified, when I'd only be trading my Windows annoyances for a new set of problems that inevitably comes with any OS.
@@ -33,24 +35,26 @@ Unfortunately, these commands open Command Prompt and Powershell rather than Win
 
 If you're a keyboard junkie, surely you don't want to muck around with a context *submenu*—how plebeian! So here's an [AutoHotkey](https://www.autohotkey.com) script that opens the terminal with a default starting directory, or with the current directory if an Explorer window is in focus.
 
-    #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-    SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-    profile = Felipe  ; replace with your user profile name
+<pre><code class="autohotkey">
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+profile = Felipe  ; replace with your user profile name
 
-    F13 & r::  ; i.e. #r (LWin+R) thanks to SharpKeys
-    If !(WinActive("ahk_class CabinetWClass"))  ; if an Explorer window is not active
-      Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d C:\  ; or write in your own default directory after -d
-    Else {  ; open to the current directory in Explorer
-      WinGetTitle, Title, A
-      if (Title = "Downloads") {
-        Title = C:\Users\%profile%\Downloads
-      }
-      Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d "%Title%"
-    }
-    Return
+F13 & r::  ; i.e. #r (LWin+R) thanks to SharpKeys
+If !(WinActive("ahk_class CabinetWClass"))  ; if an Explorer window is not active
+  Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d C:\  ; or write in your own default directory after -d
+Else {  ; open to the current directory in Explorer
+  WinGetTitle, Title, A
+  if (Title = "Downloads") {
+    Title = C:\Users\%profile%\Downloads
+  }
+  Run C:\Users\%profile%\AppData\Local\Microsoft\WindowsApps\wt.exe -d "%Title%"
+}
+Return
+</code></pre>
 
 (You may be raising an eyebrow at my odd hotkey F13 + R. Actually it's the Windows key + R, after remapping the Windows key to F13 with [SharpKeys](https://github.com/randyrants/sharpkeys). If you've ever wondered how to get rid of those pesky Windows shortcuts and turn the Windows key into an extra modifier key, there you have it. For more on that, see my next post on AutoHotkey.)
 
 For executing commands with elevated privileges, I like using [gsudo](https://github.com/gerardog/gsudo) from within a regular (non-admin) terminal. If you really want a separate hotkey to open the terminal as administrator, you'll need to [choose from a few workarounds](https://stackoverflow.com/a/62542633/4158773).
 
-And with that, my friends, you have a respectable terminal even in Windows. Coming up next: [supercharge your keyboard (and your mouse!) with AutoHotkey](/posts/2020-10-15-autohotkey.html).
+And with that, you have a respectable terminal even in Windows. Coming up next: [supercharge your keyboard (and your mouse!) with AutoHotkey](/posts/2020-10-15-autohotkey.html).

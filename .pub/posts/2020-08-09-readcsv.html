@@ -42,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-button active">
-						<a href="https://ruby.social/@fpsvogel">
-							<i class="fab fa-mastodon"></i>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<li class="nav-button active">
@@ -106,10 +106,11 @@
 
 <p>I also added the following lines to VS Code&rsquo;s <code>settings.json</code>. (Adjust the font size according to your screen, if you wish.)</p>
 
-<pre><code>&quot;[csv (semicolon)]&quot;: {
-    &quot;editor.quickSuggestions&quot;: false,
-    &quot;editor.wrappingIndent&quot;: &quot;deepIndent&quot;,
-    &quot;editor.fontSize&quot;: 16
+<pre><code class="json">
+"[csv (semicolon)]": {
+    "editor.quickSuggestions": false,
+    "editor.wrappingIndent": "deepIndent",
+    "editor.fontSize": 16
 },
 </code></pre>
 
@@ -117,14 +118,15 @@
 
 <p>Typing out nine columns for every entry is a pain, so instead I made an <a href="https://www.autohotkey.com/">AutoHotkey</a> script that takes the current line and turns it into an entry, with today&rsquo;s date as Date Started. If the line has a comment character at the beginning, it automatically disappears. If I already added the ISBN after the title (after a semicolon), then it fills the ISBN column in the new entry. Here&rsquo;s the script, assigned to the hotkey Ctrl+Shift+R:</p>
 
-<pre><code>^+r::
+<pre><code class="autohotkey">
+^+r::
     oCB := ClipboardAll
-    Clipboard := &quot;&quot;
+    Clipboard := ""
     Send ^x
     Sleep,50
     beforeText = curr`; `;
     afterText = `; `;`#%A_YYYY%-%A_MM%-%A_DD%`;`;1
-    Clipboard := beforeText . Trim(Clipboard, &quot;`r`n\&quot;) . (InStr(Clipboard, &quot;`;&quot;) ? &quot;&quot; : &quot;`; &quot;) . afterText . &quot;`r`n&quot;
+    Clipboard := beforeText . Trim(Clipboard, "`r`n\") . (InStr(Clipboard, "`;") ? "" : "`; ") . afterText . "`r`n"
     Send ^v
     Sleep,50
     Clipboard := oCB
@@ -136,7 +138,8 @@ Return
 
 <p>For adding the Date Finished, I have another hotkey, Ctrl+Shift+D:</p>
 
-<pre><code>^+d::
+<pre><code class="autohotkey">
+^+d::
     SendInput {#}%A_YYYY%-%A_MM%-%A_DD%
 return
 </code></pre>

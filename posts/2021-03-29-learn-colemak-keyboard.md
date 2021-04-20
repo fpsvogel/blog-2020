@@ -14,11 +14,11 @@ But after some research, I saw that this is false. Colemak is better than Dvorak
 
 **Dvorak:**
 
-![key frequency heatmap for dvorak keyboard layout](/assets/layout-heatmap-dvorak.png)
+![key frequency heatmap for dvorak keyboard layout](/assets/keyboard-heatmap-dvorak-layout.png)
 
 **Colemak:**
 
-![key frequency heatmap for colemak keyboard layout](/assets/layout-heatmap-colemak.png)
+![key frequency heatmap for colemak keyboard layout](/assets/keyboard-heatmap-colemak-layout.png)
 
 (See [this examination of Colemak](https://colemakmods.github.io/mod-dh/compare.html) for a comparison more sophisticated than "Look how pretty the dots are!")
 
@@ -38,4 +38,4 @@ After three weeks, I am up to 50 words per minute, and I expect to be back to my
 
 An improved keyboard layout is only half the story: in my next post, I will talk about my new ergonomic keyboard.
 
-If you are a Colemak pro, you may be wondering why I've made no mention of [EPKL](https://github.com/DreymaR/BigBagKbdTrixPKL) and its cornucopia of extra functions through [extenders](https://forum.colemak.com/topic/2014-extend-extra-extreme/)—undoubtedly useful, but my new keyboard makes that largely unnecessary. All that in the next post.
+If you are a Colemak pro, you may be wondering why I've made no mention of [EPKL](https://github.com/DreymaR/BigBagKbdTrixPKL) and its cornucopia of extra functions through [extenders](https://forum.colemak.com/topic/2014-extend-extra-extreme/)—undoubtedly useful, but my new keyboard makes that largely unnecessary. All that [in my next post](/posts/2021-04-20-keyboardio-atreus.html).

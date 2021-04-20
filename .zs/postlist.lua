@@ -20,7 +20,7 @@ for filename in lfs.dir(postsDir) do
 end
 
 for i=p,1,-1 do
-    html = html.."<a href="..filenames[i].."><li>"..titles[i].."<div class=\"postlist-date\"> | "..dates[i].."</div><div class=\"postlist-subtitle\"> : "..subtitles[i].."</div></li></a>\n"
+    html = html.."<a href="..filenames[i].."><li>"..titles[i].."<div class=\"postlist-date\"> | "..dates[i].."</div><div class=\"postlist-subtitle\">"..subtitles[i].."</div></li></a>\n"
 end
 
 io.write(html)

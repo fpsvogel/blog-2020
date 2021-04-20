@@ -42,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-button active">
-						<a href="https://ruby.social/@fpsvogel">
-							<i class="fab fa-mastodon"></i>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<li class="nav-button active">
@@ -93,17 +93,18 @@
 
 <p>Previously I&rsquo;ve shared <a href="/posts/2020-09-15-windows-terminal.html">how to set up a Windows Terminal hotkey</a> using this same technique of remapping the Windows key. Here are some other essential hotkeys for our wiped-clean Windows key. You can also add hotkeys for favorite apps: for example, for work apps I have several &ldquo;Run&rdquo; lines under <code>F13 &amp; w::</code> (i.e. Win+W).</p>
 
-<pre><code>#NoEnv
+<pre><code class="autohotkey">
+#NoEnv
 SendMode Input
 blockContextMenu := false  ; so that right-click menu is not shown after using right button as modifier (see mouse shortcuts below)
 
 ; = = = = = = = PROGRAMS = = = = = = =
 
 ; LWin is remapped to F13 in SharpKeys, to avoid Windows shortcuts
-F13 &amp; q::Send ^{Esc}  ; start menu
-F13 &amp; e::Run explore C:\Users\User1\Downloads  ; open Explorer
-F13 &amp; t::Run &quot;C:\Program Files\Microsoft VS Code\Code.exe&quot; C:\Users\User1\Dropbox\.archive\.bin\Felipe-hotkeys.ahk
-F13 &amp; s::Reload  ; make AutoHotkey reload this script (do it right after saving the file)
+F13 & q::Send ^{Esc}  ; start menu
+F13 & e::Run explore C:\Users\User1\Downloads  ; open Explorer
+F13 & t::Run "C:\Program Files\Microsoft VS Code\Code.exe" C:\Users\User1\Dropbox\.archive\.bin\Felipe-hotkeys.ahk
+F13 & s::Reload  ; make AutoHotkey reload this script (do it right after saving the file)
 return
 
 ; = = = = = = = USABILITY = = = = = = =
@@ -114,9 +115,9 @@ return
 
 ; Esc closer to home row (and closes frequently-used apps)
 ; CapsLock is remapped to Backspace in Sharpkeys
-F13 &amp; Backspace::
+F13 & Backspace::
   WinGet, active_proc, ProcessName, A
-  if (active_proc = &quot;explorer.exe&quot; || active_proc = &quot;cloudapp.exe&quot; || active_proc = &quot;jpegview64.exe&quot;)
+  if (active_proc = "explorer.exe" || active_proc = "cloudapp.exe" || active_proc = "jpegview64.exe")
     Send !{F4}
   else if !CloseBeeftext()
     Send {Esc}
@@ -135,13 +136,14 @@ return
 
 <p><img src="/assets/mouse.png" alt="mouse shortcuts made with AutoHotkey" /></p>
 
-<pre><code>; = = = = = = = MOUSE SHORTCUTS = = = = = = =
+<pre><code class="autohotkey">
+; = = = = = = = MOUSE SHORTCUTS = = = = = = =
 
 ; mouse buttons to switch windows and tabs
 XButton1::  ; back button
-  if (GetKeyState(&quot;LButton&quot;, &quot;P&quot;)) {  ; left or right button modifier: browser back
+  if (GetKeyState("LButton", "P")) {  ; left or right button modifier: browser back
     Send !{Left}
-  } else if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+  } else if (GetKeyState("RButton", "P")) {
     blockContextMenu := true
     Send !{Left}
   } else {  ; no mouse modifier: switch window
@@ -149,19 +151,19 @@ XButton1::  ; back button
   }
 return
 XButton1 Up::  ; allows back button to be pressed for Alt+Tab window menu to stay up
-  if !(GetKeyState(&quot;LButton&quot;, &quot;P&quot;) || GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+  if !(GetKeyState("LButton", "P") || GetKeyState("RButton", "P")) {
     Send {LAlt Up}
   }
 return
 XButton2::  ; forward button
-  if (GetKeyState(&quot;LButton&quot;, &quot;P&quot;)) {  ; left or right button modifier: refresh
+  if (GetKeyState("LButton", "P")) {  ; left or right button modifier: refresh
     Send {F5}
-  } else if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+  } else if (GetKeyState("RButton", "P")) {
     blockContextMenu := true
     Send {F5}
   } else {  ; no mouse modifier: close tab or window
     WinGet, active_proc, ProcessName, A
-    if (active_proc = &quot;chrome.exe&quot; || active_proc = &quot;firefox.exe&quot; || active_proc = &quot;Code.exe&quot;)
+    if (active_proc = "chrome.exe" || active_proc = "firefox.exe" || active_proc = "Code.exe")
       Send ^{F4}
     else if !CloseBeeftext()
       Send !{F4}
@@ -169,11 +171,11 @@ XButton2::  ; forward button
 return
 
 MButton::
-  if !(WinActive(&quot;ahk_class CabinetWClass&quot;))
+  if !(WinActive("ahk_class CabinetWClass"))
   {
-    if (GetKeyState(&quot;LButton&quot;, &quot;P&quot;)) {  ; left or right button modifier: browser forward
+    if (GetKeyState("LButton", "P")) {  ; left or right button modifier: browser forward
       Send !{Right}
-    } else if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+    } else if (GetKeyState("RButton", "P")) {
       blockContextMenu := true
       Send !{Right}
     } else  ; no mouse modifier
@@ -188,29 +190,29 @@ MButton::
 return
 
 WheelLeft::
-  if !(WinActive(&quot;ahk_class CabinetWClass&quot;))
+  if !(WinActive("ahk_class CabinetWClass"))
     Send ^+{Tab}  ; switch tabs left
   else
     Send !{Up}  ; up one level in Explorer
 return
 WheelRight::
-  if !(WinActive(&quot;ahk_class CabinetWClass&quot;))
+  if !(WinActive("ahk_class CabinetWClass"))
     Send ^{Tab}  ; switch tabs right
   else
     Send !{Left}  ; back in Explorer (i.e. down one level if went up one level)
 return
 
 ; right click as wheel modifier: mega scroll
-; the simpler method RButton &amp; WheelUp causes problems with click state
+; the simpler method RButton & WheelUp causes problems with click state
 WheelUp::
-  if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+  if (GetKeyState("RButton", "P")) {
     blockContextMenu := true
     Send {WheelUp 15}
   } else
     Send {WheelUp}
 return
 WheelDown::
-  if (GetKeyState(&quot;RButton&quot;, &quot;P&quot;)) {
+  if (GetKeyState("RButton", "P")) {
     blockContextMenu := true
     Send {WheelDown 15}
   } else
@@ -234,9 +236,10 @@ return
 
 <p><img src="/assets/keyboard.png" alt="keyboard shortcuts made with AutoHotkey" /></p>
 
-<pre><code>; = = = = = = = HOME ROW ARROW KEYS + home/end, page up/down = = = = = = =
+<pre><code class="autohotkey">
+; = = = = = = = HOME ROW ARROW KEYS + home/end, page up/down = = = = = = =
 
-F13 &amp; j::
+F13 & j::
   if Shift()
     Send +{Left}
   else if Alt()
@@ -253,7 +256,7 @@ F13 &amp; j::
     Send ^!+{Left}
   else Send {Left}
 return
-F13 &amp; l::
+F13 & l::
   if Shift()
     Send +{Right}
   else if Alt()
@@ -270,7 +273,7 @@ F13 &amp; l::
     Send ^!+{Right}
   else Send {Right}
 return
-F13 &amp; i::
+F13 & i::
   if Shift()
     Send +{Up}
   else if Alt()
@@ -287,7 +290,7 @@ F13 &amp; i::
     Send ^!+{Up}
   else Send {Up}
 return
-F13 &amp; k::
+F13 & k::
   if Shift()
     Send +{Down}
   else if Alt()
@@ -304,22 +307,22 @@ F13 &amp; k::
     Send ^!+{Down}
   else Send {Down}
 return
-F13 &amp; h::
+F13 & h::
   if Shift()
     Send +{Home}
   else Send {Home}
 return
-F13 &amp; `;::
+F13 & `;::
   if Shift()
     Send +{End}
   else Send {End}
 return
-F13 &amp; u::
+F13 & u::
   if Shift()
     Send +{PgUp}
   else Send {PgUp}
 return
-F13 &amp; o::
+F13 & o::
   if Shift()
     Send +{PgDn}
   else Send {PgDn}
@@ -330,40 +333,41 @@ return
 
 <p>We&rsquo;ve been using AutoHotkey&rsquo;s custom combinations feature to make our remapped Windows key act like a modifier, so that <code>F13 &amp; j</code> is analogous to <code>#j</code> (where <code>#</code> is the regular Windows key). The limitation of this feature is that it doesn&rsquo;t accept any additional modifiers: <code>F13 &amp; ^j</code> doesn&rsquo;t work, nor does <code>F13 &amp; Ctrl &amp; j</code>. So I&rsquo;ve made functions that check for each modifier.</p>
 
-<pre><code>; = = = = = MODIFIERS FOR F13 (LWIN REMAPPED) = = = = =
+<pre><code class="autohotkey">
+; = = = = = MODIFIERS FOR F13 (LWIN REMAPPED) = = = = =
 
 Ctrl() {
-  if (GetKeyState(&quot;LAlt&quot;) || GetKeyState(&quot;LShift&quot;))
+  if (GetKeyState("LAlt") || GetKeyState("LShift"))
     return 0
-  else return GetKeyState(&quot;LCtrl&quot;)
+  else return GetKeyState("LCtrl")
 }
 Alt() {
-  if (GetKeyState(&quot;LCtrl&quot;) || GetKeyState(&quot;LShift&quot;))
+  if (GetKeyState("LCtrl") || GetKeyState("LShift"))
     return 0
-  else return GetKeyState(&quot;LAlt&quot;)
+  else return GetKeyState("LAlt")
 }
 Shift() {
-  if (GetKeyState(&quot;LCtrl&quot;) || GetKeyState(&quot;LAlt&quot;))
+  if (GetKeyState("LCtrl") || GetKeyState("LAlt"))
     return 0
-  else return GetKeyState(&quot;LShift&quot;)
+  else return GetKeyState("LShift")
 }
 CtrlAlt() {
-  if (GetKeyState(&quot;LShift&quot;))
+  if (GetKeyState("LShift"))
     return 0
-  else return (GetKeyState(&quot;LCtrl&quot;) &amp;&amp; GetKeyState(&quot;LAlt&quot;))
+  else return (GetKeyState("LCtrl") && GetKeyState("LAlt"))
 }
 CtrlShift() {
-  if (GetKeyState(&quot;LAlt&quot;))
+  if (GetKeyState("LAlt"))
     return 0
-  else return (GetKeyState(&quot;LCtrl&quot;) &amp;&amp; GetKeyState(&quot;LShift&quot;))
+  else return (GetKeyState("LCtrl") && GetKeyState("LShift"))
 }
 AltShift() {
-  if (GetKeyState(&quot;LCtrl&quot;))
+  if (GetKeyState("LCtrl"))
     return 0
-  else return (GetKeyState(&quot;LAlt&quot;) &amp;&amp; GetKeyState(&quot;LShift&quot;))
+  else return (GetKeyState("LAlt") && GetKeyState("LShift"))
 }
 CtrlAltShift() {
-  return (GetKeyState(&quot;LCtrl&quot;) &amp;&amp; GetKeyState(&quot;LAlt&quot;) &amp;&amp; GetKeyState(&quot;LShift&quot;))
+  return (GetKeyState("LCtrl") && GetKeyState("LAlt") && GetKeyState("LShift"))
 }
 </code></pre>
 

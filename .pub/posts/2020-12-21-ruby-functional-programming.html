@@ -42,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-button active">
-						<a href="https://ruby.social/@fpsvogel">
-							<i class="fab fa-mastodon"></i>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<li class="nav-button active">
@@ -86,24 +86,25 @@
 
 <p>Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I&rsquo;ve created <a href="https://github.com/fpssvogel/pipeful">the Pipeful gem</a> which redefines the <code>&gt;&gt;</code> operator and equips Array with a unary <code>+</code> operator to convert it to pipe arguments. The fact that it&rsquo;s so easy to do this is one of the many reasons I love Ruby. ❤️</p>
 
-<pre><code>require &quot;pipeful&quot;
-require_relative &quot;errors&quot;
+<pre><code class="ruby">
+require "pipeful"
+require_relative "errors"
 # ... requires for the function classes below: LoadLibrary, etc.
 
 module ReadStat
   extend Pipeful
 
-  @err_block = -&gt;(err) { err.show }
+  @err_block = ->(err) { err.show }
 
-  'C:\read_test.csv' &gt;&gt;
-    LoadLibrary(&amp;@err_block) &gt;&gt;
+  'C:\read_test.csv' >>
+    LoadLibrary(&@err_block) >>
     EachInput do |input, lib|
-      +[input, lib] &gt;&gt;
-        Command &gt;&gt;
+      +[input, lib] >>
+        Command >>
         ShowOutput
-    rescue InputError =&gt; e; @err_block.call(e)
+    rescue InputError => e; @err_block.call(e)
     end
-rescue AppError =&gt; e; @err_block.call(e)
+rescue AppError => e; @err_block.call(e)
 end
 </code></pre>
 
@@ -111,31 +112,33 @@ end
 
 <p>This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls:</p>
 
-<pre><code>module ReadStat
-  @err_block = -&gt;(err) { err.show }
+<pre><code class="ruby">
+module ReadStat
+  @err_block = ->(err) { err.show }
 
-  EachInput.new.call(LoadLibrary.new('C:\read_test.csv').call(&amp;@err_block)) do |input, lib|
+  EachInput.new.call(LoadLibrary.new('C:\read_test.csv').call(&@err_block)) do |input, lib|
     ShowOutput.new.call(Command.new(input).call(lib))
-    rescue InputError =&gt; e; @err_block.(e)
+    rescue InputError => e; @err_block.(e)
   end
-rescue AppError =&gt; e; @err_block.(e)
+rescue AppError => e; @err_block.(e)
 end
 </code></pre>
 
 <p>That&rsquo;s a bit confusing, with parts that seem backward. We can properly order the calls with <code>Object#then</code>:</p>
 
-<pre><code>module ReadStat
-  @err_block = -&gt;(err) { err.show }
+<pre><code class="ruby">
+module ReadStat
+  @err_block = ->(err) { err.show }
 
-  LoadLibrary.new('C:\read_test.csv').call(&amp;@err_block)
+  LoadLibrary.new('C:\read_test.csv').call(&@err_block)
     .then do |lib|
       EachInput.new.call(lib) do |input, lib|
         Command.new(input).call(lib)
           .then { |result| ShowOutput.new.call(result) }
-        rescue InputError =&gt; e; @err_block.(e)
+        rescue InputError => e; @err_block.(e)
       end
     end
-rescue AppError =&gt; e; @err_block.(e)
+rescue AppError => e; @err_block.(e)
 end
 </code></pre>
 
@@ -149,15 +152,16 @@ end
 
 <p>In <code>load_library.rb</code>:</p>
 
-<pre><code>module ReadStat
+<pre><code class="ruby">
+module ReadStat
   class LoadLibrary
     include Pipeful
 
-    def call(path, &amp;err_block)
-      path &gt;&gt;
-        ReadSections &gt;&gt;
-        ReadLines &gt;&gt;
-        Item(&amp;err_block) &gt;&gt;
+    def call(path, &err_block)
+      path >>
+        ReadSections >>
+        ReadLines >>
+        Item(&err_block) >>
         Library
     end
   end
@@ -178,11 +182,12 @@ end
 
 <p>In <code>item.rb</code>:</p>
 
-<pre><code>module ReadStat
+<pre><code class="ruby">
+module ReadStat
   class Item
     # ...
 
-    def self.call(parsed_lines, &amp;err_block)
+    def self.call(parsed_lines, &err_block)
       # create an array of Items from parsed_lines
     end
 
@@ -193,7 +198,8 @@ end
 
 <p>In <code>library.rb</code>:</p>
 
-<pre><code>module ReadStat
+<pre><code class="ruby">
+module ReadStat
   class Library
     # ...
 
@@ -222,11 +228,12 @@ end
 
 <p>Here is a previous version, with state-mutating bits marked in comments. In the class <code>Item</code>:</p>
 
-<pre><code>def split_months
+<pre><code class="ruby">
+def split_months
   monthly_items = []
-  monthly_items &lt;&lt; shift_month while multi_month?
+  monthly_items << shift_month while multi_month?
   # SELF HAS BEEN MUTATED! 😱
-  monthly_items &lt;&lt; self
+  monthly_items << self
 end
 
 # necessary for #dup to work properly
@@ -237,7 +244,7 @@ end
 protected
 
 def multi_month?
-  date_started.abs_month &lt; date_finished.abs_month
+  date_started.abs_month < date_finished.abs_month
 end
 # in Date: def abs_month; year * 12 + month; end
 
@@ -264,21 +271,22 @@ end
 
 <p>Here&rsquo;s how I&rsquo;ve refactored the above to eliminate unexpected state mutation:</p>
 
-<pre><code>def split_months
+<pre><code class="ruby">
+def split_months
   monthly_items = []
   remainder = self
   while remainder.multi_month?
     # NO MUTATION 👍
     first_month, remainder = remainder.partition_at_first_month
-    monthly_items &lt;&lt; first_month
+    monthly_items << first_month
   end
-  monthly_items &lt;&lt; remainder
+  monthly_items << remainder
 end
 
 protected
 
 def multi_month?
-  date_started.abs_month &lt; date_finished.abs_month
+  date_started.abs_month < date_finished.abs_month
 end
 
 # returns two Items:
@@ -287,8 +295,8 @@ end
 def partition_at_first_month
   end_of_month = Date.new(date_started.year, date_started.month, -1)
   first_length = length *
-                 ((end_of_month - date_started).to_f + 1) /
-                 ((date_finished - date_started).to_f + 1)
+                  ((end_of_month - date_started).to_f + 1) /
+                  ((date_finished - date_started).to_f + 1)
   # NON-MUTATING 👍
   first = with_dates(date_started, end_of_month)
           .with_length(first_length)
@@ -301,7 +309,8 @@ end
 
 <p>Here are the <code>with_x</code> methods that this refactoring relies on:</p>
 
-<pre><code>def with_dates(new_start, new_finish)
+<pre><code class="ruby">
+def with_dates(new_start, new_finish)
   new_state = state({ dates_started: [new_start.dup],
                       dates_finished: [new_finish.dup] })
   self.class.new(new_state)
@@ -315,7 +324,8 @@ end
 
 <p>And here is how state is defined, extracted, and set (not including validations):</p>
 
-<pre><code>def self.fields
+<pre><code class="ruby">
+def self.fields
   %i[status
     rating
     format
@@ -337,13 +347,13 @@ protected
 
 def state=(fields_to_change)
   fields_to_change.each do |k, v|
-    instance_variable_set(&quot;@#{k}&quot;, v)
+    instance_variable_set("@#{k}", v)
   end
 end
 
 def state(updates = nil)
   copy = fields.map do |field|
-    [field, instance_variable_get(&quot;@#{field}&quot;).dup]
+    [field, instance_variable_get("@#{field}").dup]
   end.to_h
   updates.nil? ? copy : copy.merge(updates)
 end

@@ -42,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-button active">
-						<a href="https://ruby.social/@fpsvogel">
-							<i class="fab fa-mastodon"></i>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<li class="nav-button active">
@@ -66,10 +66,11 @@
 
 <p>So then I discovered the venerable <a href="http://todotxt.org/"><code>todo.txt</code></a> tradition, imbued with that unmistakable musky aroma of Unix geekdom. I loved the idea, but then I found <a href="https://jeffhuang.com/productivity_text_file/">an even more flexible approach</a> that incorporates appointments <em>and</em> a log/journal of notes and completed tasks, so that you don&rsquo;t have to juggle a calendar throughout the day or constantly lose scattered ideas and findings: it&rsquo;s all in your to-do/appointment/journal&hellip; thingy.</p>
 
-<p>So in the end, after several other existential crises showing up and accusing me of actually being unproductive in my quest for perfect productivity, here&rsquo;s what my <code>todo.txt</code> looks like:</p>
+<p>So in the end, after several other existential crises showing up and accusing me of actually being unproductive in my quest for perfect productivity, here&rsquo;s what my <code>todo.txt</code> looks like. (Hover or press the image for notes.)</p>
 
 <div class="hover-images">
     <img src="/assets/todo-example.png" alt="todo.txt vs code language syntax">
+    <img src="/assets/hover-icon.png" class="hover-icon">
     <img src="/assets/todo-example-annot.png" class="img-hover" alt="todo.txt vs code language syntax">
 </div>
 
@@ -94,17 +95,18 @@
 <p>Color-coding my <code>todo.txt</code> in VS Code involved a few steps:</p>
 
 <ol>
-<li>Figure out a regular expression for each of the items listed above.</li>
-<li>Package the regular expressions in a TextMate grammar (<code>.tmLanguage</code>) file.</li>
-<li>Create the VS Code extension using the grammar.</li>
+<li><a href="https://regexr.com/">Figure out a regular expression</a> for each of the items listed above.</li>
+<li>Write the regular expressions into a TextMate grammar (<code>.tmLanguage</code>) file.</li>
+<li><a href="https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide">Create the VS Code extension</a> using the grammar.</li>
 <li>Set colors for syntax highlighting in VS Code&rsquo;s <code>settings.json</code>.</li>
 </ol>
 
 <p>And here details on how I did #2 and #4. First the TextMate grammar, which includes a few changes and extras (see the update below).</p>
 
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
+<pre><code class="xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
 &lt;dict&gt;
   &lt;key&gt;fileTypes&lt;/key&gt;
   &lt;array&gt;
@@ -183,70 +185,71 @@
 
 <p>And then the colors in <code>settings.json</code>:</p>
 
-<pre><code>&quot;[todotxt]&quot;: {
-  &quot;editor.quickSuggestions&quot;: false
+<pre><code class="json">
+"[todotxt]": {
+  "editor.quickSuggestions": false
 },
-&quot;editor.tokenColorCustomizations&quot;: {
-  &quot;textMateRules&quot;: [
+"editor.tokenColorCustomizations": {
+  "textMateRules": [
     {
-      &quot;scope&quot;: &quot;constant.language.quote.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#A3A352&quot;
+      "scope": "constant.language.quote.todotxt",
+      "settings": {
+        "foreground": "#A3A352"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.annotation.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#4aff40&quot;
+      "scope": "constant.language.annotation.todotxt",
+      "settings": {
+        "foreground": "#4aff40"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.urgent.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#F38D8D&quot;
+      "scope": "constant.language.urgent.todotxt",
+      "settings": {
+        "foreground": "#F38D8D"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.waiting.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#F3ED72&quot;
+      "scope": "constant.language.waiting.todotxt",
+      "settings": {
+        "foreground": "#F3ED72"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.datehead.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#00FFFF&quot;,
-        &quot;fontStyle&quot;: &quot;bold underline&quot;
+      "scope": "constant.language.datehead.todotxt",
+      "settings": {
+        "foreground": "#00FFFF",
+        "fontStyle": "bold underline"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.subentry.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#9E9E9E&quot;
+      "scope": "constant.language.subentry.todotxt",
+      "settings": {
+        "foreground": "#9E9E9E"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.url.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#C583FA&quot;
+      "scope": "constant.language.url.todotxt",
+      "settings": {
+        "foreground": "#C583FA"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.date.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#9E9E9E&quot;
+      "scope": "constant.language.date.todotxt",
+      "settings": {
+        "foreground": "#9E9E9E"
       }
     },
     {
-      &quot;scope&quot;: &quot;constant.language.tag.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#6CB6FF&quot;
+      "scope": "constant.language.tag.todotxt",
+      "settings": {
+        "foreground": "#6CB6FF"
       }
     },
     {
-      &quot;scope&quot;: &quot;text.todotxt&quot;,
-      &quot;settings&quot;: {
-        &quot;foreground&quot;: &quot;#DBDBDB&quot;
+      "scope": "text.todotxt",
+      "settings": {
+        "foreground": "#DBDBDB"
       }
     }
   ]
@@ -259,40 +262,41 @@
 
 <p>Whenever I need to add or change a recurring task, I simply open up the script and add a line.</p>
 
-<pre><code>-- script to add daily or weekly recurring tasks to the top of todo.txt
+<pre><code class="lua">
+-- script to add daily or weekly recurring tasks to the top of todo.txt
 -- also automatically adds a header for today's date above yesterday
 
-newTasks = &quot;&quot;
+newTasks = ""
 
 function add (line)
-    newTasks = newTasks..line..&quot;\n&quot;
+    newTasks = newTasks..line.."\n"
 end
 
 -- DAILY RECURRING TASKS
-add(&quot;^ frontend course @devstudy&quot;)
+add("^ frontend course @devstudy")
 
 -- WEEKLY RECURRING TASKS
-weekday = os.date(&quot;%A&quot;)
-if weekday == &quot;Monday&quot; then
-    add(&quot;1pm meeting @work&quot;)
-elseif weekday == &quot;Sunday&quot; then
-    add(&quot;* call parents @family&quot;)
-    add(&quot;7pm dnd w/ the Brocks&quot;)
+weekday = os.date("%A")
+if weekday == "Monday" then
+    add("1pm meeting @work")
+elseif weekday == "Sunday" then
+    add("* call parents @family")
+    add("7pm dnd w/ the Brocks")
 end
 
 -- MONTHLY RECURRING TASKS
-day = os.date(&quot;%d&quot;)
-if day == &quot;25&quot; then
-    add(&quot;- monthly budget&quot;)
+day = os.date("%d")
+if day == "25" then
+    add("- monthly budget")
 end
 
 -- ADD TODAY'S DATE HEADER AND NEW TASKS
-today = &quot;## &quot;..os.date(&quot;%Y-%m-%d&quot;)..&quot;\n\n&quot;
-todo = io.open(&quot;todo.txt&quot;, &quot;r&quot;)
-todoStr = todo:read(&quot;*all&quot;)
-yesterdayPos = todoStr:find(&quot;##20&quot;)
+today = "## "..os.date("%Y-%m-%d").."\n\n"
+todo = io.open("todo.txt", "r")
+todoStr = todo:read("*all")
+yesterdayPos = todoStr:find("##20")
 todoStr = newTasks..todoStr:sub(1,yesterdayPos-1)..today..todoStr:sub(yesterdayPos)
-todo = io.open(&quot;todo.txt&quot;, &quot;w+&quot;)
+todo = io.open("todo.txt", "w+")
 todo:write(todoStr)
 todo:close()
 </code></pre>

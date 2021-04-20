@@ -42,8 +42,8 @@
 						</a>
 					</li>
 					<li class="nav-button active">
-						<a href="https://ruby.social/@fpsvogel">
-							<i class="fab fa-mastodon"></i>
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
 						</a>
 					</li>
 					<li class="nav-button active">
@@ -66,9 +66,10 @@
 
 <p>For example, an exercise I solved in 26 lines of code was solved by someone else in just 9 lines, thanks to their powerful and elegant use of regular expressions. (I&rsquo;m not a fan compressing a whole program into a monstrous freaky regex, but this isn&rsquo;t like that.)</p>
 
-<pre><code>module RunLengthEncoding
+<pre><code class="ruby">
+module RunLengthEncoding
   def self.encode(str)
-    str.gsub(/(.)\1+/) { |s| &quot;#{s.length}#{s[0]}&quot; }
+    str.gsub(/(.)\1+/) { |s| "#{s.length}#{s[0]}" }
   end
 
   def self.decode(str)
@@ -93,23 +94,24 @@ end
 
 <p>The cleverest and shortest Exercism solutions are generally the most popular, but I found that they are not always the best. Here is one of those top-ranked solutions:</p>
 
-<pre><code>module Grep
+<pre><code class="ruby">
+module Grep
   def self.grep(pattern, flags, files)
     [].tap do |results|
       files.each do |file|
         File.read(file).lines.each_with_index do |line, index|
           matcher = Regexp.new(
-            flags.include?(&quot;-x&quot;) ? &quot;^#{pattern}$&quot; : pattern,
-            (Regexp::IGNORECASE if flags.include?(&quot;-i&quot;)))
-          next unless line.match?(matcher) ^ flags.include?(&quot;-v&quot;)
-          break results &lt;&lt; file if flags.include?(&quot;-l&quot;)
-          results &lt;&lt; [
-            (&quot;#{file}:&quot; unless files.one?),
-            (&quot;#{index.succ}:&quot; if flags.include?(&quot;-n&quot;)),
+            flags.include?("-x") ? "^#{pattern}$" : pattern,
+            (Regexp::IGNORECASE if flags.include?("-i")))
+          next unless line.match?(matcher) ^ flags.include?("-v")
+          break results << file if flags.include?("-l")
+          results << [
+            ("#{file}:" unless files.one?),
+            ("#{index.succ}:" if flags.include?("-n")),
             line.rstrip].join
         end
       end
-    end.join(&quot;\n&quot;)
+    end.join("\n")
   end
 end
 </code></pre>
@@ -120,7 +122,8 @@ end
 
 <p>The same holds true for optimized code. Below is another top-ranked solution. It calculates coin change, finding the fewest coins that total a given amount of money (<code>target</code>), using a given list of coin values (<code>coins</code>). (The runner-up solutions are not so concise, but this time they&rsquo;re equally difficult to understand since their algorithms are only more sprawling.)</p>
 
-<pre><code>def self.generate(coins, target)
+<pre><code class="ruby">
+def self.generate(coins, target)
   best = Array.new(target + 1)
   best[0] = []
 
@@ -130,23 +133,24 @@ end
   coins.sort.reverse.each { |coin|
     (coin..target).each { |subtarget|
       next unless (best_without = best[subtarget - coin])
-      # Lol &amp;.&lt;=
+      # Lol &.<=
       # But it's necessary to avoid constructing [coin] + best_without when unnecessary.
-      next if best[subtarget]&amp;.size &amp;.&lt;= best_without.size + 1
+      next if best[subtarget]&.size &.<= best_without.size + 1
       best[subtarget] = [coin] + best_without
     }
   }
 
-  best[target]&amp;.sort or raise ImpossibleCombinationError.new(target)
+  best[target]&.sort or raise ImpossibleCombinationError.new(target)
 end
 </code></pre>
 
 <p>Even with the comments, that&rsquo;s not easy to follow. We can take a simpler approach using Ruby&rsquo;s built-in array operations. Here&rsquo;s my solution:</p>
 
-<pre><code>def self.generate(coins, target)
+<pre><code class="ruby">
+def self.generate(coins, target)
   largest_to_smallest = coins.reverse
   (1..Float::INFINITY).each do |count|
-    raise ImpossibleCombinationError if count &gt; target / coins.min
+    raise ImpossibleCombinationError if count > target / coins.min
     largest_to_smallest.repeated_combination(count) do |combo|
       return combo.sort if combo.sum == target
     end

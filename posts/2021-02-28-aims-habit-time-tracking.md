@@ -12,38 +12,42 @@ But the real power of this new approach is with those daily and weekly tasks, pr
 
 I have a file `aims.md` which I edit with the [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) extension for VS Code. More on that in a bit, but at the top of the file I have templates of lists of tasks to be done every week and every day, marked with tags and a time goal (where applicable). Here is a simple example:
 
-    ## THIS WEEK
-    - [ ] read: latin: 1h   Seneca - Epistulae
-    - [ ] call parents
+<pre><code class="markdown">
+## THIS WEEK
+- [ ] read: latin: 1h   Seneca - Epistulae
+- [ ] call parents
 
-    ## TODAY
-    ### Study
-    - [ ] code: 1h          readstat
-    - [ ] read: math: 30m   Calculus II
-    ### Leisure
-    - [ ] read: 30m         Freeman - Alexander the Great
-    ### Health
-    - [ ] exercise 40m
-    - [ ] no knuckle pops
+## TODAY
+### Study
+- [ ] code: 1h          readstat
+- [ ] read: math: 30m   Calculus II
+### Leisure
+- [ ] read: 30m         Freeman - Alexander the Great
+### Health
+- [ ] exercise 40m
+- [ ] no knuckle pops
+</code></pre>
 
 ## 2. Get things done
 
 A bit further down in the file (past a list of "todo" tasks) is where the real work happens. Each week I copy my weekly tasks (and any one-off "todo" tasks) and paste them in this lower region, and every morning I similarly copy down my daily tasks, just above yesterday's finished checklist. Here's what it looks like:
 
-    ## THIS WEEK
-    - [ ] family:           call parents
-    - [ ] blog:             finish aims.md
+<pre><code class="markdown">
+## THIS WEEK
+- [ ] family:           call parents
+- [ ] blog:             finish aims.md
 
-    ## 2021-02-26 - Friday
-    ### Study
-    - [x] code: 1h          reading tracker
-    - [ ] read: math: 30m   Calculus II
-    ### Leisure
-    - [ ] read: 15m/30m         Freeman - Alexander the Great
-    - [x] read: latin: 1.5h/1h   Seneca - Epistulae
-    ### Health
-    - [x] exercise 40m
-    - [ ] no knuckle pops   😩😩
+## 2021-02-26 - Friday
+### Study
+- [x] code: 1h          reading tracker
+- [ ] read: math: 30m   Calculus II
+### Leisure
+- [ ] read: 15m/30m         Freeman - Alexander the Great
+- [x] read: latin: 1.5h/1h   Seneca - Epistulae
+### Health
+- [x] exercise 40m
+- [ ] no knuckle pops   😩😩
+</code></pre>
 
 Let's say this is a Friday evening when I found myself with a bit of extra time, so I pulled down my weekly Latin reading into today's checklist, and then went over my goal by half an hour—Seneca is that good. Earlier today I exercised and did my daily coding. Now all that's left is math and leisure reading (of which I've already done 15 minutes earlier today). I'm trying to kick the habit of popping my knuckles, but I caught myself doing that *twice* today, so I won't be able to check that off. I emphasize (and quantify) my failure with two sad emojis. This weekend I need to call my parents and finish this blog post, and then I can call it a week well spent.
 
