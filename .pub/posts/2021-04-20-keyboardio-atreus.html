@@ -214,7 +214,7 @@ KEYMAPS(
        Key_Q   ,Key_W        ,Key_E      ,Key_R         ,Key_T
       ,Key_A   ,Key_S        ,Key_D      ,Key_F         ,Key_G
       ,Key_Z   ,Key_X        ,Key_C      ,Key_V         ,Key_B         ,Key_Backslash
-      ,Key_Esc ,Key_CapsLock ,Key_Delete ,Key_Backspace ,Key_LeftShift ,Key_Tab
+      ,Key_Esc ,Key_CapsLock ,Key_Delete ,Key_Backspace ,Key_Backspace ,Key_Tab
 
                      ,Key_Y     ,Key_U    ,Key_I     ,Key_O      ,Key_Minus
                      ,Key_H     ,Key_J    ,Key_K     ,Key_L      ,Key_Semicolon
@@ -248,7 +248,7 @@ KEYMAPS(
                    ,Key_Caret ,Key_LeftBracket      ,Key_RightBracket      ,___                   ,Key_Underscore
                    ,Key_Star  ,Key_LeftParen        ,Key_RightParen        ,___                   ,___
       ,___         ,Key_Plus  ,Key_LeftCurlyBracket ,Key_RightCurlyBracket ,Key_RightAngleBracket ,Key_DoubleQuote
-      ,Key_LeftAlt ,Key_Space ,XXX                  ,Key_Backspace         ,Key_Enter             ,___
+      ,Key_LeftAlt ,Key_Space ,XXX                  ,Key_Tab               ,Key_Enter             ,___
    ),
 
   [SUPER] = KEYMAP_STACKED
@@ -343,6 +343,7 @@ void setup() {
   QUKEYS(
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 1), SHIFT(SUPER)),      // CapsLock/Super
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 3), SHIFT(UPPER)),      // Backspace/Upper
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 4), Key_LeftShift),     // Backspace/Shift
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 5), Key_LeftControl),   // Tab/Ctrl
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 6), Key_LeftAlt),       // Enter/Alt
   )
