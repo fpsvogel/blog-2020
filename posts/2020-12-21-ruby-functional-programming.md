@@ -2,7 +2,7 @@ title: Functional programming techniques in Ruby
 subtitle: Pipelines, callable objects, and other tools for cleaner code
 ---
 
-***UPDATE:** I ended up not using this gem in my project, even though it was a byproduct of that project. In the end it seemed that the verbosity of plain Ruby was an acceptable price to pay for its complete clarity as to what methods are actually being called, which can be become unclear as a pipeline set up with this gem becomes more complex. Ah, well. It was good to learn how to make a gem and practice some metaprogramming, if nothing else.*
+*UPDATE: I ended up not using this gem in my project, even though it was a byproduct of that project. In the end it seemed that the verbosity of plain Ruby was an acceptable price to pay for its complete clarity as to what methods are actually being called, which can be become unclear as a pipeline set up with this gem becomes more complex. Ah, well. It was good to learn how to make a gem and practice some metaprogramming, if nothing else.*
 
 Until recently, I had a vague notion of functional programming as Ph.D.-level math embodied in code that is only useful for theoretical problems. On a clear day, I could almost catch a glimpse of it way up in the clouds, surrounded by a halo of theorems, undisturbed by the nitty-gritty, impure real world below. Then I watched these talks:
 
@@ -20,18 +20,18 @@ So what are these techniques? Here are three that are already improving my code.
 
 **DISCLAIMER:** These efforts of mine are *functional lite* or *baby functional*. For a more comprehensive approach, see [dry-rb](https://dry-rb.org/). But be careful not to go overboard with functional programming in Ruby. In the words of Avdi Grimm, "Functional programming ideas about preferring immutability and isolating interactions with the outside world can help us avoid the worst pitfalls of procedural and object-oriented coding. But trying to program in a *'fully FP'* style in Ruby can be like paddling a kayak with a canoe paddle. Upstream. […] Your best bet for effective development is to learn to 'code with the grain' [of the language you're using]. And when you get right down to it, Ruby's grain is object-oriented." ([source](https://github.com/yct21/observatory/issues/93#issuecomment-347175199))
 
-**ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either [via DM](https://www.reddit.com/message/compose/?to=vogel) or by [raising an issue](https://github.com/fpsvogel/pipeful/issues).
+**ANOTHER DISCLAIMER:** I'm new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either [via DM](https://www.reddit.com/message/compose/?to=fpsvogel) or by [raising an issue](https://github.com/fpsvogel/pipeful/issues).
 
 ## 1. Pipe data …
 
-Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I've created [the Pipeful gem](https://github.com/fpssvogel/pipeful) which redefines the `>>` operator and equips Array with a unary `+` operator to convert it to pipe arguments. The fact that it's so easy to do this is one of the many reasons I love Ruby. ❤️
+Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I've created [the Pipeful gem](https://github.com/fpsvogel/pipeful) which redefines the `>>` operator and equips Array with a unary `+` operator to convert it to pipe arguments. The fact that it's so easy to do this is one of the many reasons I love Ruby. ❤️
 
 <pre><code class="ruby">
 require "pipeful"
 require_relative "errors"
 # ... requires for the function classes below: LoadLibrary, etc.
 
-module ReadStat
+module Readstat
   extend Pipeful
 
   @err_block = ->(err) { err.show }
@@ -53,7 +53,7 @@ In other words, "Take this file path, load the library from there, then for each
 This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls:
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   @err_block = ->(err) { err.show }
 
   EachInput.new.call(LoadLibrary.new('C:\read_test.csv').call(&@err_block)) do |input, lib|
@@ -67,7 +67,7 @@ end
 That's a bit confusing, with parts that seem backward. We can properly order the calls with `Object#then`:
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   @err_block = ->(err) { err.show }
 
   LoadLibrary.new('C:\read_test.csv').call(&@err_block)
@@ -93,7 +93,7 @@ These pipelines are based on functions, which in Ruby means *callable objects*. 
 In `load_library.rb`:
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   class LoadLibrary
     include Pipeful
 
@@ -123,7 +123,7 @@ end
 In `item.rb`:
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   class Item
     # ...
 
@@ -139,7 +139,7 @@ end
 In `library.rb`:
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   class Library
     # ...
 
@@ -156,7 +156,7 @@ Again, a pipeline helps to break down a task into simpler parts: "To load the li
 
 **NOTE:** The way I've redefined the `>>` operator, there is a chain of precedence for what the operator does with the object after it: `FunctClass.call` or (if that's not defined) `FunctClass.new.call` or (if that's not defined) `FunctClass.new`, in each case passing in the data from the pipe as arguments.
 
-## 3. Avoid state mutation
+<h2><a id="state-mutation">3. Avoid state mutation</a></h2>
 
 **NOTE:** For fuller treatments of this principle, see [*Object Design Style Guide* Chapter 4](https://livebook.manning.com/book/object-design-style-guide/chapter-4) and [*Unit Testing Principles, Practices, and Patterns* Chapter 6](https://livebook.manning.com/book/unit-testing/chapter-6).
 

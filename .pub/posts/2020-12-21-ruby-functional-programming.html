@@ -58,7 +58,7 @@
 			<h1>Functional programming techniques in Ruby</h1>
 			<div class="posttop-subtitle">Pipelines, callable objects, and other tools for cleaner code</div>
 			<div class="posttop-date">2020-12-21</div>
-			<p>*<strong>UPDATE:</strong> I ended up not using this gem in my project, even though it was a byproduct of that project. In the end it seemed that the verbosity of plain Ruby was an acceptable price to pay for its complete clarity as to what methods are actually being called, which can be become unclear as a pipeline set up with this gem becomes more complex. Ah, well. It was good to learn how to make a gem and practice some metaprogramming, if nothing else.*</p>
+			<p><em>UPDATE: I ended up not using this gem in my project, even though it was a byproduct of that project. In the end it seemed that the verbosity of plain Ruby was an acceptable price to pay for its complete clarity as to what methods are actually being called, which can be become unclear as a pipeline set up with this gem becomes more complex. Ah, well. It was good to learn how to make a gem and practice some metaprogramming, if nothing else.</em></p>
 
 <p>Until recently, I had a vague notion of functional programming as Ph.D.-level math embodied in code that is only useful for theoretical problems. On a clear day, I could almost catch a glimpse of it way up in the clouds, surrounded by a halo of theorems, undisturbed by the nitty-gritty, impure real world below. Then I watched these talks:</p>
 
@@ -80,18 +80,18 @@
 
 <p><strong>DISCLAIMER:</strong> These efforts of mine are <em>functional lite</em> or <em>baby functional</em>. For a more comprehensive approach, see <a href="https://dry-rb.org/">dry-rb</a>. But be careful not to go overboard with functional programming in Ruby. In the words of Avdi Grimm, &ldquo;Functional programming ideas about preferring immutability and isolating interactions with the outside world can help us avoid the worst pitfalls of procedural and object-oriented coding. But trying to program in a <em>&lsquo;fully FP&rsquo;</em> style in Ruby can be like paddling a kayak with a canoe paddle. Upstream. […] Your best bet for effective development is to learn to &lsquo;code with the grain&rsquo; [of the language you&rsquo;re using]. And when you get right down to it, Ruby&rsquo;s grain is object-oriented.&rdquo; (<a href="https://github.com/yct21/observatory/issues/93#issuecomment-347175199">source</a>)</p>
 
-<p><strong>ANOTHER DISCLAIMER:</strong> I&rsquo;m new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either <a href="https://www.reddit.com/message/compose/?to=vogel">via DM</a> or by <a href="https://github.com/fpsvogel/pipeful/issues">raising an issue</a>.</p>
+<p><strong>ANOTHER DISCLAIMER:</strong> I&rsquo;m new to Ruby, so if you see any glaring stupidities below, you can take comfort in the fact that in a few months I will be shaking my head right along with you. In the meantime, please let me know of anything that can be improved, either <a href="https://www.reddit.com/message/compose/?to=fpsvogel">via DM</a> or by <a href="https://github.com/fpsvogel/pipeful/issues">raising an issue</a>.</p>
 
 <h2>1. Pipe data …</h2>
 
-<p>Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I&rsquo;ve created <a href="https://github.com/fpssvogel/pipeful">the Pipeful gem</a> which redefines the <code>&gt;&gt;</code> operator and equips Array with a unary <code>+</code> operator to convert it to pipe arguments. The fact that it&rsquo;s so easy to do this is one of the many reasons I love Ruby. ❤️</p>
+<p>Thinking in terms of a data pipeline can be immensely clarifying. Here is the outermost layer of my current project, a CLI app that gives statistics on a reading log. Note that for this to work, I&rsquo;ve created <a href="https://github.com/fpsvogel/pipeful">the Pipeful gem</a> which redefines the <code>&gt;&gt;</code> operator and equips Array with a unary <code>+</code> operator to convert it to pipe arguments. The fact that it&rsquo;s so easy to do this is one of the many reasons I love Ruby. ❤️</p>
 
 <pre><code class="ruby">
 require "pipeful"
 require_relative "errors"
 # ... requires for the function classes below: LoadLibrary, etc.
 
-module ReadStat
+module Readstat
   extend Pipeful
 
   @err_block = ->(err) { err.show }
@@ -113,7 +113,7 @@ end
 <p>This is the vanilla-Ruby equivalent of my monkey-patched code above, first with regular, non-pipeline calls:</p>
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   @err_block = ->(err) { err.show }
 
   EachInput.new.call(LoadLibrary.new('C:\read_test.csv').call(&@err_block)) do |input, lib|
@@ -127,7 +127,7 @@ end
 <p>That&rsquo;s a bit confusing, with parts that seem backward. We can properly order the calls with <code>Object#then</code>:</p>
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   @err_block = ->(err) { err.show }
 
   LoadLibrary.new('C:\read_test.csv').call(&@err_block)
@@ -153,7 +153,7 @@ end
 <p>In <code>load_library.rb</code>:</p>
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   class LoadLibrary
     include Pipeful
 
@@ -183,7 +183,7 @@ end
 <p>In <code>item.rb</code>:</p>
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   class Item
     # ...
 
@@ -199,7 +199,7 @@ end
 <p>In <code>library.rb</code>:</p>
 
 <pre><code class="ruby">
-module ReadStat
+module Readstat
   class Library
     # ...
 
@@ -216,7 +216,7 @@ end
 
 <p><strong>NOTE:</strong> The way I&rsquo;ve redefined the <code>&gt;&gt;</code> operator, there is a chain of precedence for what the operator does with the object after it: <code>FunctClass.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new.call</code> or (if that&rsquo;s not defined) <code>FunctClass.new</code>, in each case passing in the data from the pipe as arguments.</p>
 
-<h2>3. Avoid state mutation</h2>
+<h2><a id="state-mutation">3. Avoid state mutation</a></h2>
 
 <p><strong>NOTE:</strong> For fuller treatments of this principle, see <a href="https://livebook.manning.com/book/object-design-style-guide/chapter-4"><em>Object Design Style Guide</em> Chapter 4</a> and <a href="https://livebook.manning.com/book/unit-testing/chapter-6"><em>Unit Testing Principles, Practices, and Patterns</em> Chapter 6</a>.</p>
 

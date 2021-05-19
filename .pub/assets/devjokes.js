@@ -20,6 +20,16 @@ let jokes = [
     'Eighth Law of Computer Programming: Any non-trivial program contains at least one bug.',
     'Ninth Law of Computer Programming: Undetectable errors are infinite in variety, in contrast to detectable errors, which by definition are limited.',
     'Tenth Law of Computer Programming: Adding manpower to a late software project makes it later.',
+    '"Software and cathedrals are much the same. First we build them, then we pray." –Samuel Redwine',
+    '"Do one thing, and do it well. An interface should capture the minimum essentials of an abstraction. Don’t generalize; generalizations are  generally wrong." –Butler Lampson',
+    '"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live." –Martin Golding',
+    "As a systems engineer, I'd tell you a UDP joke, but I'm afraid you wouldn't get it.",
+    ".titanic {\n  float: none;\n  position: fixed;\n  bottom: 0;\n}",
+    "Why do Java developers wear glasses? Because they don't C#.",
+    'I had a problem, so I thought, "Hey, I should use threads!" have problems Now two I',
+    'I had a problem, so I thought "Hey, I should use Java!" Now I have a ProblemFactory.',
+    "What's a pirate's favorite programming language? You'd think it's R, but a pirate's true love is the C.",
+    "Knock knock! Who's there? Cache invalidation error. Cache invalidation error who? Knock knock!"
 ]
 
 function updateJoke() {

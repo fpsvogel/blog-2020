@@ -1,0 +1,166 @@
+<html>
+	<head>
+		<title>My first Ruby app</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li class="nav-button active">
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-home"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://github.com/fpsvogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>My first Ruby app</h1>
+			<div class="posttop-subtitle">lessons learned</div>
+			<div class="posttop-date">2021-05-19</div>
+			<p>I&rsquo;ve just released my first Ruby app: <a href="https://github.com/fpsvogel/readstat">Readstat</a>, a CLI app that gives statistics on a plain text (CSV) reading log. This is also my first completed app in any language, so I learned a lot along the way. Here are the highlights.</p>
+
+<h2>Lesson 1: Write tests</h2>
+
+<p>Back when I started writing the app, I knew about TDD (Test-Driven Development) but I thought setting up tests would be a waste of time for a small project like mine. I couldn&rsquo;t have been more wrong.</p>
+
+<p>Everything was fine while I was rapidly building the app&rsquo;s bare-bones functionality. But then I started filling it in, and with each new feature it became more and more difficult to find out whether I had correctly implemented it. Every time, I had to run the app, enter commands, make some calculations to verify the output… not the most efficient process.</p>
+
+<p>And when something didn&rsquo;t work, I had to spend a good while—hours sometimes—tracking down the bug. (Later I discovered <a href="https://github.com/pry/pry">pry</a> and <a href="https://github.com/deivid-rodriguez/pry-byebug">pry-byebug</a>, which would have sped up that debugging, but they don&rsquo;t solve the problem of mysterious bugs being introduced in the first place.)</p>
+
+<p>Another problem came up every time I took a break from the project, even if only for a few days. On my return I had to spend some time re-orienting myself because all I had to go on was the code and scattered comments, and it was not always clear what a certain chunk of code did, or was supposed to do (which too often were not the same thing). And as the codebase grew, it became harder to keep all those &ldquo;whats&rdquo; and &ldquo;shoulds&rdquo; in my head. Often I sat staring at an old piece of code, wondering if I could delete it. But deleting it meant I would have to fire up the app again, try out several commands (because I wasn&rsquo;t sure what this old code affected), make calculations to verify each result… or I could skip all that and just delete the old code and pray that it wasn&rsquo;t important. Usually I decided on no decision at all and left the code as it was, just to be safe.</p>
+
+<p>And so my app accumulated—I don&rsquo;t say <em>grew</em> or <em>developed</em>, because it was less like the organic growth of a tree or the planned development of a building, and more like the haphazard accumulation of sediment, each new layer obscuring the one before it, slowly but surely forming fossils out of half-forgotten and poorly-understood code. Except unlike real-life fossils, these were not interesting or valuable, and they weren&rsquo;t always harmless either.</p>
+
+<p>Eventually I scrapped it all (it was <em>that</em> frustrating) and started over with a better design. I had just finished reading Sandi Metz&rsquo;s <a href="https://sandimetz.com/products">Practical Object-Oriented Design</a> (POODR), and I was ready to unleash my inner OOP and make a lean, mean codebase. There was a chapter on testing in there, but I waved it aside because, well—small project, no need for tests, good design is the main thing.</p>
+
+<p>… A few weeks later, I was in the same abyss of head-scratching code and obscure bugs all over again. There was no escape: I resigned myself to writing tests. By then I had read <a href="https://sandimetz.com/99bottles">99 Bottles of OOP</a>, the other instant classic by Sandi Metz (this one co-authored with Katrina Owen, creator of the amazing <a href="https://exercism.io/">Exercism.io</a>. Unlike POODR, this one is about testing from the get-go. So I knew what to do; I had no more excuses.</p>
+
+<p>Looking back, I am baffled at my stubborn reluctance to write tests. By now I have seen the many benefits of having a codebase covered by tests:</p>
+
+<ul>
+<li>Tests make it faster and so much less stressful to implement new features. As I refactor my code and add new functionality, after every non-trivial edit I run the tests (taking only a few seconds), so that if a bug comes up I know immediately where it was introduced. Hours of debugging saved.</li>
+<li>They also reduce those head-scratching moments when I&rsquo;me wondering what an old piece of code is for. If I&rsquo;m not sure, I can simply comment out the code, run the tests, and seconds later I have my answer, or at least a hint of where to look for the answer.</li>
+<li>Clearly-written tests also serve as documentation, sharply defining the app&rsquo;s capabilities and limits, and what is acceptable and unacceptable input.</li>
+<li>Writing tests also pushes me to write the code itself in a way that is clearer and more bug-resistant. For example, it&rsquo;s now easy to handle unexpected input because once I&rsquo;ve set up a test for expected input, I can instantly set up a similar test but with strange input, and then make sure it is handled gracefully.</li>
+</ul>
+
+<p>In short, I learned to love tests.</p>
+
+<h2>Lesson 2: Remove change from the core</h2>
+
+<p>I noticed a recurring theme in both OOP and functional programming styles: the further down you go into your code, the less it should use things that might change. If that sounds vague, it&rsquo;s because this principle manifests itself in a variety of ways. For example:</p>
+
+<ul>
+<li><strong>Clearly separate your interfaces from implementation.</strong> This is OOP 101. <em>How</em> something is done (implementation) is more likely to change than <em>what</em> is done (interface), so classes should interact only with each others&rsquo; public interfaces—and classes should also be judicious about which other classes they interact with. Basically, don&rsquo;t let classes get in each others&rsquo; business when they don&rsquo;t have to. (This also forces you to more clearly define interfaces vs. implementation, which can easily get mixed together, leading to messy code.)</li>
+<li><strong>Allow configuration.</strong> I.e. inject dependencies. If a detail might change in the future, make sure it is not buried in the core of the app&rsquo;s code. Pull it up to a place where it can easily be specified differently by the developer, or in some cases by the user. Examples:
+
+<ul>
+<li><em>Specified by the developer:</em> I have a class <code>LoadLibrary</code> that loads the library of books when the app starts up, and at some point I noticed that it was set up to load from a file only. What if I wanted to load from a string, or a remote file? So instead of <code>LoadLibrary.call(path)</code> I now have <code>LoadLibrary.call(feed)</code>, where <code>feed</code> is any object that responds to <code>each_line</code>, such as a File or a String.</li>
+<li><em>Specified by the user:</em> A lot of formatting details are involved in the loading of the CSV library of books, such as the column separator character, emojis indicating the format of an item (e.g. 📕 for print or 🔊 for audio), and many other details. Rather than hard-coding these into the app, I pulled them up into a <code>config.rb</code> file, where they can be customized. This file even specifies data such as what the CSV columns are and what all the Item attributes are, so it would be easy to add the capability for users themselves to add colums to their reading log, which they could then use in the app—for example, someone might want a Mood column, or a Discovery column indicating where (or from whom) each item was first discovered. (This cusomizability is not currently built in; it was for my own benefit that I defined all this data in <code>config.rb</code>. Now that the data have a single point of truth from where I inject them into the app, I can change them just there rather than in several places scattered across the code.)</li>
+</ul></li>
+<li><strong>Avoid state mutation.</strong> See <a href="/posts/2020-12-21-ruby-functional-programming#state-mutation">my previous post on this</a>.</li>
+</ul>
+
+<h2>Lesson 3: Write clear code</h2>
+
+<p>In <a href="/posts/2020-12-21-ruby-functional-programming">that same post</a> I enthused about my first gem, a DSL for piping data through functions, like this: <code>'C:\test.txt' &gt;&gt; LoadFromFile &gt;&gt; ProcessData &gt;&gt; OutputResult(STDOUT)</code>. I don&rsquo;t regret working on it, because it taught me new metaprogramming techniques and how to publish a gem. But I soon stopped using it in my own app because I realized that the nifty syntax obscured what is actually going on in the code. For example:</p>
+
+<pre><code class="ruby">
+'C:\read_test.csv' >>
+  LoadLibrary >>
+  EachInput do |input, library|
+    +[input, library] >>
+      Command >>
+      ShowOutput
+  end
+</code></pre>
+
+<p>With this syntax, it&rsquo;s often hard to tell what arguments (or even how many arguments) one function is passing to another, because the pipe DSL obscures the data. Here is the same code using more natural syntax:</p>
+
+<pre><code class="ruby">
+library = Library.load('C:\read_test.csv')
+Input.each_line do |input|
+  Command.parse(input)
+         .result(library)
+         .output
+end
+</code></pre>
+
+<p>I&rsquo;m still not completely satisfied: the chunk after <code>Command</code> seems opaque. (I don&rsquo;t <em>think</em> it violates the Law of Demeter because there <em>is</em> a <code>Result</code> class, so it can be inferred that <code>Command</code> parses <code>input</code> into a <code>Command</code> object, then we get its <code>Result</code>, which we then output. But if one must so strenuously defend their code&rsquo;s clarity, maybe that means it is not as clear as it could be.) Still, it is more clear than before because at least now I can see the methods and their arguments.</p>
+
+<p>This is just one of many instances where I noticed that my code, though clear to me now, might be confusing to Future Me. So I have gotten into the habit of critically combing through my code to see where it could be made simpler, whether it is muddled or simply too clever. And I do this not just immediately after I have written it, but also after some time has passed and I can see the code with fresh eyes.</p>
+
+<h2>Areas of improvement</h2>
+
+<p>Here are my weak spots where I will try to improve in my next project:</p>
+
+<ul>
+<li><strong>Git.</strong> I need to learn how to manage different branches and do that from the very beginning as I implement new features, so that I can easily roll back changes. In this project, I only started using Git when I recently uploaded it to GitHub.</li>
+<li><strong>Documentation.</strong> In this project, my code documentation was limited to simple comments: a sentence or two above each class, and explanatory comments wherever necessary. Next time I should try a more systematic approach, such as YARD.</li>
+<li><strong>Testing output.</strong> I&rsquo;m not sure how to create uncoupled, maintainable tests for output. As it is now, I&rsquo;ve run the app, copied good output, and pasted it into the tests as expected output, but this is problematic because as soon as anything changes in what the output looks like, then I must also manually copy the changed output into the tests again. Also, all of the output involves ANSI color codes, which are not included when I copy the output to the clipboard, which means that if the coloring of the output is wrong but everything else is OK, my tests will not see any problem.</li>
+<li><strong>Testing errors and warnings.</strong> Similarly, the best way to test outputted errors and warnings still eludes me.</li>
+</ul>
+
+<p>Of course, these are in addition to the blind spots that I will only notice in my next project. Onward!</p>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=My first Ruby app https://fpsvogel.netlify.app/posts/2021-05-19-my-first-ruby-app-lessons-learned.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the owl's jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
