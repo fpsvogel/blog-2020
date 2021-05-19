@@ -1,5 +1,5 @@
 title: My first Ruby app
-subtitle: lessons learned
+subtitle: Lessons learned
 ---
 
 I've just released my first Ruby app: [Readstat](https://github.com/fpsvogel/readstat), a CLI app that gives statistics on a plain text (CSV) reading log. This is also my first completed app in any language, so I learned a lot along the way. Here are the highlights.
