@@ -1,0 +1,190 @@
+<html>
+	<head>
+		<title>Ruby and computer science</title>
+		<meta content="Felipe Vogel" name="author" />
+		<meta content="Felipe Vogel's blog about learning programming and web development. Also computer jokes." name="description" />
+		<meta content="programming,coding,web,development,how-to,self-taught,programmer,developer,coder" name="keywords" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link href="/assets/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+		<link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rokkitt:wght@800&family=Yeseva+One&family=Inconsolata&display=swap" rel="stylesheet" />
+		<script crossorigin="anonymous" src="https://kit.fontawesome.com/b2f8df400c.js"></script>
+		<script src="/assets/devjokes.js"></script>
+	</head>
+	<body>
+		<a name="top"></a>
+		<header>
+			<div class="flexrow">
+				<div class="bird tooltip" onclick="updateJoke();" onmouseover="updateJoke();">
+					🦉
+					<span class="tooltiptext" id="bubble"></span>
+				</div>
+				<div class="flexpad-header-top"></div>
+				<div class="title">fps.vogel</div>
+			</div>
+			<div class="flexrow">
+				<div class="flexpad-header-bottom"></div>
+				<ul class="flexrow">
+					<li class="nav-button active">
+						<a href="/index.html">
+							<div class="nav-icon">
+								<i class="fas fa-home"></i>
+							</div>
+							<div class="nav-text">Posts</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="/about.html">
+							<div class="nav-icon">
+								<i class="fas fa-address-card"></i>
+							</div>
+							<div class="nav-text">About</div>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://twitter.com/fpsvogel">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li class="nav-button active">
+						<a href="https://github.com/fpsvogel">
+							<i class="fab fa-github"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+		<article>
+			<h1>Ruby and computer science</h1>
+			<div class="posttop-subtitle">A self-learning curriculum</div>
+			<div class="posttop-date">2021-05-19</div>
+			<p>It&rsquo;s been exactly one year since I started studying part-time to get into software development, and I thought it would be useful to write out my curriculum. I am learning Ruby, Rails, and a healthy dose of computer science. I&rsquo;m also putting this <a href="https://github.com/fpsvogel/learn-ruby-and-cs">on GitHub</a> where I will continue to update it, but below is my progress as of now.</p>
+
+<h2>Objections</h2>
+
+<p><em>Why Ruby?? Isn&rsquo;t JavaScript the obvious choice for web development?</em> Ruby is a good first language to master because its ecosystem is stable, the community is more experienced, and for me Ruby is more enjoyable to write. Not convinced? <a href="https://medium.com/learn-love-code/why-teach-ruby-bac8416c77ba">Read this</a> or <a href="https://youtu.be/IlVfHG-pAag?t=1534">watch this</a>.</p>
+
+<p><em>OK, but why so many books and courses?? Isn&rsquo;t practice more important than reading?</em> Yes, you should be spending more time coding than reading, but starting a project and getting into a coding routine is easy, whereas knowing what to read is not at all obvious at the beginning. Hence the larger space devoted to books and courses here. Besides the obvious reasons to undertake serious study (to learn from the masters, and to spice up my resume), I also simply enjoy knowing how things work under the hood.</p>
+
+<h2>Preliminaries</h2>
+
+<ul>
+<li>If you&rsquo;ve never written a line of code in your life, you may want to start with the free <a href="https://pine.fm/LearnToProgram/">Learn to Program</a>. I studied some computer science in high school, so I had a bit of a head start.</li>
+<li>If you are a working adult, make sure your day job is conducive to part-time studying. Last year I was a first-year schoolteacher. That meant hours of grading in the evenings and on weekends, which would have made studying impossible. For this and other reasons I switched to a remote tech support job, which freed up my evenings and weekends (and early mornings, with no commute).</li>
+<li>Find a system for keeping <em>organized</em> notes, code snippets, and articles/videos saved for later. I use a simple text file (<a href="https://illdoitlater.xyz/t/plaintext">similar to this</a>), which is more effortless than any knowledge base app that I&rsquo;ve tried.</li>
+<li>It&rsquo;s worth dipping into the Ruby and wider programming communities. Here are my favorites:
+
+<ul>
+<li><a href="https://hackernewsletter.com/">Hacker Newsletter</a></li>
+<li><a href="https://dev.to/t/newsletter">DEV newsletter</a></li>
+<li>Ruby: <a href="https://www.reddit.com/r/ruby">Reddit</a>, <a href="https://discord.gg/tSFdeuVfpc">Discord</a>, <a href="https://www.rubyonrails.link/">Slack</a></li>
+<li>Rails: <a href="https://www.reddit.com/r/rails">Reddit</a> and <a href="https://discord.gg/AuDNwjsyfm">Discord</a></li>
+<li>others on Discord: <a href="https://discord.gg/Cugms94QFM">Bridgetown</a>, <a href="https://discord.com/invite/stimulus-reflex">StimulusReflex</a></li>
+</ul></li>
+<li>Last but not least, take care of yourself! Studying (especially while working) can easily be overdone. Exercise and get plenty of sleep. If you develop wrist pain from computer use, act swiftly: get an ergonomic mouse and keyboard, do daily RSI stretches, and start using a break app such as <a href="https://workrave.org/">Workrave</a>.</li>
+</ul>
+
+<p>So without further ado, here are my recommendations from what I studied. Resources that are free of charge are marked with a star (⭐). If you need more free resources, see the links to other lists at the bottom. But you may be able to find the books for free at your local library or via interlibrary loan.</p>
+
+<h2>Frontend basics</h2>
+
+<ul>
+<li>[x] Treehouse&rsquo;s <a href="https://teamtreehouse.com/tracks/front-end-web-development">Frontend Web Development</a> track, or The Odin Project&rsquo;s ⭐<a href="https://www.theodinproject.com/paths/foundations/courses/foundations">Foundations</a> + ⭐<a href="https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/html-and-css">HTML and CSS</a> + ⭐<a href="https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/javascript">JavaScript</a></li>
+<li>[x] <strong>Build a blog from scratch:</strong> Which you are reading. <a href="/posts/2020-07-23-zs.html">Here&rsquo;s how I built it</a>. I am also posting daily discoveries on Twitter, where—confession—<a href="https://twitter.com/fpsvogel/status/1389915714098802692">I sometimes talk to myself</a>.</li>
+</ul>
+
+<h2>Ruby</h2>
+
+<ul>
+<li>[x] <strong>Basics:</strong> <a href="https://www.manning.com/books/the-well-grounded-rubyist-third-edition">The Well-Grounded Rubyist</a> or ⭐<a href="https://www.theodinproject.com/courses/ruby-programming">The Odin Project</a>.</li>
+<li>[x] <strong>Guided practice:</strong> ⭐<a href="https://exercism.io/my/tracks/ruby">Exercism</a>, then ⭐<a href="https://www.codewars.com">CodeWars</a> if you want more. Be sure to take notes each time you learn something new in an exercise, and <a href="https://fpsvogel.netlify.app/posts/2020-11-03-exercism-ruby.html">write up a reflection</a> at the end.</li>
+<li>[x] <strong>OOP:</strong> <a href="https://www.poodr.com">Practical Object-Oriented Design: An Agile Primer Using Ruby</a> (a.k.a. POODR), then <a href="https://sandimetz.com/99bottles-sample-ruby">99 Bottles of OOP</a>. More than any other books, these are worth the price tag.</li>
+<li>[x] <strong>Ruby app:</strong> Apply those OOP lessons. I made a CLI (command-line interface) <a href="https://fpsvogel.netlify.app/posts/2021-05-19-my-first-ruby-app-lessons-learned.html">app that gives statistics on a reading log</a>. Along the way I also <a href="https://fpsvogel.netlify.app/posts/2020-12-21-ruby-functional-programming.html">published a Ruby gem</a>, though in the end I abandoned it because I realized it did more harm than good. All part of the learning process…</li>
+<li>[x] <strong>Design patterns:</strong> <a href="https://www.oreilly.com/library/view/head-first-design/9781492077992/">Head First Design Patterns</a>. Also ⭐<a href="https://refactoring.guru/">Refactoring.Guru</a> for a catalog of code smells, refactoring recipes, and design patterns.</li>
+<li>[ ] <strong>Bridgetown apps:</strong> I&rsquo;m remaking my blog on <a href="https://github.com/bridgetownrb/bridgetown">Bridgetown</a> (an updated Jekyll), then I&rsquo;ll use it to make a couple of static web apps.</li>
+<li>[ ] <strong>Rails:</strong>
+
+<ul>
+<li>[ ] ⭐<a href="https://gorails.com/series/rails-for-beginners">Rails for Beginners</a></li>
+<li>[ ] <a href="https://www.udemy.com/course/ruby-on-rails-6-learn-20-gems-build-an-e-learning-platform/">A general Rails course on Udemy</a> (or <a href="https://www.udemy.com/courses/search/?duration=extraLong&amp;q=ruby+on+rails&amp;ratings=4.0&amp;sort=newest&amp;src=ukw">find a newer one</a> if that one is of date by the time you read this)</li>
+<li>[ ] <a href="https://www.railstutorial.org">Ruby on Rails Tutorial</a></li>
+<li>[ ] ⭐<a href="https://www.railscodealong.com/">Rails Code Along</a></li>
+<li>[ ] <a href="https://www.udemy.com/course/professional-rails-5-development-course/">Dissecting Ruby on Rails</a></li>
+<li>[ ] ⭐<a href="https://launchschool.com/books/demystifying_rails">Demystifying Rails</a></li>
+</ul></li>
+<li>[ ] <strong>Rails app:</strong> And use <a href="https://docs.stimulusreflex.com/">StimulusReflex</a> to build a reactive frontend.</li>
+<li>[ ] <strong>Deployment:</strong> <a href="https://deploymentfromscratch.com/">Deployment from Scratch</a> and <a href="https://leanpub.com/deploying_rails_applications">Deploying Rails Applications</a>.</li>
+<li>[ ] <strong>Open source contributions:</strong> ⭐<a href="https://www.firsttimersonly.com/">First Timers Only</a> is a good place to start.</li>
+<li>[ ] <strong>Polishing up—books:</strong>
+
+<ul>
+<li>[ ] <a href="https://www.packtpub.com/product/polished-ruby-programming/9781801072724">Polished Ruby Programming</a></li>
+<li>[ ] <a href="https://github.com/thoughtbot/ruby-science">Ruby Science</a></li>
+<li>[ ] <a href="https://pragprog.com/titles/ppmetr2/metaprogramming-ruby-2/">Metaprogramming Ruby</a></li>
+<li>[ ] <a href="https://www.railsspeed.com/">The Complete Guide to Rails Performance</a></li>
+<li>[ ] <a href="https://www.speedshop.co/2021/01/14/announcing-apocrypha.html">The Ruby on Rails Performance Apocrypha</a></li>
+</ul></li>
+<li>[ ] <strong>Polishing up—screencasts and courses:</strong>
+
+<ul>
+<li>[ ] ⭐<a href="https://web-crunch.com/collections">Web-Crunch</a></li>
+<li>[ ] ⭐<a href="https://thoughtbot.com/blog/announcing-upcase-is-free">Upcase</a></li>
+<li>[ ] <a href="https://gorails.com">GoRails</a></li>
+<li>[ ] <a href="https://www.driftingruby.com/">Drifting Ruby</a></li>
+<li>[ ] <a href="https://www.rubytapas.com/">RubyTapas</a></li>
+<li>[ ] <a href="https://www.destroyallsoftware.com/screencasts/catalog">Destroy All Software</a></li>
+</ul></li>
+<li>[ ] ⭐<strong>Polishing up—podcasts:</strong>
+
+<ul>
+<li>[ ] <a href="https://remoteruby.transistor.fm/episodes">Remote Ruby</a></li>
+<li>[ ] <a href="https://5by5.tv/rubyonrails">Ruby on Rails Podcast</a></li>
+<li>[ ] <a href="https://www.bikeshed.fm/">The Bike Shed</a></li>
+</ul></li>
+</ul>
+
+<h2>Meanwhile, computer science</h2>
+
+<ul>
+<li>[x] <strong>Computers 101:</strong> <a href="https://www.charlespetzold.com/code/">Code: The Hidden Language of Computer Hardware and Software</a></li>
+<li>[x] <strong>Algorithms I:</strong> <a href="https://www.amazon.com/Data-Structures-Algorithms-Java-2nd/dp/0672324539">Data Structures and Algorithms in Java</a></li>
+<li>[x] <strong>Usability:</strong> <a href="https://sensible.com/dont-make-me-think/">Don&rsquo;t Make Me Think</a> and <a href="https://www.nngroup.com/books/design-everyday-things-revised/">The Design of Everyday Things</a></li>
+<li>[x] <strong>Operating Systems:</strong> <a href="http://pages.cs.wisc.edu/~remzi/OSTEP/">Operating Systems: Three Easy Pieces</a></li>
+<li>[x] <strong>Networks:</strong> <a href="https://gaia.cs.umass.edu/kurose_ross/eighth.htm">Computer Networking: A Top-Down Approach</a></li>
+<li>[ ] <strong>Computer Architecture:</strong> <a href="https://mitpress.mit.edu/books/elements-computing-systems-second-edition">The Elements of Computing Systems: Building a Modern Computer from First Principles</a> (plus the <a href="https://www.nand2tetris.org/">site</a> and free accompanying course: <a href="https://www.coursera.org/learn/build-a-computer">part 1</a>, <a href="https://www.coursera.org/learn/nand2tetris2">part 2</a>).</li>
+<li>[ ] <strong>Software Architecture:</strong> <a href="https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/">Designing Data-Intensive Applications</a></li>
+<li>[ ] <strong>Databases:</strong> ⭐<a href="http://www.redbook.io/">Readings in Database Systems</a></li>
+<li>[ ] <strong>Compilers:</strong> ⭐<a href="https://craftinginterpreters.com/">Crafting Interpreters</a></li>
+<li>[ ] <strong>Math:</strong> <a href="https://www-cs-faculty.stanford.edu/~knuth/gkp.html">Concrete Mathematics: A Foundation for Computer Science</a>. The math review that I&rsquo;m doing leading up to this is proving to be a journey in itself, to be outlined in a future post.</li>
+<li>[ ] <strong>Algorithms II:</strong> <a href="https://www.algorist.com/">The Algorithm Design Manual</a></li>
+<li>[ ] <strong>??:</strong> ⭐<a href="https://sarabander.github.io/sicp/html/index.xhtml">Structure and Interpretation of Computer Programs</a> (and <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video-lectures/">video lectures</a>). I have often seen this recommended, but its exact subject matter (and whether reading it amounts to anything more than a badge of honor) so far eludes me. Which, I&rsquo;m sure some would retort, only shows how small my mind still is at this point.</li>
+</ul>
+
+<h2>Other programming/CS resource lists</h2>
+
+<ul>
+<li><a href="https://teachyourselfcs.com/">Teach Yourself CS</a></li>
+<li><a href="https://github.com/P1xt/p1xt-guides">p1xt Computer Science and Programming</a></li>
+<li><a href="https://github.com/ossu/computer-science">Open Source Society University</a></li>
+</ul>
+
+		</article>
+		<footer>
+			<ul class="flexrow center wrap">
+				<li class="back-to-top">
+					<a href="#top">
+						<i class="fas fa-chevron-up"></i>
+					</a>
+				</li>
+				<li class="tweet"><a href="https://twitter.com/intent/tweet?text=Ruby and computer science https://fpsvogel.netlify.app/posts/2021-05-19-learn-ruby-programming.html" class="flexrow center"><i class="fab fa-twitter"></i><div>Tweet</div></a></li>
+				<li class="flexpad-footer"></li>
+				<li class="copyright">
+					&copy; 2020
+					<a href="/about.html">Felipe Vogel</a>
+					except for the owl's jokes. They're from
+					<a href="/http://www.devtopics.com/best-programming-jokes/">here.</a>
+				</li>
+			</ul>
+		</footer>
+	</body>
+</html>
