@@ -34,6 +34,8 @@ There's not much else to say about this part. The first week is absolutely miser
 
 After three weeks, I am up to 50 words per minute, and I expect to be back to my normal speed two months from now. More importantly, I am already feeling less strain on my wrists and less frustration from finger gyrations, as my hand is more often comfortably on the home row instead of splayed out like it's playing Twister on hot coals while dodging bullets.
 
+*UPDATE, TWO MONTHS LATER: I am back to my normal typing speed of ~80 WPM, and thanks to [my new Keyboardio Atreus](/posts/2021-04-20-keyboardio-atreus.html), coding is now smoother because non-alphanumeric symbols are easier to reach.*
+
 ## Up next: a new keyboard and mouse
 
 An improved keyboard layout is only half the story: in my next post, I will talk about my new ergonomic keyboard.

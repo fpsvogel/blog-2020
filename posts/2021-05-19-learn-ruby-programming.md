@@ -23,21 +23,21 @@ It's been exactly one year since I started studying part-time to get into softwa
   - others on Discord: [Bridgetown](https://discord.gg/Cugms94QFM), [StimulusReflex](https://discord.com/invite/stimulus-reflex)
 - Last but not least, take care of yourself! Studying (especially while working) can easily be overdone. Exercise and get plenty of sleep. If you develop wrist pain from computer use, act swiftly: get an ergonomic mouse and keyboard, do daily RSI stretches, and start using a break app such as [Workrave](https://workrave.org/).
 
-So without further ado, here are my recommendations from what I studied. Resources that are free of charge are marked with a star (⭐). If you need more free resources, see the links to other lists at the bottom. But you may be able to find the books for free at your local library or via interlibrary loan.
+So without further ado, here are my recommendations from what I studied. Resources that are free of charge are marked with a star (⭐). If you need more free resources, see the links to other lists at the bottom. You may be able to find the books for free (from your local library or more dubious sources) but be sure to buy them when you can, to support the authors. 🙂
 
 ## Frontend basics
 
 - [x] Treehouse's [Frontend Web Development](https://teamtreehouse.com/tracks/front-end-web-development) track, or The Odin Project's ⭐[Foundations](https://www.theodinproject.com/paths/foundations/courses/foundations) + ⭐[HTML and CSS](https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/html-and-css) + ⭐[JavaScript](https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/javascript)
-- [x] **Build a blog from scratch:** Which you are reading. [Here's how I built it](/posts/2020-07-23-zs.html). I am also posting daily discoveries on Twitter, where—confession—[I sometimes talk to myself](https://twitter.com/fpsvogel/status/1389915714098802692).
+- [x] **Build a blog from scratch:** Which you are reading. [Here's how I built it](/posts/2020-07-23-zs). I am also posting daily discoveries on Twitter, where—confession—[I sometimes talk to myself](https://twitter.com/fpsvogel/status/1389915714098802692).
 
 ## Ruby
 
 - [x] **Basics:** [The Well-Grounded Rubyist](https://www.manning.com/books/the-well-grounded-rubyist-third-edition) or ⭐[The Odin Project](https://www.theodinproject.com/courses/ruby-programming).
-- [x] **Guided practice:** ⭐[Exercism](https://exercism.io/my/tracks/ruby), then ⭐[CodeWars](https://www.codewars.com) if you want more. Be sure to take notes each time you learn something new in an exercise, and [write up a reflection](https://fpsvogel.netlify.app/posts/2020-11-03-exercism-ruby.html) at the end.
+- [x] **Guided practice:** ⭐[Exercism](https://exercism.io/my/tracks/ruby), then ⭐[CodeWars](https://www.codewars.com) if you want more. Be sure to take notes each time you learn something new in an exercise, and [write up a reflection](/posts/2020-11-03-exercism-ruby) at the end.
 - [x] **OOP:** [Practical Object-Oriented Design: An Agile Primer Using Ruby](https://www.poodr.com) (a.k.a. POODR), then [99 Bottles of OOP](https://sandimetz.com/99bottles-sample-ruby). More than any other books, these are worth the price tag.
-- [x] **Ruby app:** Apply those OOP lessons. I made a CLI (command-line interface) [app that gives statistics on a reading log](https://fpsvogel.netlify.app/posts/2021-05-19-my-first-ruby-app-lessons-learned.html). Along the way I also [published a Ruby gem](https://fpsvogel.netlify.app/posts/2020-12-21-ruby-functional-programming.html), though in the end I abandoned it because I realized it did more harm than good. All part of the learning process…
+- [x] **Ruby app:** Apply those OOP lessons. I made a CLI (command-line interface) [app that gives statistics on a reading log](/posts/2021-05-19-my-first-ruby-app-lessons-learned). Along the way I also [published a Ruby gem](/posts/2020-12-21-ruby-functional-programming), though in the end I abandoned it because I realized it did more harm than good. All part of the learning process…
 - [x] **Design patterns:** [Head First Design Patterns](https://www.oreilly.com/library/view/head-first-design/9781492077992/). Also ⭐[Refactoring.Guru](https://refactoring.guru/) for a catalog of code smells, refactoring recipes, and design patterns.
-- [ ] **Bridgetown apps:** I'm remaking my blog on [Bridgetown](https://github.com/bridgetownrb/bridgetown) (an updated Jekyll), then I'll use it to make a couple of static web apps.
+- [ ] **Bridgetown apps:** I'm remaking my blog on ⭐[Bridgetown](https://github.com/bridgetownrb/bridgetown) (an updated Jekyll), then I'll use Bridgetown to make a couple of static web apps.
 - [ ] **Rails:**
   - [ ] ⭐[Rails for Beginners](https://gorails.com/series/rails-for-beginners)
   - [ ] [A general Rails course on Udemy](https://www.udemy.com/course/ruby-on-rails-6-learn-20-gems-build-an-e-learning-platform/) (or [find a newer one](https://www.udemy.com/courses/search/?duration=extraLong&q=ruby+on+rails&ratings=4.0&sort=newest&src=ukw) if that one is of date by the time you read this)
@@ -45,7 +45,7 @@ So without further ado, here are my recommendations from what I studied. Resourc
   - [ ] ⭐[Rails Code Along](https://www.railscodealong.com/)
   - [ ] [Dissecting Ruby on Rails](https://www.udemy.com/course/professional-rails-5-development-course/)
   - [ ] ⭐[Demystifying Rails](https://launchschool.com/books/demystifying_rails)
-- [ ] **Rails app:** And use [StimulusReflex](https://docs.stimulusreflex.com/) to build a reactive frontend.
+- [ ] **Rails app:** And use ⭐[StimulusReflex](https://docs.stimulusreflex.com/) to build a reactive frontend.
 - [ ] **Deployment:** [Deployment from Scratch](https://deploymentfromscratch.com/) and [Deploying Rails Applications](https://leanpub.com/deploying_rails_applications).
 - [ ] **Open source contributions:** ⭐[First Timers Only](https://www.firsttimersonly.com/) is a good place to start.
 - [ ] **Polishing up—books:**
